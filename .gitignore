@@ -103,6 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Our project files
 frontend/node_modules
 backend/db.sqlite3
 **/migrations

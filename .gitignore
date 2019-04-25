@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# node moudles
+frontend/node_modules
+
+# database - not shared
+backend/db.sqlite3

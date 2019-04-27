@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import './Toolbar.css'
 import app_logo from '../logos/app_logo.png'
+import icon2 from '../icons/icons-02.png'
+import icon3 from '../icons/icons-03.png'
+import icon4 from '../icons/icons-04.png'
+import icon5 from '../icons/icons-05.png'
+import icon6 from '../icons/icons-06.png'
 
 class Toolbar extends Component {
 	render() {
@@ -17,8 +22,51 @@ class Toolbar extends Component {
 					<div className="spacer"/>
 					<div className="toolbar__navigation-items">
 						<ul>
-							<li><a href="/">Products</a></li>
-							<li><a href="/">Users</a></li>
+							<li>
+								<a href="/Notfound">
+									<img
+										src={icon2}
+										alt="Notification_icon"
+										height={30}
+									/>
+								</a>
+							</li>
+							<li>
+								<a href="/">
+									<img
+										src={icon3}
+										alt="Mypage_icon"
+										height={30}
+									/>
+								</a>
+							</li>
+							<li>
+								<a href="/">
+									<img
+										src={icon4}
+										alt="Mymeeting_icon"
+										height={30}
+									/>
+								</a>
+							</li>
+							<li>
+								<a href="/">
+									<img
+										src={icon5}
+										alt="Addmeeting_icon"
+										height={30}
+									/>
+								</a>
+							</li>
+							<li>
+								<a href="/">
+									<img
+										src={icon6}
+										alt="Signout_icon"
+										height={30}
+									/>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</nav>

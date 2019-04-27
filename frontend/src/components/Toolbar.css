@@ -35,7 +35,7 @@
 
 .toolbar__navigation-items a:hover,
 .toolbar__navigation-items a:active {
-	color: #fa923f;
+	border: 10 #fa923f;
 }
 
 

@@ -14,13 +14,14 @@
 	margin-top: 7px;
 }
 
-.serach__box-cont input {
-	width: 100px;
-	height: 1.5rem;
+.search__box-cont input {
+	width: 80%;
+	height: 100%;
 }
 
 .search__box-cont button {
-	height: 1.5rem;
+	width: 10%;
+	height: 100%;
 	background: white;
 	border: 2px solid white;
 }

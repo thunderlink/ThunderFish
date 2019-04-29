@@ -7,9 +7,9 @@ const NotFound = () => {
 			<h2> Not Found </h2>
 			<p> The page you're looking for does not exist. </p>
 			<p>
-				Click
-				<Link to="/"> here</Link>
-				to return to main page.
+				<a>Click </a>
+				<Link to="/">here</Link>
+				<a> to return to main page.</a>
 			</p>
 		</div>	
 	)

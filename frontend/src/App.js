@@ -4,9 +4,11 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux"
 import { createStore } from "redux"
 
-import Main from "./components/Main"
+import Main from "./components/Main/Main"
 import NotFound from "./components/NotFound"
-import Toolbar from "./components/Toolbar"
+import Toolbar from "./components/Toolbar/Toolbar"
+import Signin from "./components/Register/Signin"
+import Signup from "./components/Register/Signup"
 
 class App extends Component {
 	render() {
@@ -17,6 +19,8 @@ class App extends Component {
 					<BrowserRouter>
 						<Switch>
 							<Route exact path="/" component={Main} />
+							<Route exact path="/signin" component={Signin} />
+							<Route exact path="/signup" component={Signup} />
 							<Route component={NotFound} />
 						</Switch>
 					</BrowserRouter>

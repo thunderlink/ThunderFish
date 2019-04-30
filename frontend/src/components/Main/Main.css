@@ -1,0 +1,105 @@
+.wrapper {
+	width: 100%;
+	padding-top : 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.header .header-cont {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.header .header-cont .logo img {
+	height: 4rem;
+	margin-right: 1rem;
+}
+
+.header .header-cont .search {
+	height: 2rem;
+	width: 22rem;
+	border: 2px solid black;
+	border-radius: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header .header-cont .search input {
+	width: 19.5rem;
+	height: 1rem;
+	border: none;
+}
+
+.header .header-cont .search img {
+	height: 1rem;
+}
+
+.chest {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	height: 30rem;
+}
+
+.chest .welcome {
+	margin-top: 2rem;
+	position: relative;
+	width: 90%;
+	height: 20rem;
+}
+
+.chest .welcome .background_photo {
+	position: absolute;
+	top: 0;
+}
+
+.chest .welcome .background_photo img {
+	width: 100%;
+	height: 20rem;
+	object-fit: none;
+	background: white;
+	opacity: 0.5;
+}
+
+.chest .welcome .content {
+	position: absolute;
+	top: 0;
+	padding-top: 5%;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.chest .welcome .content .description h2 {
+	margin: 0;
+	font-size: 4rem;
+	opacity: 1;
+}
+
+.chest .welcome .content .description p {
+	font-size: 1.5rem;
+}
+
+.chest .welcome .content .buttons button {
+	background: #fed008;
+	border: 2px solid white;
+	border-radius: 0.5rem;
+	margin: 1rem 2rem;
+	height: 4rem;
+	width: 10rem;
+	font-family: Arial;
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.leg {
+	width: 100%;
+}
+

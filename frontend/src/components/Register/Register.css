@@ -1,0 +1,84 @@
+.signin {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	font-family: Arial;
+}
+
+.signin__field {
+	border: 5px solid #1b1464;
+	border-radius: 2rem;
+	background: #EEEEEE;
+}
+
+.signin__field legend {
+	font-size: xx-large;
+	font-weight: bolder;
+	text-align: center;
+}
+
+.signin__field button {
+	width: 16rem;
+	height: 2rem;
+	font-size: large;
+	font-weight: bold;
+	color: white;
+	background: #1b1464; 
+}
+
+.singin__field h2 {
+	font-size: x-large;
+}
+
+.signin__field input {
+	text-align: center;
+	font-size: 1.5rem;
+	height: 1.5rem;
+	width: 16rem;
+}
+
+.signin__field-text {
+}
+
+.signup {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	font-family: Arial;
+}
+
+.signup__field {
+	border: 5px solid #1b1464;
+	border-radius: 2rem;
+	background: #EEEEEE;
+}
+
+.signup__field legend {
+	font-size: xx-large;
+	font-weight: bolder;
+}
+
+.signup__field button {
+	width: 16rem;
+	height: 2rem;
+	font-size: large;
+	font-weight: bold;
+	color: white;
+	background: #1b1464; 
+}
+
+.singup__field h2 {
+	font-size: x-large;
+}
+
+.signup__field input {
+	text-align: center;
+	font-size: 1.5rem;
+	height: 1.5rem;
+	width: 16rem;
+}
+
+.signup__field-text {
+}
+
+

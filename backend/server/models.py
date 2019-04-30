@@ -26,8 +26,9 @@ class Meeting(models.Model):
     name = models.CharField(max_length=50)
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField('meeting date')
-    # participant
-    # waiter
+    # participant - Accepted
+    # waiter - Pending accept
+    # contributer - people who opened the meeting with the host
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
     # region

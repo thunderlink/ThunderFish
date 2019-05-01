@@ -1,0 +1,114 @@
+.userpage {
+	width: 100%;
+}
+
+.userpage .head {
+	position: relative;
+	width: 80%;
+	height: auto;
+	padding: 10px 10px;
+	margin: 0 auto;
+	
+	background: #dddddd;
+	
+	display: flex; 
+	align-items: flex-start;
+}
+
+.userpage .head .profile {
+	position: relative;
+	width: 166px;
+	height: 166px;
+	float: left;
+	margin-right: 18px;
+}
+
+.userpage .head .profile .photo_cutter {
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 2px;
+	right: 2px;
+	border: 3px solid blue;
+}
+
+.userpage .head .profile img:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+
+.userpage .head .content {
+	width: auto;
+	margin-top: 1rem;
+	
+}
+
+.userpage .head .content .username {
+	font-size: 3rem;
+	font-weight: bold;
+	margin: 0;
+}
+
+.userpage .head .content .description {
+	font-size: 1rem;
+	margin: 0;
+	margin-top: 1rem;
+}
+
+.userpage .head .badge {
+	margin-left: auto;
+	width: 200px;
+	height: 166px;
+	border: 2px solid #bbbbbb;
+	padding: 2px;
+}
+
+.userpage .head .badge .report_button, .edit_button {
+	display: flex;
+	color: white;
+	border-radius: 1rem;
+	align-items: center;
+	height: 1rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+	font-weight: bold;
+	font-family: Arial;
+}
+
+.userpage .head .badge .report_button img, .edit_button img {
+	height: 1rem;
+}
+
+.userpage .head .badge .edit_button {
+	width: 54px;
+	background: #1b1464;
+}
+
+.userpage .head .badge .report_button {
+	width: 72px;
+	background: red;
+}
+.userpage .usertab {
+	display: flex;
+	background: #fed008;
+	align-items: center;
+}
+
+.userpage .usertab .list {
+	list-style: none;
+	display: flex;
+}
+
+.userpage .usertab .list li {
+	padding: 0 0.5rem;
+}
+
+
+.userpage .usertab .spacer {
+	flex: 1;
+}
+

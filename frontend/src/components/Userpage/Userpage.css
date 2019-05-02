@@ -8,7 +8,7 @@
 	height: auto;
 	padding: 10px 10px;
 	margin: 0 auto;
-	
+	margin-bottom: 1rem;
 	background: #dddddd;
 	
 	display: flex; 
@@ -17,8 +17,8 @@
 
 .userpage .head .profile {
 	position: relative;
-	width: 166px;
-	height: 166px;
+	width: 168px;
+	height: 168px;
 	float: left;
 	margin-right: 18px;
 }
@@ -60,7 +60,7 @@
 .userpage .head .badge {
 	margin-left: auto;
 	width: 200px;
-	height: 166px;
+	height: 168px;
 	border: 2px solid #bbbbbb;
 	padding: 2px;
 }
@@ -93,20 +93,35 @@
 	background: red;
 }
 .userpage .usertab {
+	width: 80%;
+	margin: 0 auto;
 	display: flex;
 	background: #fed008;
 	align-items: center;
 }
 
 .userpage .usertab .list {
+	height: 2rem;
+	padding: 0;
+	padding-left: 1rem;
+	margin: 0;
+
 	list-style: none;
 	display: flex;
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-align: center;
+	align-items: center;
+
 }
 
 .userpage .usertab .list li {
-	padding: 0 0.5rem;
+	padding: 0 1rem;
 }
 
+.userpage .usertab .list li:hover {
+	color: white;
+}
 
 .userpage .usertab .spacer {
 	flex: 1;

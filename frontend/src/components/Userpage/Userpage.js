@@ -8,8 +8,9 @@ import Meetinglist from './Meetinglist'
 import report from '../../icons/report-button.png'
 import edit from '../../icons/edit-button.png'
 
-import "./Mypage.css"
-class Mypage extends Component {
+import "./Userpage.css"
+class Userpage extends Component {
+
 	render() {
 		const username = "Anonymous"
 		const detail = "Hello, world!"
@@ -23,7 +24,7 @@ class Mypage extends Component {
 					</div>
 					<div class="content">
 						<div class="userdtail">
-							<p class="username"> {username} </p>
+							<p class="username"> {username}#{this.props.match.params.id} </p>
 							<p class="description"> {detail} </p>
 						</div>
 					</div>
@@ -59,4 +60,4 @@ class Mypage extends Component {
 
 }
 
-export default Mypage
+export default Userpage

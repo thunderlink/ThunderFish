@@ -1,0 +1,82 @@
+.meeting_page {
+	width: 100%;
+}
+
+.meeting_page .header {
+	width: 80%;
+	margin: 32px auto;
+	background: #dddddd;
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding-bottom: 32px;
+}
+
+.meeting_page .header .header_left {
+	padding: 0 32px;
+}
+
+.meeting_page .header .photo {
+	position: relative;
+	width: 320px;
+	height: 320px;
+	margin: auto, 24px;	
+}
+
+.meeting_page .header .photo .photo_cutter {
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 2px;
+	right: 2px;
+	border: 3px solid blue;
+}
+
+.meeting_page .header .photo .photo_cutter img:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.meeting_page .header .content {
+	flex-grow: 1;
+	padding-top: 2rem;
+}
+
+.meeting_page .header .content h3 {
+	margin: 0;
+}
+
+.meeting_page .header .content p {
+	margin-top: 0rem;
+	margin-bottom: 1rem;
+}
+
+.meeting_page .header .content .host_info {
+	display: flex;
+	align-items: flex-start;
+}
+
+.meeting_page .description {
+	width: 80%;
+	margin: 0 auto;
+
+}
+
+.meeting_page .description ul {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+
+.meeting_page hr {
+	border-top: 3px solid #fed008;
+}
+
+.meeting_page .comments {
+	width: 80%;
+	margin: 0 auto;
+}

@@ -34,8 +34,10 @@ class Meeting(models.Model):
     host = models.ForeignKey(User, related_name="meeting_hosted", on_delete=models.CASCADE)
     date = models.DateTimeField('meeting date')
     posted_date = models.DateTimeField('posted date')
-    participant = models.ManyToManyField(User, related_name="meeting_participated")
-    waiter = models.ManyToManyField(User, related_name="meeting_waiting")
+
+    participant = models.ManyToManyField(User, through = 'Membership')
+    # waiter = models.ManyToManyField(User, related_name="meeting_waiting")
+
     # contributer - people who opened the meeting with the host
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
@@ -79,3 +81,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment_text
+
+class Membership(models.Model):
+    STATUS_WAITING = 0
+    STATUS_APPROVED = 1
+    STATUS_REJECTED = 2
+    STATUS_CHOICES = [(STATUS_WAITING, 'waiting'), (STATUS_APPROVED, 'approved'), (STATUS_REJECTED, 'rejected')]
+
+    user = models.ForeignKey(User)
+    meeting = models.ForeignKey(Meeting)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS_CHOICES)
+    message = models.CharField(max_length = 500)
+
+    class Meta:
+        unique_together = (
+            ('user', 'meeting')
+        )

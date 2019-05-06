@@ -1,0 +1,56 @@
+.leg {
+	margin: 0;
+	width: 90%;
+	height: 100%;
+	font-family: Georgia, "맑은 고딕", sans-serif;
+}
+
+.leg .category-big {
+	background: #fed008;
+	width: 100%;
+	height: 100%;
+}
+
+.leg .category-big .list-big{
+	width: 100%;
+	height: 2.5rem;
+	padding: 0;
+	margin: 0;
+
+	list-style: none;
+	font-size: 1rem;
+	text-align: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.leg .category-big .list-big li{
+	width: 100%;
+}
+
+.leg .category-big .list-big li:hover{
+	color: white;
+}
+
+.leg .category-small {
+
+	display: flex;
+	align-items: flex-start;
+	background: #dddddd;
+
+}
+
+
+.leg .category-small .list-small{
+	
+	background: #ffe800;
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1rem;
+	margin-top : 0;
+	margin-bottom: 0;
+	width: 10rem;
+
+}

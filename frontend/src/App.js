@@ -7,24 +7,33 @@ import { createStore } from "redux"
 import Main from "./components/Main/Main"
 import NotFound from "./components/NotFound"
 import Toolbar from "./components/Toolbar/Toolbar"
+import Footer from "./components/Toolbar/Footer"
 import Signin from "./components/Register/Signin"
 import Signup from "./components/Register/Signup"
+import Userpage from "./components/Userpage/Userpage"
+import Meetingpage from "./components/Meeting/Meetingpage"
+import SearchPage from "./components/Search/SearchPage"
+import './App.css'
 
 class App extends Component {
 	render() {
 		return (
 			<div>
-				<Toolbar />
-				<main style={{marginTop: '70px'}}>
+				<main style={{marginTop: '64px'}}>
 					<BrowserRouter>
 						<Switch>
 							<Route exact path="/" component={Main} />
 							<Route exact path="/signin" component={Signin} />
 							<Route exact path="/signup" component={Signup} />
+							<Route exact path="/user/:id" component={Userpage} />
+							<Route exact path="/meeting/:id" component={Meetingpage} />
+							<Route exact path="/search/:query" component={SearchPage} />
 							<Route component={NotFound} />
 						</Switch>
 					</BrowserRouter>
 				</main>
+				<Toolbar />
+				<Footer />
 			</div>
 		)
 	}

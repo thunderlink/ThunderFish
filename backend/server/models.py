@@ -9,19 +9,20 @@ pic_folder = './migrations/pic_folder'
 class Profile(models.Model):
     GENDER_MALE = 0
     GENDER_FEMALE = 1
-    GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female')]
+    GENDER_PRIVATE = 2
+    GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_PRIVATE, 'Private')]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
     photo = models.ImageField(upload_to=pic_folder, default=DEFAULT_IMAGE)
     email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
-    gender = models.IntegerField(choices=GENDER_CHOICES, blank = True)
+    gender = models.IntegerField(choices=GENDER_CHOICES)
     region = models.CharField(max_length=100, blank = True)  # may not be necessary, use API ??
     introduce = models.CharField(max_length=200, blank = True)
 
     def __str__(self):
-        return self.name
+        return self.nickname
 
     class Meta:
         ordering = ('name', )
@@ -35,7 +36,7 @@ class Meeting(models.Model):
     name = models.CharField(max_length=50)
     host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.CASCADE)
     date = models.DateTimeField('meeting date')
-    posted_date = models.DateTimeField('posted date')
+    posted_date = models.DateTimeField('posted date', auto_now_add=True)
 
     participant = models.ManyToManyField(Profile, through = 'Membership')
     # contributer - people who opened the meeting with the host
@@ -46,7 +47,7 @@ class Meeting(models.Model):
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
-    open_chat = models.URLField(max_length=100, default="open")
+    open_chat = models.URLField(max_length=100, default="open", blank=True)
 
     # content에서 tags를 추출하여, Tag 객체 가져오기, 신규 태그는 Tag instance 생성, 본인의 tag_set에 등록,
     # Question :    Does \w support korean?
@@ -88,6 +89,9 @@ class Notification(models.Model):
     url = models.URLField()
     notification = models.CharField(max_length = 100)
 
+    def __str__(self):
+        return self.notification
+
 class Membership(models.Model):
     STATUS_WAITING = 0
     STATUS_APPROVED = 1
@@ -99,6 +103,9 @@ class Membership(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS_CHOICES)
     message = models.CharField(max_length = 500)
+
+    def __str__(self):
+        return self.message
 
     class Meta:
         unique_together = (

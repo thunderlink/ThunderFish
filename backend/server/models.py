@@ -1,15 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
 import re
 
 # Path to default image
 DEFAULT_IMAGE = '../../images/app_logo.png'
 pic_folder = './migrations/pic_folder'
 
-class User(models.Model):
+class Profile(models.Model):
     GENDER_MALE = 0
     GENDER_FEMALE = 1
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female')]
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
     photo = models.ImageField(upload_to=pic_folder, default=DEFAULT_IMAGE)
     email = models.EmailField(max_length=30)
@@ -31,11 +33,11 @@ class Meeting(models.Model):
     STATUS_CHOICES = [(STATUS_RECRUITING, 'Recruiting'), (STATUS_COMPLETE, 'Complete'), (STATUS_CANCELED, 'Canceled')]
 
     name = models.CharField(max_length=50)
-    host = models.ForeignKey(User, related_name="meeting_hosted", on_delete=models.CASCADE)
+    host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.CASCADE)
     date = models.DateTimeField('meeting date')
     posted_date = models.DateTimeField('posted date')
 
-    participant = models.ManyToManyField(User, through = 'Membership')
+    participant = models.ManyToManyField(Profile, through = 'Membership')
     # contributer - people who opened the meeting with the host
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
@@ -75,13 +77,13 @@ class Comment(models.Model):
     comment_text = models.CharField(max_length=1000, default="Test Text")
     # parent_comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     parent_meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
-    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    writer = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comment_text
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     checked = models.BooleanField()
     url = models.URLField()
     notification = models.CharField(max_length = 100)
@@ -92,7 +94,7 @@ class Membership(models.Model):
     STATUS_REJECTED = 2
     STATUS_CHOICES = [(STATUS_WAITING, 'waiting'), (STATUS_APPROVED, 'approved'), (STATUS_REJECTED, 'rejected')]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS_CHOICES)
@@ -100,5 +102,5 @@ class Membership(models.Model):
 
     class Meta:
         unique_together = (
-            ('user', 'meeting')
+            ('profile', 'meeting')
         )

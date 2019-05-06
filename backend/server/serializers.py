@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import User, Meeting, Comment
+from .models import Profile, Meeting, Comment
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Profile
         fields = ('id', 'nickname', 'photo', 'email', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'my_comments', 'meeting_participated', 'meeting_waiting')
 
 class MeetingSerializer(serializers.ModelSerializer):

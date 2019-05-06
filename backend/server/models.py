@@ -83,14 +83,19 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
+# we should add url field.
 class Notification(models.Model):
+    NOTIFICATION_NEW_APPLY = 0
+    NOTIFICATION_NEW_COMMENT_FOR_HOST = 1
+    NOTIFICATION_CHOICES = [(NOTIFICATION_NEW_APPLY, 'new apply'), (NOTIFICATION_NEW_COMMENT_FOR_HOST, 'new comment for host')]
+
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    checked = models.BooleanField()
-    url = models.URLField()
-    notification = models.CharField(max_length = 100)
+    checked = models.BooleanField(default=False)
+    # url = models.URLField()
+    notification = models.IntegerField(choices=NOTIFICATION_CHOICES)
 
     def __str__(self):
-        return self.notification
+        return str(self.profile)
 
 class Membership(models.Model):
     STATUS_WAITING = 0
@@ -111,3 +116,10 @@ class Membership(models.Model):
         unique_together = (
             ('profile', 'meeting')
         )
+
+    # For notification 1 : New apply
+    # We should add url.
+    def save(self, *args, **kwargs):
+        notification = Notification(profile=self.meeting.host, notification = Notification.NOTIFICATION_NEW_APPLY)
+        notification.save()
+        super().save(*args, **kwargs)

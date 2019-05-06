@@ -12,12 +12,14 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="main_page">
-				<Searchbar />
-				<Chest />
+				<Searchbar {...this.props}/>
+				<Chest {...this.props}/>
 				<Leg />
 			</div>
 		)
 	}
 }
+
+
 
 export default Main

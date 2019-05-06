@@ -4,6 +4,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux"
 import { createStore } from "redux"
 
+import rootReducer from "./reducers/index"
+
 import Main from "./components/Main/Main"
 import NotFound from "./components/NotFound"
 import Toolbar from "./components/Toolbar/Toolbar"
@@ -15,10 +17,13 @@ import Meetingpage from "./components/Meeting/Meetingpage"
 import SearchPage from "./components/Search/SearchPage"
 import './App.css'
 
+let store = createStore(rootReducer)
+
+
 class App extends Component {
 	render() {
 		return (
-			<div>
+			<Provider store={store}>
 				<main style={{marginTop: '64px'}}>
 					<BrowserRouter>
 						<Switch>
@@ -34,7 +39,7 @@ class App extends Component {
 				</main>
 				<Toolbar />
 				<Footer />
-			</div>
+			</Provider>
 		)
 	}
 }

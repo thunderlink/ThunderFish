@@ -3,6 +3,17 @@ import { withRouter } from 'react-router-dom';
 import './Chest.css'
 
 class Chest extends Component {
+
+	onClickSignin = (e) => {
+		e.preventDefault()
+		this.props.history.push("/signin/")
+	}
+
+	onClickSignup = (e) => {
+		e.preventDefault()
+		this.props.history.push("/signup/")
+	}
+
 	render() {
 		return (
 			<div className="chest">
@@ -26,10 +37,16 @@ class Chest extends Component {
 							</p>
 						</div>
 						<div class="buttons">
-							<button> 
+							<button
+								onClick={this.onClickSignin}
+							> 
 								Sign in 
 							</button>
-							<button> Sign up </button>
+							<button
+								onClick={this.onClickSignup}
+							> 
+								Sign up 
+							</button>
 						</div>
 					</div>
 					<div class="signup">

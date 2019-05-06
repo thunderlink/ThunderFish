@@ -30,7 +30,7 @@ class Meetingpage extends Component {
 
 		return (
 			<div className="meeting_page">
-				<Searchbar />
+				<Searchbar {...this.props}/>
 				<div class="header">
 					<div class="header_left">
 						<div class="title">

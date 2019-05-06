@@ -24,7 +24,7 @@ class SearchPage extends Component {
 		]
 		return(
 			<div className="search_page">
-				<Searchbar />
+				<Searchbar {...this.props}/>
 				<div class="search_content">
 					<div class="search_option">
 					</div>				

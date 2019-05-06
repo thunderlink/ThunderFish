@@ -22,7 +22,7 @@ class Userpage extends Component {
 		}
 		return (
 			<div className="user_page">
-				<Searchbar />
+				<Searchbar {...this.props} />
 				<div class="head">
 					<div class="profile_name">
 						<div class="image_wrapper">

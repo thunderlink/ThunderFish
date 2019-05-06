@@ -8,12 +8,14 @@ class Toolbar extends Component {
 			<header className="toolbar">
 				<nav className="toolbar__navigation">
 					<div></div>
-					<img 
-						src={small_logo}
-						alt="Thunderfish_app_logo"
-						className="toolbar__logo"
-						height={50}
-					/>
+					<a href="/">
+						<img 
+							src={small_logo}
+							alt="Thunderfish_app_logo"
+							className="toolbar__logo"
+							height={50}
+						/>
+					</a>
 					<div className="spacer"/>
 					<div className="toolbar__navigation-items">
 						<ul>

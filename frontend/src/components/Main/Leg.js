@@ -23,7 +23,7 @@ class Leg extends Component {
 				</div>
 				<div class="category-small">
 					<ul class="list-small">
-						{Category[this.state.currentTab].small.map(item => (
+						{Category[this.state.currentTab].small.map((item) => (
 							<li
 								onClick={e => {}}
 							>

@@ -5,15 +5,15 @@
 	}
 }
 
-
 @media(max-width:500px) {
 	.toolbar__navigation-items ul{
 		display: none;
 	}
 }
 
-
 .toolbar {
+	font-family: Georgia, "맑은 고딕", sans-serif;
+	box-sizing: border-box;
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -45,7 +45,7 @@
 
 .toolbar__navigation-items a {
 	color: black;
-	font-family: Arial;
+	font-family: "맑은 고딕";
 	font-weight: bold;
 	text-decoration: none;
 }

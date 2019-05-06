@@ -1,20 +1,18 @@
 import React, { Component } from 'react'
 import logo from '../../logos/logo_renewal.png'
-import search_button from '../../icons/search-button.png'
-import small_logo from '../../logos/small_logo.png'
-import './Main.css'
 
-import Head from './Head'
+import Searchbar from '../molecules/Searchbar'
 import Chest from './Chest'
 import Leg from './Leg'
+
+import './Main.css'
 
 class Main extends Component {
 
 	render() {
-		const Categories = ["Sports", "Games", "Study", "Etc"]
 		return (
-			<div className="main">
-				<Head />
+			<div className="main_page">
+				<Searchbar />
 				<Chest />
 				<Leg />
 			</div>

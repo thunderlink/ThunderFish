@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+
+import Searchbar from '../molecules/Searchbar'
+import ImageBox from '../molecules/ImageBox'
+
 import './Meetingpage.css'
 
 class Meetingpage extends Component {
@@ -12,7 +16,7 @@ class Meetingpage extends Component {
 			max_participant: 17,
 			deadline: "2019년 5월 1일",
 			region: "서울특별시 관악구 관악로 1 301동 314호",
-			photo: "",
+			photo: "https://4.imimg.com/data4/CO/YS/MY-29352968/samsung-desktop-computer-500x500.jpg",
 			content: "컴개실 파란책 1회독, 연습문제 풀이 300문제, System Programming 예습",
 			status: 1,
 			open_chat: "",
@@ -26,15 +30,16 @@ class Meetingpage extends Component {
 
 		return (
 			<div className="meeting_page">
+				<Searchbar />
 				<div class="header">
 					<div class="header_left">
 						<div class="title">
 							<h1> {meeting.name} </h1>
 						</div>
-						<div class="photo">
-							<div class="photo_cutter">
-								<img />
-							</div>
+						<div class="image_wrapper">
+							<ImageBox 
+								src={meeting.photo}
+							/>
 						</div>
 					</div>
 					<div class="content">
@@ -43,7 +48,7 @@ class Meetingpage extends Component {
 							<p> {meeting.host} </p>
 							<p> User info </p>
 						</div>
-						<h3> 번개 날짜 </h3>
+						<h3> 날짜 </h3>
 						<p> {meeting.date} </p>
 						<h3> 모집 마감 </h3>
 						<p> {meeting.deadline} </p>

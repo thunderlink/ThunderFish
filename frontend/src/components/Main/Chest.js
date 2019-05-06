@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 import './Chest.css'
 
 class Chest extends Component {
@@ -25,7 +26,9 @@ class Chest extends Component {
 							</p>
 						</div>
 						<div class="buttons">
-							<button> Sign in </button>
+							<button> 
+								Sign in 
+							</button>
 							<button> Sign up </button>
 						</div>
 					</div>

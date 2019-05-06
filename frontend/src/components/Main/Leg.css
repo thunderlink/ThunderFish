@@ -1,6 +1,8 @@
 .leg {
+	margin: 0;
 	width: 90%;
 	height: 100%;
+	font-family: Georgia, "맑은 고딕", sans-serif;
 }
 
 .leg .category-big {
@@ -33,9 +35,11 @@
 }
 
 .leg .category-small {
+
 	display: flex;
 	align-items: flex-start;
 	background: #dddddd;
+
 }
 
 
@@ -48,4 +52,5 @@
 	margin-top : 0;
 	margin-bottom: 0;
 	width: 10rem;
+
 }

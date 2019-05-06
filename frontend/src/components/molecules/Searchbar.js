@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import logo from "../../logos/logo_renewal.png"
 import search_button from '../../icons/search-button.png'
-import './Head.css'
+import './Searchbar.css'
 
-class Head extends Component {
+class Searchbar extends Component {
 	render() {
 		return (
-			<div className="head">
+			<div className="searchbar">
 				<div class="content">
 					<div class="logo">
 						<img 
@@ -34,4 +34,4 @@ class Head extends Component {
 	}
 }
 
-export default Head
+export default Searchbar

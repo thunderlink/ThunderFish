@@ -1,12 +1,61 @@
+@media(min-width: 900px) {
+	.meeting_page .header {
+		flex-direction: row;
+		width: 80%;
+	}
+	.meeting_page .header .header_left {
+		margin-left: 32px;
+	}
+	.meeting_page .header .image_wrapper {
+		width: 320px;
+		height: 320px;
+	}
+}
+
+@media(min-width: 500px) and (max-width:900px) {
+	.meeting_page .header {
+		flex-direction: column;
+		width: 100%;
+	}
+	.meeting_page .header_left {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+	.meeting_page .header .image_wrapper {
+		width: 100%;
+		height: 320px;
+	}
+}
+
+@media(max-width: 500px) {
+	.meeting_page .header {
+		flex-direction: column;
+		width: 100%;
+
+	}
+	.meeting_page .header .header_left {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.meeting_page .header .image_wrapper {
+		width: 100%;
+		height: 250px;
+	}
+}
 .meeting_page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 }
 
 .meeting_page .header {
-	width: 80%;
-	margin: 32px auto;
 	background: #dddddd;
-
+	max-width: 800px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
@@ -14,14 +63,12 @@
 }
 
 .meeting_page .header .header_left {
-	padding: 0 32px;
+	padding: 0;
 }
 
-.meeting_page .header .photo {
+.meeting_page .header .image_wrapper {
 	position: relative;
-	width: 320px;
-	height: 320px;
-	margin: auto, 24px;	
+	margin: 0, 24px;
 }
 
 .meeting_page .header .photo .photo_cutter {
@@ -30,18 +77,25 @@
 	bottom: 2px;
 	left: 2px;
 	right: 2px;
-	border: 3px solid blue;
 }
 
-.meeting_page .header .photo .photo_cutter img:after {
-	content: "";
+.meeting_page .header .photo .photo_cutter img {
+	background: #888888;
+	filter: none;
 	display: block;
-	padding-bottom: 100%;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	object-fit: cover;
 }
 
 .meeting_page .header .content {
 	flex-grow: 1;
-	padding-top: 2rem;
+	width: 100%;
+	padding-top: 32px;
+	padding-left: 32px;
+	box-sizing: border-box;
 }
 
 .meeting_page .header .content h3 {
@@ -58,8 +112,10 @@
 	align-items: flex-start;
 }
 
-.meeting_page .description {
+.meeting_page .description, 
+.meeting_page .comments {
 	width: 80%;
+	max-width: 800px;
 	margin: 0 auto;
 
 }
@@ -76,7 +132,3 @@
 	border-top: 3px solid #fed008;
 }
 
-.meeting_page .comments {
-	width: 80%;
-	margin: 0 auto;
-}

@@ -12,6 +12,9 @@ import Signin from "./components/Register/Signin"
 import Signup from "./components/Register/Signup"
 import Userpage from "./components/Userpage/Userpage"
 import Meetingpage from "./components/Meeting/Meetingpage"
+import SearchPage from "./components/Search/SearchPage"
+import './App.css'
+
 class App extends Component {
 	render() {
 		return (
@@ -24,6 +27,7 @@ class App extends Component {
 							<Route exact path="/signup" component={Signup} />
 							<Route exact path="/user/:id" component={Userpage} />
 							<Route exact path="/meeting/:id" component={Meetingpage} />
+							<Route exact path="/search/:query" component={SearchPage} />
 							<Route component={NotFound} />
 						</Switch>
 					</BrowserRouter>

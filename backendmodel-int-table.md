@@ -10,7 +10,7 @@ Value | Meaning
 `2` | GENDER_PRIVATE
 
 
-## Meeting.statue
+## Meeting.status
 Value | Meaning 
 ---|---
 `0` | STATUS_RECRUITING 

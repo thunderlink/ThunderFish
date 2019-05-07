@@ -1,17 +1,32 @@
 from rest_framework import serializers
-from .models import User, Meeting, Comment
+from .models import Profile, Meeting, Tag, Comment, Notification, Membership
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'nickname', 'photo', 'email', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'my_comments', 'meeting_participated', 'meeting_waiting')
+        model = Profile
+        fields = ('id', 'user', 'nickname', 'photo', 'email', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set')
 
 class MeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meeting
-        fields = ('id', 'name', 'host', 'date', 'max_participant', 'deadline', 'region', 'photo', 'content', 'status', 'open_chat', 'comments', 'participant', 'waiter')
+        fields = ('id', 'name', 'host', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set')
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('name', 'meeting_set')
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'date', 'comment_text', 'parent_meeting', 'writer')
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ('profile', 'checked', 'url', 'notification')
+
+class MembershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Membership
+        fields = ('profile', 'meeting', 'created_at', 'status', 'message')

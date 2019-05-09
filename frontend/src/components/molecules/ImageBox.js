@@ -6,9 +6,10 @@ class ImageBox extends Component {
 	render() {
 		return (
 			<div className="image_box">
-				<div class="photo_cutter">
+				<div className="photo_cutter">
 					<img
 						src={this.props.src}
+						alt={this.props.alt}
 					/>
 				</div>
 			</div>

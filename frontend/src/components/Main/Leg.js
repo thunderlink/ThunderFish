@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './Leg.css'
 import { Category } from '../category.js'
 
@@ -7,11 +8,17 @@ class Leg extends Component {
 		currentTab: 0
 	}
 
+	onClickLink = (item) => (e) => {
+		e.preventDefault()
+		this.props.history.push(`/search/${item.replace("/", " ")}`)
+	}
+
+
 	render() {
 		return (
 			<div className="leg">
-				<div class="category-big">
-					<ul class="list-big">
+				<div className="category_big">
+					<ul className="list_big">
 						{Category.map((item, index) => (
 							<li
 								onMouseOver={e => this.setState({currentTab: index})}
@@ -21,17 +28,17 @@ class Leg extends Component {
 						))}
 					</ul>
 				</div>
-				<div class="category-small">
-					<ul class="list-small">
+				<div className="category_small">
+					<ul className="list_small">
 						{Category[this.state.currentTab].small.map((item) => (
 							<li
-								onClick={e => {}}
+								onClick={this.onClickLink(item)}
 							>
 								{item}
 							</li>
 						))}
 					</ul>
-					<div class="list-recommend">
+					<div className="list-recommend">
 						Explanation will be written on here.
 					</div>
 				</div>

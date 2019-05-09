@@ -1,84 +1,48 @@
-.signin {
+.register {
 	width: 50%;
 	margin: 0 auto;
 	text-align: center;
 	font-family: Arial;
 }
 
-.signin__field {
+.register .field {
 	border: 5px solid #1b1464;
 	border-radius: 2rem;
 	background: #EEEEEE;
 }
 
-.signin__field legend {
-	font-size: xx-large;
+.register .field legend {
+	font-size: 2.5rem;
 	font-weight: bolder;
 	text-align: center;
 }
 
-.signin__field button {
+.register .field button {
 	width: 16rem;
 	height: 2rem;
-	font-size: large;
+	font-size: 1.2rem;
 	font-weight: bold;
-	color: white;
-	background: #1b1464; 
+	color: black;
+	background: #fed008; 
 }
 
-.singin__field h2 {
-	font-size: x-large;
-}
-
-.signin__field input {
-	text-align: center;
+.register .field .reg_form h2 {
 	font-size: 1.5rem;
+}
+
+.register .field input {
+	text-align: center;
+	font-size: 1.2rem;
 	height: 1.5rem;
 	width: 16rem;
 }
 
-.signin__field-text {
+.register .field .reg_form .description {
+	font-size: 0.5rem
 }
 
-.signup {
-	width: 50%;
-	margin: 0 auto;
-	text-align: center;
-	font-family: Arial;
+.register .field .description p {
+	padding: 0;
+	margin: 0;
 }
-
-.signup__field {
-	border: 5px solid #1b1464;
-	border-radius: 2rem;
-	background: #EEEEEE;
-}
-
-.signup__field legend {
-	font-size: xx-large;
-	font-weight: bolder;
-}
-
-.signup__field button {
-	width: 16rem;
-	height: 2rem;
-	font-size: large;
-	font-weight: bold;
-	color: white;
-	background: #1b1464; 
-}
-
-.singup__field h2 {
-	font-size: x-large;
-}
-
-.signup__field input {
-	text-align: center;
-	font-size: 1.5rem;
-	height: 1.5rem;
-	width: 16rem;
-}
-
-.signup__field-text {
-}
-
 

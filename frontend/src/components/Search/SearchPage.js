@@ -12,7 +12,6 @@ class SearchPage extends Component {
 		this.props.history.push(`/meeting/${id}/`)
 	}
 
-
 	render() {
 		const meetings = [
 			{

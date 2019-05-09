@@ -21,7 +21,6 @@ import './App.css'
 
 let store = createStore(rootReducer)
 
-
 class App extends Component {
 
 	render() {

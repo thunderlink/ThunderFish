@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import './Chest.css'
 
 class Chest extends Component {
-
 	onClickSignin = (e) => {
 		e.preventDefault()
 		this.props.history.push("/signin/")

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
-import Searchbar from '../molecules/Searchbar'
+import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
 
 import './Meetingpage.css'
@@ -30,21 +31,21 @@ class Meetingpage extends Component {
 
 		return (
 			<div className="meeting_page">
-				<Searchbar {...this.props}/>
-				<div class="header">
-					<div class="header_left">
-						<div class="title">
+				<Route component={SearchBar} />
+				<div className="header">
+					<div className="header_left">
+						<div className="title">
 							<h1> {meeting.name} </h1>
 						</div>
-						<div class="image_wrapper">
+						<div className="image_wrapper">
 							<ImageBox 
 								src={meeting.photo}
 							/>
 						</div>
 					</div>
-					<div class="content">
+					<div className="content">
 						<h3> 호스트 </h3>
-						<div class="host_info">
+						<div className="host_info">
 							<p> {meeting.host} </p>
 							<p> User info </p>
 						</div>
@@ -56,7 +57,7 @@ class Meetingpage extends Component {
 						<p> {meeting.region} </p>
 					</div>
 				</div>
-				<div class="description">
+				<div className="description">
 					<h2> 번개 내용 </h2>
 					<hr />
 					<p> {meeting.content} </p>
@@ -64,7 +65,7 @@ class Meetingpage extends Component {
 					<hr/>
 					<ul>
 						{meeting.tag.map(item => (
-							<li>
+							<li key={`tag_${item.id}`}>
 								<a> #{item} </a>
 								<a> {" "} </a>
 							</li>
@@ -72,15 +73,15 @@ class Meetingpage extends Component {
 					</ul>
 					<h2> 지도 </h2>
 					<hr/>
-					<div class="map">
+					<div className="map">
 					</div>
 				</div>
-				<div class="comments">
+				<div className="comments">
 					<h2> 댓글 </h2>
 					<hr />
 					<ul>
 						{meeting.comment.map(item =>
-							<li>
+							<li key={`${item.id}_${item.text}`}>
 								<h3> {item.id} </h3>
 								<p> {item.text} </p>
 							</li>

@@ -41,6 +41,14 @@
 
 .toolbar__navigation-items li {
 	padding: 0 0.5rem;
+	color: black;
+	font-family: "맑은 고딕";
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.toolbar__navigation-items li:hover {
+	color: white;
 }
 
 .toolbar__navigation-items a {

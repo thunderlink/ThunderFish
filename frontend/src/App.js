@@ -15,30 +15,37 @@ import Signup from "./components/Register/Signup"
 import Userpage from "./components/Userpage/Userpage"
 import Meetingpage from "./components/Meeting/Meetingpage"
 import SearchPage from "./components/Search/SearchPage"
+import MeetingAddPage from "./components/Meeting/MeetingAddPage"
+
 import './App.css'
 
 let store = createStore(rootReducer)
 
 
 class App extends Component {
+
 	render() {
 		return (
 			<Provider store={store}>
 				<main style={{marginTop: '64px'}}>
 					<BrowserRouter>
-						<Switch>
-							<Route exact path="/" component={Main} />
-							<Route exact path="/signin" component={Signin} />
-							<Route exact path="/signup" component={Signup} />
-							<Route exact path="/user/:id" component={Userpage} />
-							<Route exact path="/meeting/:id" component={Meetingpage} />
-							<Route exact path="/search/:query" component={SearchPage} />
-							<Route component={NotFound} />
-						</Switch>
+						<main style={{marginTop: '64px'}}>
+							<Switch>
+								<Route exact path="/" component={Main} />
+								<Route exact path="/signin" component={Signin} />
+								<Route exact path="/signup" component={Signup} />
+								<Route exact path="/user/:id" component={Userpage} />
+								<Route exact path="/meeting/add" component={MeetingAddPage}/>
+								<Route exact path="/meeting/:id" component={Meetingpage} />
+								<Route exact path="/search/:query" component={SearchPage} />
+								<Route exact path="/search/:query/:options" component={SearchPage} />
+								<Route component={NotFound} />
+							</Switch>
+						</main>
+						<Route component={Toolbar} />
+						<Footer />
 					</BrowserRouter>
 				</main>
-				<Toolbar />
-				<Footer />
 			</Provider>
 		)
 	}

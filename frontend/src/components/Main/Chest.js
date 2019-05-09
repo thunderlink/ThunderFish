@@ -17,26 +17,26 @@ class Chest extends Component {
 	render() {
 		return (
 			<div className="chest">
-				<div class="welcome">
-					<div class="background_photo">
+				<div className="welcome">
+					<div className="background_photo">
 						<img
 							src="https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
 						/>	
 					</div>
-					<div class="content">
-						<div class="description">
+					<div className="content">
+						<div className="description">
 							<h2> 
 								{"Alone, "}
-								<br class="divider"/>
+								<br className="divider"/>
 								{"Connected."}
 							</h2>
 							<p> 
 								{"새 모임을 만들거나, "}
-								<br class="divider"/> 
+								<br className="divider"/> 
 								{"기존 모임에 참여해보세요."}
 							</p>
 						</div>
-						<div class="buttons">
+						<div className="buttons">
 							<button
 								onClick={this.onClickSignin}
 							> 
@@ -49,7 +49,7 @@ class Chest extends Component {
 							</button>
 						</div>
 					</div>
-					<div class="signup">
+					<div className="signup">
 					</div>
 				</div>
 			</div>

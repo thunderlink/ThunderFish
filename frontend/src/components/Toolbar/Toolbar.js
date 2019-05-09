@@ -1,52 +1,73 @@
 import React, { Component } from 'react'
+
 import './Toolbar.css'
+
 import small_logo from '../../logos/small_logo.png'
 
 class Toolbar extends Component {
+
+	state = {
+		nav: "Notification",
+		user: 0
+	}
+
+	onClickLogo = (e) => {
+		e.preventDefault()
+		this.props.history.push("/")
+	}
+
+	onHoverLink = (id) => (e) => {
+		e.preventDefault()
+		this.setState({nav: id})
+	}
+
+	onClickLink = (e) => {
+		e.preventDefault()
+		this.props.history.push(this.state.nav)
+	}
+
 	render() {
 		return (
 			<header className="toolbar">
-				<nav className="toolbar__navigation">
+				<div className="toolbar__navigation">
 					<div></div>
-					<a href="/">
-						<img 
-							src={small_logo}
-							alt="Thunderfish_app_logo"
-							className="toolbar__logo"
-							height={50}
-						/>
-					</a>
+					<img 
+						src={small_logo}
+						alt="Thunderfish_app_logo"
+						className="toolbar__logo"
+						height={50}
+						onClick={this.onClickLogo}
+					/>
 					<div className="spacer"/>
 					<div className="toolbar__navigation-items">
 						<ul>
-							<li>
-								<a href="/notfound">
-									Notification
-								</a>
+							<li
+								onMouseOver={this.onHoverLink("/notification")}
+								onClick={this.onClickLink}
+							>
+								Notification
 							</li>
-							<li>
-								<a href="/user">
-									My Page	
-								</a>
+							<li
+								onMouseOver={this.onHoverLink(`/user/${this.state.user}`)}
+								onClick={this.onClickLink}
+							>
+								My Page
 							</li>
-							<li>
-								<a href="/user/meetings">
-									My Meetings	
-								</a>
+							<li
+								onMouseOver={this.onHoverLink("/meeting/add")}
+								onClick={this.onClickLink}
+							>
+								Add Meeting
 							</li>
-							<li>
-								<a href="/meetings/add">
-									Add Meeting	
-								</a>
-							</li>
-							<li>
-								<a href="/">
-									Sign Out
-								</a>
+							<li
+								onMouseOver={this.onHoverLink("/")}
+								onClick={this.onClickLink}
+							>
+								Sign Out
 							</li>
 						</ul>
 					</div>
-				</nav>
+				</div>
 			</header>
 		)
 	}

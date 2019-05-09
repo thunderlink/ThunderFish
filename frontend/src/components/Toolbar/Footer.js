@@ -6,12 +6,12 @@ class Footer extends Component {
 	render() {
 		return (
 			<div className="foot">
-				<p class="description"> 
+				<p className="description"> 
 					<a> This site was made by </a>
 					<a href="https://github.com/thunderlink"> thunderlink</a>
 					<a>, as a project of swpp, course of SNU.</a>
 				</p>
-				<p class="description">
+				<p className="description">
 					<a>Source cord can be found on </a>
 					<a href="https://github.com/thunderlink/ThunderFish">
 						here
@@ -20,7 +20,7 @@ class Footer extends Component {
 				</p>
 				<p>
 					<img
-						class="logo"
+						className="logo"
 						src={small_logo}
 						alt="Thunderfish_small_logo"
 					/>

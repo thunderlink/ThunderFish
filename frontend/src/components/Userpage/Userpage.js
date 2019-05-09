@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import Userdetail from './Userdetail'
 import Useredit from './Useredit'
 import Meetinglist from './Meetinglist'
-import Searchbar from '../molecules/Searchbar'
+import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
 
 import report from '../../icons/report-button.png'
@@ -22,27 +22,27 @@ class Userpage extends Component {
 		}
 		return (
 			<div className="user_page">
-				<Searchbar {...this.props} />
-				<div class="head">
-					<div class="profile_name">
-						<div class="image_wrapper">
+				<Route component={SearchBar} />
+				<div className="head">
+					<div className="profile_name">
+						<div className="image_wrapper">
 							<ImageBox src={user.photo}/>	
 						</div>
-						<div class="content">
-							<div class="userdtail">
-								<p class="username"> {user.name}#{this.props.match.params.id} </p>
-								<p class="description"> {user.detail} </p>
+						<div className="content">
+							<div className="userdtail">
+								<p className="username"> {user.name}#{this.props.match.params.id} </p>
+								<p className="description"> {user.detail} </p>
 							</div>
 						</div>
 					</div>
-					<div class="badge">
-						<div class="report_button">
+					<div className="badge">
+						<div className="report_button">
 							<img 
 								src={report}
 							/>
 							<p> Report </p>
 						</div>
-						<div class="edit_button">
+						<div className="edit_button">
 							<img
 								src={edit}
 							/>
@@ -50,14 +50,14 @@ class Userpage extends Component {
 						</div>
 					</div>			
 				</div>
-				<div class="usertab">
-					<ul class="list">
+				<div className="usertab">
+					<ul className="list">
 						<li> Detail </li>
 						<li> Meetings </li>
 					</ul>
-					<div class="spacer" />
+					<div className="spacer" />
 				</div>
-				<div class="content">
+				<div className="content">
 					<Userdetail />
 					<Meetinglist />
 				</div>

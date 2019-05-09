@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import logo from '../../logos/logo_renewal.png'
+import { Route } from 'react-router-dom'
 
-import Searchbar from '../molecules/Searchbar'
+import SearchBar from '../molecules/SearchBar'
 import Chest from './Chest'
 import Leg from './Leg'
 
@@ -12,9 +13,9 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="main_page">
-				<Searchbar {...this.props}/>
-				<Chest {...this.props}/>
-				<Leg />
+				<Route component={SearchBar} />
+				<Route component= {Chest} />
+				<Route component= {Leg} />
 			</div>
 		)
 	}

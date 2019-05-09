@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
-import Searchbar from '../molecules/Searchbar'
+import { Route, Link } from 'react-router-dom'
+
+import SearchBar from '../molecules/SearchBar'
 import MeetingElement from './MeetingElement'
+
 import './SearchPage.css'
 
 class SearchPage extends Component {
+
+	onClickMeeting = (id) => (e) => {
+		this.props.history.push(`/meeting/${id}/`)
+	}
+
+
 	render() {
 		const meetings = [
 			{
@@ -24,13 +33,15 @@ class SearchPage extends Component {
 		]
 		return(
 			<div className="search_page">
-				<Searchbar {...this.props}/>
+				<Route component={SearchBar} />
 				<div class="search_content">
 					<div class="search_option">
 					</div>				
 					<div class="search_list">
 						{meetings.map(item => (
-							<a href={"/meeting/" + item.id}>
+							<div 
+								onClick={this.onClickMeeting(item.id)}
+							>
 								<MeetingElement
 									name={item.name}
 									date={item.date}
@@ -38,7 +49,7 @@ class SearchPage extends Component {
 									region={item.region}
 									photo={item.photo}
 								/>
-							</a>
+							</div>
 						))}
 					</div>
 				</div>

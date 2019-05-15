@@ -27,15 +27,6 @@ class Profile(models.Model):
     class Meta:
         ordering = ('name', )
 
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return "#" + self.name
-
-    class Meta:
-        ordering = ('name', )
-
 class Meeting(models.Model):
     STATUS_RECRUITING = 0
     STATUS_COMPLETE = 1
@@ -56,7 +47,7 @@ class Meeting(models.Model):
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
-    open_chat = models.URLField(max_length=100, default="open", blank=True)
+    open_chat = models.URLField(max_length=100, blank=True) # remove default
 
     # content에서 tags를 추출하여, Tag 객체 가져오기, 신규 태그는 Tag instance 생성, 본인의 tag_set에 등록,
     # Question :    Does \w support korean?
@@ -100,7 +91,7 @@ class Notification(models.Model):
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     checked = models.BooleanField(default=False)
-    # url = models.URLField()
+    url = models.URLField(blank = True)
     notification = models.IntegerField(choices=NOTIFICATION_CHOICES)
 
     def __str__(self):

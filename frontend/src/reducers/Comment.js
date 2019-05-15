@@ -1,5 +1,5 @@
 const initialState = {
-	commentList: [],
+	commentList: [], //comment lists
 }
 
 export default function comment(state=initialState, action) {

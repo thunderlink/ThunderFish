@@ -32,7 +32,7 @@ class Signin extends Component {
 					<p className="description">
 						<p>아직 계정이 없으신가요? </p>
 						<Link to="/signup/"> 여기</Link>
-						<a>를 눌러 새로운 계정을 만드세요!</a>
+						{"를 눌러 새로운 계정을 만드세요!"}
 					</p>
 				</fieldset>	
 			</form>

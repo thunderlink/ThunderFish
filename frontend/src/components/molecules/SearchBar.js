@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import logo from "../../logos/logo_renewal.png"
 import search_button from '../../icons/search-button.png'
-import './SearchBar.css'
 
-import { Route, withRouter } from 'react-router'
+import './SearchBar.css'
 
 class SearchBar extends Component {
 
+	constructor(props){
+		super(props);
+		this.state.query = this.props.match.params.query
+	}
+
 	state = {
-		query: "",
+		query: '',
 	}
 
 	onClickLogo = (e) => {
@@ -19,12 +25,6 @@ class SearchBar extends Component {
 	onSubmitSearch = (e) => {
 		e.preventDefault()
 		this.props.history.push(`/search/${(this.state.query).replace("/", " ")}`)
-	}
-
-	componentDidMount() {
-		this.setState({
-			query: this.props.match.params.query
-		})
 	}
 
 	render() {
@@ -64,6 +64,15 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = state => {
+	return {
+		query: state.meeting.searchText,
+		option: state.meeting.searchOption
+	}
 }
 
-export default SearchBar
+const mapDispatchToProps = state => {
+	return {
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

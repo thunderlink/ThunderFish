@@ -1,5 +1,12 @@
-export const SEARCH = "SEARCH"
+/* *_REQUEST actions will be called by components and
+ * call the main action. And then, the main action will
+ * do the real jobs.
 
+
+/********************* CONSTANTS ******************************/
+
+/* Actions for single meeting requests.
+ */
 export const GET_MEETING_REQUEST = "GET_MEETING_REQUEST"
 export const POST_MEETING_REQUEST = "POST_MEETING_REQUEST"
 export const PUT_MEETING_REQUEST = "PUT_MEETING_REQUEST"
@@ -9,13 +16,38 @@ export const POST_MEETING = "POST_MEETING"
 export const PUT_MEETING = "PUT_MEETING"
 export const DELETE_MEETING= "DELETE_MEETING"
 
+/* Actions for multiple meeting request.
+ * It will be called when user searches anything.
+ * It will sends the query and option to the backend, 
+ * and gets the list of the correct meetings.
+ */
+export const GET_MEETING_LIST_REQUEST = "GET_MEETING_LIST_REQUEST"
+export const GET_MEETING_LIST = "GET_MEETING_LIST"
+
+/* Actions for single meeting request, it will only
+ * PUT on the meeting, 'waiter'.
+ */
 export const JOIN_MEETING_REQUEST = "JOIN_MEETING_REQUEST"
 export const JOIN_MEETING = "JOIN_MEETING"
 
+/* Actions for single meeting request, it will only
+ * PUT on the meeting, 'waiter' and 'participant'.
+ */
+export const ACCEPT_MEETING_REQUEST = "ACCEPT_MEETING_REQUEST"
+export const ACCEPT_MEETING = "ACCEPT_MEETING"
+
+/* Actions for testing without backend.
+ * It will only make effects on the frontend status,
+ * without the backend API.
+ * It will be not used after backend prepared.
+ */
+export const SHOW_MEETING = "SHOW_MEETING" //get one meeting by its id. Will not be used when backend API prepared.
 export const ADD_MEETING = "ADD_MEETING"
 export const EDIT_MEETING = "EDIT_MEETING"
-export const DELETE_MEETING = "DELETE_MEETING"
-export const SEARCH_MEETING = "SEARCH_METING"
+export const REMOVE_MEETING = "REMOVE_MEETING"
+
+/******************** END OF CONSTANTS *********************/
+
 
 export const addMeeting = (meeting) => {
 	return {
@@ -32,17 +64,16 @@ export const editMeeting = (index, meeting) => {
 	}
 }
 
-export const deleteMeeting = (index) => {
+export const removeMeeting = (index) => {
 	return {
-		type: "DELETE_MEETING",
+		type: "REMOVE_MEETING",
 		index
 	}
 }
 
-export const searchMeeting = (query) => {
+export const showMeeting = (id) => {
 	return {
-		type: "SEARCH_MEETING",
-		query
+		type: "SHOW_MEETING",
+		id
 	}
 }
-

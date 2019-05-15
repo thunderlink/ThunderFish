@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 import Userdetail from './Userdetail'
-import Useredit from './Useredit'
 import Meetinglist from './Meetinglist'
 import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
@@ -26,7 +25,10 @@ class Userpage extends Component {
 				<div className="head">
 					<div className="profile_name">
 						<div className="image_wrapper">
-							<ImageBox src={user.photo}/>	
+							<ImageBox 
+								src={user.photo}
+								alt="profile image" 
+							/>	
 						</div>
 						<div className="content">
 							<div className="userdtail">
@@ -39,12 +41,14 @@ class Userpage extends Component {
 						<div className="report_button">
 							<img 
 								src={report}
+								alt="report button"
 							/>
 							<p> Report </p>
 						</div>
 						<div className="edit_button">
 							<img
 								src={edit}
+								alt="edit button"
 							/>
 							<p> Edit </p>
 						</div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from '../../logos/logo_renewal.png'
 import { Route } from 'react-router-dom'
 
 import SearchBar from '../molecules/SearchBar'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+
 import './Leg.css'
+
 import { Category } from '../category.js'
 
 class Leg extends Component {

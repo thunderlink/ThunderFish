@@ -13,7 +13,7 @@ import Footer from "./components/Toolbar/Footer"
 import Signin from "./components/Register/Signin"
 import Signup from "./components/Register/Signup"
 import Userpage from "./components/Userpage/Userpage"
-import Meetingpage from "./components/Meeting/Meetingpage"
+import MeetingPage from "./components/Meeting/MeetingPage"
 import SearchPage from "./components/Search/SearchPage"
 import MeetingAddPage from "./components/Meeting/MeetingAddPage"
 
@@ -35,7 +35,7 @@ class App extends Component {
 								<Route exact path="/signup" component={Signup} />
 								<Route exact path="/user/:id" component={Userpage} />
 								<Route exact path="/meeting/add" component={MeetingAddPage}/>
-								<Route exact path="/meeting/:id" component={Meetingpage} />
+								<Route exact path="/meeting/:id" component={MeetingPage} />
 								<Route exact path="/search/:query" component={SearchPage} />
 								<Route exact path="/search/:query/:options" component={SearchPage} />
 								<Route component={NotFound} />

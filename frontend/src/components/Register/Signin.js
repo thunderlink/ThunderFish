@@ -11,29 +11,30 @@ class Signin extends Component {
 						Sign in
 					</legend>
 					<div className="reg_form">
-						<p>
+						<div>
 							<h2> ID </h2>
 							<input
 								type="text" id="username"
-								placeHolder="ID를 입력하세요"
+								placeholder="ID를 입력하세요"
 							/>
-						</p>
-						<p>
+						</div>
+						<div>
 							<h2> Password </h2>
 							<input
 								type="password" id="password"
-								placeHolder="패스워드를 입력하세요"
+								placeholder="패스워드를 입력하세요"
 							/>
-						</p>
-						<p>
+						</div>
+						<div>
+							<p />
 							<button type="submit">로그인</button>
-						</p>
+						</div>
 					</div>
-					<p className="description">
+					<div className="description">
 						<p>아직 계정이 없으신가요? </p>
 						<Link to="/signup/"> 여기</Link>
 						{"를 눌러 새로운 계정을 만드세요!"}
-					</p>
+					</div>
 				</fieldset>	
 			</form>
 		)

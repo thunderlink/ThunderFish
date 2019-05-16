@@ -8,13 +8,18 @@ import './SearchBar.css'
 
 class SearchBar extends Component {
 
-	constructor(props){
-		super(props);
-		this.state.query = this.props.match.params.query
-	}
-
 	state = {
 		query: '',
+	}	
+	
+	constructor(props){
+		super(props);
+		let param = this.props.match.params.query
+		this.state.query = (param == undefined) ? '' : param
+	}
+
+	componentDidMount() {
+		//this.state.query = this.props.match.params.query
 	}
 
 	onClickLogo = (e) => {

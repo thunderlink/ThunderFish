@@ -28,6 +28,7 @@ class App extends Component {
 			<Provider store={store}>
 				<main style={{marginTop: '64px'}}>
 					<BrowserRouter>
+						<Route component={Toolbar} />
 						<main style={{marginTop: '64px'}}>
 							<Switch>
 								<Route exact path="/" component={Main} />
@@ -41,7 +42,6 @@ class App extends Component {
 								<Route component={NotFound} />
 							</Switch>
 						</main>
-						<Route component={Toolbar} />
 						<Footer />
 					</BrowserRouter>
 				</main>

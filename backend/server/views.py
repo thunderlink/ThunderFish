@@ -45,7 +45,7 @@ class UserMeetingList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         user = Profile.objects.get(pk=kwargs['pk'])
         self.queryset = user.meeting_hosted.all()
-        self.queryset = self.queryset | user.meeting_set.all() # Needs to be modified
+        self.queryset.union(user.meeting_set.all(), all=False) # Needs to be modified
         return self.list(request, *args, **kwargs)
 
 
@@ -55,5 +55,5 @@ class SearchResult(generics.ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
         self.queryset = Meeting.objects.filter(name__contains=kwargs['keyword'])
-        self.queryset = self.queryset | Meeting.objects.filter(tag_set__name__contains=kwargs['keyword'])
+        self.queryset.union(Meeting.objects.filter(tag_set__name__contains=kwargs['keyword']), all=False)
         return self.list(request, *args, **kwargs)

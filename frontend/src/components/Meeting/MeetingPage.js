@@ -19,12 +19,19 @@ class MeetingPage extends Component {
 
 	componentDidMount() {
 		//this.props.getMeetingElementRequest()
-		/*
-		let el = document.getElementById('map');
-		let map = new Kakao.maps.Map(el, {
-			center: new Kakao.maps.LatLng(0, 0)
+
+		var container = document.getElementById('map');
+		var options = {
+			center: new daum.maps.LatLng(33.450701, 126.570667)
+		}
+		var zoomControl = new daum.maps.ZoomControl()
+		var marker = new daum.maps.Marker({
+			position: new daum.maps.LatLng(33.450701, 126.570667)
 		});
-		*/
+		var map = new daum.maps.Map(container, options)
+	
+		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
+		marker.setMap(map)
 	}
 
 	render() {

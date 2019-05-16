@@ -43,8 +43,17 @@ class UserMeetingList(generics.ListCreateAPIView):
     serializer_class = MeetingSerializer
 
     def get(self, request, *args, **kwargs):
-        print(request)
-        user = Profile.objects.filter(pk=kwargs['pk'])[0]
+        user = Profile.objects.get(pk=kwargs['pk'])
         self.queryset = user.meeting_hosted.all()
         self.queryset = self.queryset | user.meeting_set.all() # Needs to be modified
+        return self.list(request, *args, **kwargs)
+
+
+class SearchResult(generics.ListCreateAPIView):
+    queryset = None
+    serializer_class = MeetingSerializer
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Meeting.objects.filter(name__contains=kwargs['keyword'])
+        self.queryset = self.queryset | Meeting.objects.filter(tag_set__name__contains=kwargs['keyword'])
         return self.list(request, *args, **kwargs)

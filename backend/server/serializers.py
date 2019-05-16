@@ -17,9 +17,10 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('name', 'meeting_set')
 
 class CommentSerializer(serializers.ModelSerializer):
+    nickname = serializers.ReadOnlyField(source='writer.nickname')
     class Meta:
         model = Comment
-        fields = ('id', 'date', 'comment_text', 'parent_meeting', 'writer')
+        fields = ('id', 'date', 'comment_text', 'parent_meeting', 'writer', 'nickname')
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

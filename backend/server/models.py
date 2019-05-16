@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import re
 
 # Path to default image
-DEFAULT_IMAGE = '../../images/app_logo.png'
+# DEFAULT_IMAGE = '../../images/app_logo.png'
 pic_folder = './migrations/pic_folder'
 
 class Profile(models.Model):
@@ -14,7 +14,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=pic_folder, default=DEFAULT_IMAGE)
+    photo = models.ImageField(upload_to=pic_folder, blank=True)
     email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
     gender = models.IntegerField(choices=GENDER_CHOICES)
@@ -42,12 +42,12 @@ class Meeting(models.Model):
     # contributer - people who opened the meeting with the host
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
-    region = models.CharField(max_length=100, default="")
-    photo = models.ImageField(upload_to=pic_folder, default=DEFAULT_IMAGE)
+    region = models.CharField(max_length=100, blank=True)
+    photo = models.ImageField(upload_to=pic_folder, blank=True)
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
-    open_chat = models.URLField(max_length=100, default="open", blank=True)
+    open_chat = models.URLField(max_length=100, blank=True) # remove default
 
     # content에서 tags를 추출하여, Tag 객체 가져오기, 신규 태그는 Tag instance 생성, 본인의 tag_set에 등록,
     # Question :    Does \w support korean?
@@ -91,7 +91,7 @@ class Notification(models.Model):
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     checked = models.BooleanField(default=False)
-    # url = models.URLField()
+    url = models.URLField(blank = True)
     notification = models.IntegerField(choices=NOTIFICATION_CHOICES)
 
     def __str__(self):

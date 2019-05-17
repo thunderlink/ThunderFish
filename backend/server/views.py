@@ -1,5 +1,5 @@
-from .models import Profile, Meeting, Comment, Notification
-from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer
+from .models import Profile, Meeting, Comment, Notification, User
+from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from rest_framework.authtoken.models import Token
@@ -90,8 +90,21 @@ def Login(request):
     if not user:
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
-
-    return Response({'token': token.key}, status=HTTP_200_OK)
+    key = {'token': token.key}
+    profile = Profile.objects.get(pk=user.id) # get user's profile
+    ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
+    return Response(ret, status=HTTP_200_OK)
 
     # Post Works
     # http -v POST http://127.0.0.1:8000/signin/ username="zx" password="123"
+
+class Register(generics.ListCreateAPIView):
+    permission_classes = (AllowAny, )
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user = User.objects.create_user(username=data['username'], password=request.data['password'])
+        Profile.objects.create(user_id=user.id, gender=data['gender'], nickname=data['nickname'], email=data['email'], name=data['name'])
+        return Response(status=HTTP_200_OK)
+
+    # http -v POST http://127.0.0.1:8000/signup/ username="zxc" password="123" gender="1" nickname="cxz" email="zxc@example.com" name="zxc zxc"

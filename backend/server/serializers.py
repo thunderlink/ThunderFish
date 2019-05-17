@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Meeting, Tag, Comment, Notification, Membership
+from .models import Profile, Meeting, Tag, Comment, Notification, Membership, User
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,3 +31,12 @@ class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ('profile', 'meeting', 'created_at', 'status', 'message')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password')
+
+    def validate(self, data):
+        # Validate the data given for registering
+        return data

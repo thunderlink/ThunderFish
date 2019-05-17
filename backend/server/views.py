@@ -2,10 +2,13 @@ from .models import Profile, Meeting, Comment, Notification
 from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
+from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from .permissions import IsOwner
+
 
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -22,6 +25,7 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
 
 class MeetingList(generics.ListCreateAPIView):
+    permission_classes = (AllowAny, )
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
@@ -30,13 +34,16 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MeetingSerializer
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner, )
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
     # Put Works
     # http -v PUT http://127.0.0.1:8000/comment/1/ comment_text='수정할 댓글' parent_meeting='1' writer='3'
+    # http -v PUT http://127.0.0.1:8000/comment/1/ "Authorization: Token 4a015be3f94e08809fed54b07c9520009b41098a" comment_text='수정할 댓글2' parent_meeting='1' writer='3'
 
 class CommentList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -85,3 +92,6 @@ def Login(request):
     token, _ = Token.objects.get_or_create(user=user)
 
     return Response({'token': token.key}, status=HTTP_200_OK)
+
+    # Post Works
+    # http -v POST http://127.0.0.1:8000/signin/ username="zx" password="123"

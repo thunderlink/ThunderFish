@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('signin/', views.) #GET으로 auth하고, user 정보를 GET
+    path('signin/', views.Login), #GET으로 auth하고, user 정보를 GET
     # path('signup/', views.) #signup한다.
     path('user/<int:pk>/', views.ProfileDetail.as_view()),
     path('user/<int:pk>/meetings', views.UserMeetingList.as_view()),

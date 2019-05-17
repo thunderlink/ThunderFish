@@ -2,6 +2,16 @@ from .models import Profile, Meeting, Comment, Notification
 from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK
+)
 
 class ProfileList(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
@@ -57,3 +67,21 @@ class SearchResult(generics.ListCreateAPIView):
         self.queryset = Meeting.objects.filter(name__contains=kwargs['keyword'])
         self.queryset.union(Meeting.objects.filter(tag_set__name__contains=kwargs['keyword']), all=False)
         return self.list(request, *args, **kwargs)
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def Login(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+    if username is None or password is None:
+        return Response({"error": "Error!"}, status=HTTP_400_BAD_REQUEST)
+
+    user = authenticate(username=username, password=password)
+
+    if not user:
+        return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
+    token, _ = Token.objects.get_or_create(user=user)
+
+    return Response({'token': token.key}, status=HTTP_200_OK)

@@ -104,7 +104,7 @@ class Register(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         user = User.objects.create_user(username=data['username'], password=request.data['password'])
-        Profile.objects.create(user_id=user.id, gender=data['gender'], nickname=data['nickname'], email=data['email'], name=data['name'])
+        Profile.objects.create(user_id=user.id, gender=data['gender'], nickname=data['nickname'], name=data['name'])
         return Response(status=HTTP_200_OK)
 
-    # http -v POST http://127.0.0.1:8000/signup/ username="zxc" password="123" gender="1" nickname="cxz" email="zxc@example.com" name="zxc zxc"
+    # http -v POST http://127.0.0.1:8000/signup/ username="zxc" password="123" gender="1" nickname="cxz" name="zxc zxc"

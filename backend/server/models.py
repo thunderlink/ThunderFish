@@ -15,7 +15,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
     photo = models.ImageField(upload_to=pic_folder, blank=True)
-    email = models.EmailField(max_length=30)
+    # email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
     gender = models.IntegerField(choices=GENDER_CHOICES)
     region = models.CharField(max_length=100, blank = True)  # may not be necessary, use API ??

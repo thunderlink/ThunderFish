@@ -14,6 +14,7 @@ class Signin extends Component {
 						<div>
 							<h2> ID </h2>
 							<input
+								className="text_field"
 								type="text" id="username"
 								placeholder="ID를 입력하세요"
 							/>
@@ -21,6 +22,7 @@ class Signin extends Component {
 						<div>
 							<h2> Password </h2>
 							<input
+								className="text_field"
 								type="password" id="password"
 								placeholder="패스워드를 입력하세요"
 							/>

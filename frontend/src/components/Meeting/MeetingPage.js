@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Moment from 'react-moment'
 
 import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
@@ -15,23 +16,37 @@ class MeetingPage extends Component {
 	constructor(props) {
 		super(props);
 		this.props.showMeeting(this.props.match.params.id);
+
 	}
 
 	componentDidMount() {
-		//this.props.getMeetingElementRequest()
+		this.createMap()
+	}
+
+	createMap() {
+		var coord = new daum.maps.LatLng(33.450701, 126.570667)
 
 		var container = document.getElementById('map');
 		var options = {
-			center: new daum.maps.LatLng(33.450701, 126.570667)
+			center: coord
 		}
-		var zoomControl = new daum.maps.ZoomControl()
-		var marker = new daum.maps.Marker({
-			position: new daum.maps.LatLng(33.450701, 126.570667)
-		});
 		var map = new daum.maps.Map(container, options)
-	
+
+		var zoomControl = new daum.maps.ZoomControl()
+
+		var marker = new daum.maps.Marker({
+			position: coord
+		});
+
+		var infoContent = `<div>${this.props.meetingElement.name}</div>`
+		var infowindow = new daum.maps.InfoWindow({
+			position: coord,
+			content: infoContent
+		})
+
 		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
 		marker.setMap(map)
+		infowindow.open(map, marker)
 	}
 
 	render() {
@@ -56,9 +71,15 @@ class MeetingPage extends Component {
 							<p> User info </p>
 						</div>
 						<h3> 날짜 </h3>
-						<p> {this.props.meetingElement.date} </p>
+						<Moment format='LLLL' locale='ko'>
+							{this.props.meetingElement.date}
+						</Moment>
+						<p/>
 						<h3> 모집 마감 </h3>
-						<p> {this.props.meetingElement.deadline} </p>
+						<Moment format='LLLL' locale='ko'>
+							{this.props.meetingElement.deadline}
+						</Moment>
+						<p/>
 						<h3> 위치 </h3>
 						<p> {this.props.meetingElement.region} </p>
 					</div>

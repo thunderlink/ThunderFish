@@ -12,6 +12,12 @@ class MeetingAddPage extends Component {
 		tag: '',
 	}
 
+	meetingSerializer = () => {
+		var meeting = {}
+		meeting.name = this.state.name
+		meeting.date = this.state.date
+	}
+
 	render() {
 		return(
 			<div className="meeting_add_page">
@@ -33,14 +39,14 @@ class MeetingAddPage extends Component {
 						<div>
 							<h2> 날짜 </h2>
 							<input 
-								type="date" id="meetingDate"
+								type="month" id="meetingDate"
 								placeholder="날짜를 선택하세요.."
 							/>
 						</div>
 						<div>
 							<h2> 신청 마감일 </h2>
 							<input
-								type="date" id="dueDate"
+								type="datetime-local" id="dueDate"
 							/>
 						</div>
 						<div>

@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 
 import { Provider } from "react-redux"
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
+import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from "./reducers/index"
+import rootSaga from "./store"
 
 import Main from "./components/Main/Main"
 import NotFound from "./components/NotFound"
@@ -19,7 +21,11 @@ import MeetingAddPage from "./components/Meeting/MeetingAddPage"
 
 import './App.css'
 
-let store = createStore(rootReducer)
+const sagaMiddleware = createSagaMiddleware()
+let store = createStore(rootReducer,
+	applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
 
 class App extends Component {
 

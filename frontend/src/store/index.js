@@ -16,7 +16,7 @@ export function* signupRequest(user) {
 		yield put({type: actions.user.SIGNUP_FAILED})
 	}
 	else {
-		yield put({type: actions.user.SIGNUP, user: user})
+		yield put({type: actions.user.SIGNUP_DONE, user: user})
 	}
 }
 
@@ -32,8 +32,9 @@ export function* watchSignupRequest() {
 
 
 
-/*
-SIGN IN
+/**************************
+*********SIGN IN***********
+ * ************************
  */
 
 export function* signinRequest(username, password) {
@@ -68,10 +69,10 @@ export function* watchSigninRequest() {
 
 
 /*
-MEETING
+**********************
+* *******MEETING******
+* ********************
  */
-
-
 
 
 
@@ -132,7 +133,7 @@ export function* watchPutMeetingRequest() {
 	}
 }
 
-// delete 'meetings/id/'
+// DELETE 'meetings/id/'
 export function* deleteMeetingRequest(token, index) {
 
 	const { status } = yield call(api.delete, backendUrl+'meetings/' + index + '/', token)
@@ -181,7 +182,9 @@ I HAVE NOT DONE IT BECAUSE ACTION IS NOT SURE
 
 
 /*
-COMMENT
+****************************************
+* **************COMMENT*****************
+* **************************************
 
 *** WE DON'T NEED "GET"
  */
@@ -244,6 +247,57 @@ export function* watchDeleteCommentRequest() {
 		yield call(deleteCommentRequest, token, index)
 	}
 }
+
+
+/*
+*****************************************************
+* *************User Detail***************************
+* ***************************************************
+*
+* -> GET & PUT
+ */
+
+// GET 'user/index/'
+export function* getProfileRequest(token, index) {
+
+    const { status, data } = yield call(api.get, backendUrl+'user/'+index+'/', token)
+    if(status === 200) {
+        yield put({type: actions.user.GET_PROFILE, profile: profile})
+    }
+    else{
+        yield put({type: actions.user.FAILURE /* dummy action */})
+        // I think we should do ERROR HANDLING using "Catch"
+    }
+}
+export function* watchGetProfileRequest() {
+    while(true) {
+        const { token, index } = yield take(actions.user.getProfileRequest)
+        yield call(getProfileRequest, token,  index)
+    }
+}
+
+
+// PUT 'user/index/'
+export function* putProfileRequest(token, profile, index) {
+
+    const { status, data } = yield call(api.put, backendUrl+'user/'+index+'/', profile, token)
+    if(status === 200) {
+        yield put({type: actions.user.PUT_PROFILE, profile: profile})
+    }
+    else{
+        yield put({type: actions.user.FAILURE /* dummy action */})
+        // I think we should do ERROR HANDLING using "Catch"
+    }
+}
+export function* watchPutProfileRequest() {
+    while(true) {
+        const { profile, token, index } = yield take(actions.user.putProfileRequest)
+        yield call(putProfileRequest, token, profile, index)
+    }
+}
+
+
+
 
 /*
 ROOT

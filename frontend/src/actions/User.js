@@ -54,6 +54,7 @@ export const GET_PROFILE_REQUEST = "GET_PROFILE_REQUEST"
 export const PUT_PROFILE_REQUEST = "PUT_PROFILE_REQUEST"
 export const GET_PROFILE = "GET_PROFILE"
 export const PUT_PROFILE = "PUT_PROFILE"
+export const FAILURE = "FAILURE"
 
 export const getProfileRequest = (index, token) => {
 	return {
@@ -62,5 +63,34 @@ export const getProfileRequest = (index, token) => {
 		token : token
 	}
 }
+export const putProfileRequest = (index, profile, token) => {
+	return {
+		type: 'PUT_PROFILE_REQUEST',
+		index: index,
+		profile: profile,
+		token : token
+	}
+}
+
+export const getProfile = (profile) => {
+	return {
+		type: 'GET_PROFILE',
+		profile
+	}
+}
+
+export const putProfile = (profile) => {
+	return {
+		type: 'PUT_PROFILE',
+		profile
+	}
+}
+
+export const failure = () => {
+	return {
+		type: 'FAILURE'
+	}
+}
+
 
 

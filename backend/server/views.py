@@ -25,13 +25,28 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
 
 class MeetingList(generics.ListCreateAPIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
+    def post(self, request, *args, **kwargs):
+        request.data['host'] = request.user.id # Set host as request user's id
+        request.data['comment_set'] = [] # Initially, no comments
+        request.data['membership_set'] = [] # Initially, no membership
+        request.data['status'] = "0" # Initially, status is recruiting
+        return self.create(request, *args, **kwargs)
+
+    # Post Works
+    # http -v POST http://127.0.0.1:8000/meetings/ name="testing meeting" "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e" max_participant="5" content="Test Meeting Content" date="2018-01-01T00:00:00+09:00" deadline="2019-05-15T17:47:18.999698Z" tag_set:='[3, 4]'
+
+
 class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
+
+    # DELETE works
+    # http -v DELETE http://127.0.0.1:8000/meetings/7/ "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e"
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner, )

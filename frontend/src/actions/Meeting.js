@@ -18,7 +18,7 @@ export const DELETE_MEETING= "DELETE_MEETING"
 
 /* Actions for multiple meeting request.
  * It will be called when user searches anything.
- * It will sends the query and option to the backend, 
+ * It will sends the query and option to the backend,
  * and gets the list of the correct meetings.
  */
 export const GET_MEETING_LIST_REQUEST = "GET_MEETING_LIST_REQUEST"
@@ -36,6 +36,8 @@ export const JOIN_MEETING = "JOIN_MEETING"
 export const ACCEPT_MEETING_REQUEST = "ACCEPT_MEETING_REQUEST"
 export const ACCEPT_MEETING = "ACCEPT_MEETING"
 
+export const REQUEST_FAILURE = "REQUEST_FAILURE"
+
 /* Actions for testing without backend.
  * It will only make effects on the frontend status,
  * without the backend API.
@@ -48,6 +50,120 @@ export const REMOVE_MEETING = "REMOVE_MEETING"
 
 /******************** END OF CONSTANTS *********************/
 
+export const getMeetingRequest = (user/*or token? for authentication */) => {
+    return {
+        type: "GET_MEETING_REQUEST",
+        user
+    }
+}
+
+export const postMeetingRequest = (meeting, user) => {
+    return {
+        type: "POST_MEETING_REQUEST",
+        meeting,
+        user
+    }
+}
+
+export const putMeetingRequest = (meeting, user) => {
+    return {
+        type: "PUT_MEETING_REQUEST",
+        meeting,
+        user
+    }
+}
+
+export const deleteMeetingRequest = (meeting, index) => {
+    return {
+        type: "DELETE_MEETING_REQUEST",
+        index,
+        user
+    }
+}
+
+export const getMeeting = (meetings) => {
+    return {
+        type: "GET_MEETING",
+        meetings
+    }
+}
+
+export const postMeeting = (meeting) => {
+    return {
+        type: "POST_MEETING",
+        meeting
+    }
+}
+
+export const putMeeting = (meeting, index) => {
+    return {
+        type: "PUT_MEETING",
+        meeting,
+        index
+    }
+}
+
+export const deleteMeeting = (index) => {
+    return {
+        type: "DELETE_MEETING",
+        index
+    }
+}
+
+export const getMeetingListRequest = (query, user) => {
+    return {
+        type: "GET_MEETING_LIST_REQUEST",
+        query,
+        user
+    }
+}
+
+export const getMeetingList = (meetings) => {
+    return {
+        type: "GET_MEETING_LIST",
+        meetings
+    }
+}
+
+export const joinMeetingRequest = (index, user) => {
+    return {
+        type: "JOIN_MEETING_REQUEST",
+        index,
+        user
+    }
+}
+
+export const joinMeeting = (index, user) => {
+    return {
+        type: "JOIN_MEETING",
+        index,
+        user
+    }
+}
+
+export const acceptMeetingRequest = (index, user) => {
+    return {
+        type: "ACCEPT_MEETING_REQUEST",
+        index,
+        user
+    }
+}
+
+export const acceptMeeting = (index, user) => {
+    return {
+        type: "ACCEPT_MEETING",
+        index,
+        user
+    }
+}
+
+export const requestFailure = (/**/) => {
+    return {
+        type: "REQUEST_FAILURE"
+    }
+}
+
+/*
 
 export const addMeeting = (meeting) => {
 	return {
@@ -76,4 +192,4 @@ export const showMeeting = (id) => {
 		type: "SHOW_MEETING",
 		id
 	}
-}
+}*/

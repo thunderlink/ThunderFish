@@ -16,6 +16,12 @@ export const signupRequest = (user) => {
 	}
 }
 
+export const signupDone = () => {
+	return {
+		type: 'SIGNUP_DONE'
+	}
+}
+
 export const signinRequest = (username, password) => {
 	return {
 		type: 'SIGNIN_REQUEST',
@@ -24,8 +30,14 @@ export const signinRequest = (username, password) => {
 	}
 }
 
-export const signupDone = () => {
+export const signinSuccessful = (username, token) => {
 	return {
-		type: 'SIGNUP_DONE'
+		type: 'SIGNIN_SUCCESSFUL',
+		username: username,
+		token: token
 	}
 }
+
+
+
+

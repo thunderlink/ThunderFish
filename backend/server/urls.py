@@ -2,8 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('signin/', views.) #GET으로 auth하고, user 정보를 GET
-    # path('signup/', views.) #signup한다.
+    path('signin/', views.Login), # POST username and password to receive token and user info
+    path('signup/', views.Register.as_view()), # Sign Up through POST
     path('user/<int:pk>/', views.ProfileDetail.as_view()),
     path('user/<int:pk>/meetings', views.UserMeetingList.as_view()),
     path('meetings/', views.MeetingList.as_view()),

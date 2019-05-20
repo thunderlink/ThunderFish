@@ -75,7 +75,6 @@ class SearchResult(generics.ListCreateAPIView):
         self.queryset.union(Meeting.objects.filter(tag_set__name__contains=kwargs['keyword']), all=False)
         return self.list(request, *args, **kwargs)
 
-
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))

@@ -34,7 +34,7 @@ export const signinSuccessful = (username, token) => {
 	return {
 		type: 'SIGNIN_SUCCESSFUL',
 		username: username,
-		token: token
+		token : token
 	}
 }
 

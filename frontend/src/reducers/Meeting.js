@@ -1,6 +1,8 @@
 /* These are only for check the view. 
  * Will be deleted after backend done.
  */
+import '../actions/Meeting'
+
 const meeting1 =	{
 	id: 0,
 	name: "컴개실 부수기",
@@ -74,6 +76,7 @@ const initialState = {
 
 export default function meeting(state=initialState, action) {
 	switch (action.type) {
+		/*
 		case "ADD_MEETING":
 			return state;
 		case "EDIT_MEETING":
@@ -82,6 +85,48 @@ export default function meeting(state=initialState, action) {
 			return state;
 		case "SEARCH_MEETING":
 			return state;
+
+		*/
+		case "GET_MEETING":
+			return{
+				/*
+				// what is this?
+				 */
+
+			}
+		case "POST_MEETING":
+			return{
+				...state,
+				meetingList : [...state.meetingList , action.meeting]
+			};
+		case "PUT_MEETING":
+			let index = action.index
+			let meeting = action.meeting
+			return{
+				...state,
+				meetingList : state.meetingList.map(
+					(item) => item.id === index ? meeting : item
+				)
+			};
+		case "DELETE_MEETING":
+			return{
+				...state,
+				meetingList : state.meetingList.filter(
+					(item) => item.id !== action.index)
+			};
+
+		case "GET_MEETING_LIST":
+			return{
+				...state,
+				meetingList : action.meetings
+			};
+
+			//TODO
+		case "JOIN_MEETING":
+			return state;
+		case "ACCEPT_MEETING":
+			return state;
+
 		case "SHOW_MEETING":
 			var target
 			state.meetingList.map((item) => {

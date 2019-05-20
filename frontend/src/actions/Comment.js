@@ -65,7 +65,7 @@ export const putComment = (index, comment) => {
 
 export const deleteComment = (index) => {
     return {
-        type: "PUT_COMMENT",
+        type: "DELETE_COMMENT",
         index
     }
 }

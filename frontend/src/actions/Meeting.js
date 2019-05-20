@@ -81,10 +81,10 @@ export const deleteMeetingRequest = (meeting, index) => {
     }
 }
 
-export const getMeeting = (meetings) => {
+export const getMeeting = (meeting) => {
     return {
         type: "GET_MEETING",
-        meetings
+        meeting
     }
 }
 

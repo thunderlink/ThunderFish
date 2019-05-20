@@ -16,28 +16,28 @@ export const getCommentRequest = (index/*which meeting?*/, user/*or token? for a
     }
 }
 
-export const postCommentRequest = (comment, user) => {
+export const postCommentRequest = (comment, token) => {
     return {
         type: "POST_COMMENT_REQUEST",
         comment,
-        user
+        token
     }
 }
 
-export const putCommentRequest = (index, comment, user) => {
+export const putCommentRequest = (index, comment, token) => {
     return {
         type: "PUT_COMMENT_REQUEST",
         index,
         comment,
-        user
+        token
     }
 }
 
-export const deleteCommentRequest = (index, user) => {
+export const deleteCommentRequest = (index, token) => {
     return {
         type: "DELETE_COMMENT_REQUEST",
         index,
-        user
+        token
     }
 }
 

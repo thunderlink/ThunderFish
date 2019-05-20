@@ -50,34 +50,35 @@ export const REMOVE_MEETING = "REMOVE_MEETING"
 
 /******************** END OF CONSTANTS *********************/
 
-export const getMeetingRequest = (user/*or token? for authentication */) => {
+export const getMeetingRequest = (token/*or token? for authentication */, index) => {
     return {
         type: "GET_MEETING_REQUEST",
-        user
+        token,
+        index
     }
 }
 
-export const postMeetingRequest = (meeting, user) => {
+export const postMeetingRequest = (meeting, token) => {
     return {
         type: "POST_MEETING_REQUEST",
         meeting,
-        user
+        token
     }
 }
 
-export const putMeetingRequest = (meeting, user) => {
+export const putMeetingRequest = (meeting, token) => {
     return {
         type: "PUT_MEETING_REQUEST",
         meeting,
-        user
+        token
     }
 }
 
-export const deleteMeetingRequest = (meeting, index) => {
+export const deleteMeetingRequest = (token, index) => {
     return {
         type: "DELETE_MEETING_REQUEST",
         index,
-        user
+        token
     }
 }
 
@@ -110,11 +111,11 @@ export const deleteMeeting = (index) => {
     }
 }
 
-export const getMeetingListRequest = (query, user) => {
+export const getMeetingListRequest = (query, token) => {
     return {
         type: "GET_MEETING_LIST_REQUEST",
         query,
-        user
+        token
     }
 }
 
@@ -125,11 +126,12 @@ export const getMeetingList = (meetings) => {
     }
 }
 
-export const joinMeetingRequest = (index, user) => {
+export const joinMeetingRequest = (index, user, token) => {
     return {
         type: "JOIN_MEETING_REQUEST",
         index,
-        user
+        user,
+        token
     }
 }
 

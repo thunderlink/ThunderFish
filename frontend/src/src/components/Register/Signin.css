@@ -1,0 +1,26 @@
+.signin__field {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.signin__field-title {
+	font-size: xx-large;
+	font-weight: bolder;
+}
+
+.signin__field button {
+	width: 8rem;
+	height: 2rem;
+	font-size: large;
+	font-weight: bold;
+	color: white;
+	background: #1b1464; 
+}
+
+.singin__field h2 {
+	font-size: x-large;
+}
+
+.signin__field-text {
+}

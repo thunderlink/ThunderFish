@@ -1,0 +1,39 @@
+.meeting_element {
+	width: 330px;
+	margin: 8px;	
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.meeting_element .image_wrapper {
+	padding: 8px;
+	height: 180px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.meeting_element .meeting_content {
+	padding-left: 0;
+}
+
+.meeting_element .meeting_content .title {
+	display: flex;
+	align-items: center;
+}
+
+.meeting_element .meeting_content .small_square {
+	background: #fed008;
+	width: 8px;
+	height: 8px;
+	margin-right: 8px;
+}
+
+.meeting_element .meeting_content p,
+.meeting_element .meeting_content h2 {
+	margin: 0;
+	color: black;
+}
+
+
+

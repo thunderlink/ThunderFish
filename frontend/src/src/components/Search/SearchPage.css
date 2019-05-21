@@ -1,0 +1,33 @@
+.search_page {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.search_page .search_content {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+}
+
+.search_page .search_content .search_list {
+	width: 100%;
+	padding: 0 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.search_page .search_content .search_list a {
+	text-decoration: none;
+}
+
+.search_page .search_content .search_option {
+	width: 100%;
+	padding: 0 4px;
+	border: 3px solid #dddddd;
+}
+
+

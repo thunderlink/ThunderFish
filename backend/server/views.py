@@ -105,12 +105,13 @@ def Login(request):
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     key = {'token': token.key}
-    profile = Profile.objects.get(pk=user.id) # get user's profile
+    print(user.id)
+    profile = Profile.objects.filter(user__id=int(user.id))[0] # get user's profile
     ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
     return Response(ret, status=HTTP_200_OK)
 
     # Post Works
-    # http -v POST http://127.0.0.1:8000/signin/ username="zx" password="123"
+    # http -v POST http://127.0.0.1:8000/signin/ username="test2" password="doffltmqkqh"
 
 class Register(generics.ListCreateAPIView):
     permission_classes = (AllowAny, )

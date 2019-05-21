@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .permissions import IsOwner
+from django.db.utils import IntegrityError
 
 
 from rest_framework.status import (
@@ -118,8 +119,12 @@ class Register(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        user = User.objects.create_user(username=data['username'], password=request.data['password'])
-        Profile.objects.create(user_id=user.id, gender=data['gender'], nickname=data['nickname'], name=data['name'])
+        try:
+            user = User.objects.create_user(username=data['email'], password=request.data['password'], email=data['email'])
+        except IntegrityError:
+            return Response({"A user with that email already exists."}, status=HTTP_400_BAD_REQUEST)
+        
+        Profile.objects.create(user_id=user.id, nickname=data['nickname'], name=data['name'])
         return Response(status=HTTP_200_OK)
 
-    # http -v POST http://127.0.0.1:8000/signup/ username="zxc" password="123" gender="1" nickname="cxz" name="zxc zxc"
+    # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"

@@ -7,16 +7,16 @@ class Footer extends Component {
 		return (
 			<div className="foot">
 				<p className="description"> 
-					<a> This site was made by </a>
+					{"This site was made by "}
 					<a href="https://github.com/thunderlink"> thunderlink</a>
-					<a>, as a project of swpp, course of SNU.</a>
+					{", as a project of swpp, course of SNU."}
 				</p>
 				<p className="description">
-					<a>Source cord can be found on </a>
+					{"Source cord can be found on "}
 					<a href="https://github.com/thunderlink/ThunderFish">
 						here
 					</a>
-					<a>.</a>
+					{"."}
 				</p>
 				<p>
 					<img

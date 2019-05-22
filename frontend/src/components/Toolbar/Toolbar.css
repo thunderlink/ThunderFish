@@ -12,6 +12,7 @@
 }
 
 .toolbar {
+	z-index: 1000;
 	font-family: Georgia, "맑은 고딕", sans-serif;
 	box-sizing: border-box;
 	position: fixed;

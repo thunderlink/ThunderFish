@@ -8,7 +8,6 @@ import './Register.css'
 class SignupSuccess extends Component {
 
 	componentWillUnmount() {
-		console.log("quit");
 		this.props.signupDone();
 	}
 

@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
+import Comment from './Comment'
 
 import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
@@ -49,6 +50,15 @@ class MeetingPage extends Component {
 		infowindow.open(map, marker)
 	}
 
+	onPutHandler = (e) => {
+		e.preventDefault()
+		this.props.putMeetingRequest(/* TODO :: meeting*/)
+	}
+
+	onDeleteHandler = (e) => {
+		e.preventDefault()
+		this.props.deleteComment()
+	}
 	render() {
 		return (
 			<div className="meeting_page">
@@ -110,12 +120,17 @@ class MeetingPage extends Component {
 					<hr />
 					<ul>
 						{this.props.meetingElement.comment.map(item =>
-							<li key={`${item.id}_${item.text}`}>
+							<Comment/>
+							/*<li key={`${item.id}_${item.text}`}>
 								<h3> {item.id} </h3>
 								<p> {item.text} </p>
-							</li>
+							</li>*/
 							)}
 					</ul>
+				</div>
+				<div /*className="buttons"*/>
+					<button onClick={this.onPutHandler}> 수정 </button>
+					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
 			</div>
 		)
@@ -125,14 +140,23 @@ class MeetingPage extends Component {
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
+		token: state.user.token
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		showMeeting: (id) => {
-			dispatch(meeting.showMeeting(id))
+		getMeetingRequest: () => {
+			dispatch(meeting.getMeetingRequest(this.props.token, this.props.meetingElement.id))
 		},
+		putMeetingRequest: (meeting) => {
+			dispatch(meeting.putMeetingRequest(this.props.token, meeting, this.props.meetingElement.id))
+		},
+		deleteMeetingRequest: () => {
+			dispatch(meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
+		},
+
+
 	}
 }
 

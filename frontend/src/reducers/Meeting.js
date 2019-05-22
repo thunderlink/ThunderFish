@@ -40,9 +40,9 @@ const meeting2 =	{
 	open_chat: "",
 	tag: ["스포츠", "아웃도어", "러닝", "서울대"],
 	comment: [
-		{id:"이성찬", text:"소개원실 언제함"},
-		{id:"서준원", text:"오늘함"},
-		{id:"박종호", text:"ㅇㅋ"}
+		{writer:"이성찬", text:"소개원실 언제함"},
+		{writer:"서준원", text:"오늘함"},
+		{writer:"박종호", text:"ㅇㅋ"}
 	]
 }
 
@@ -67,7 +67,7 @@ const emptyMeeting = {
 	comment: []
 }
 
-const initialState = {
+export const initialState = {
 	meetingList: [meeting1, meeting2], //holds list of meetings; Sample data
 	meetingElement: emptyMeeting, //holds one meeting
 	searchText: "", //holds the search query of meeting
@@ -89,30 +89,23 @@ export default function meeting(state=initialState, action) {
 		*/
 		case "GET_MEETING":
 			return{
-				/*
-				// what is this?
-				 */
-
+				...state,
+				meetingElement : action.meeting
 			}
 		case "POST_MEETING":
 			return{
 				...state,
-				meetingList : [...state.meetingList , action.meeting]
+				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":
-			let index = action.index
-			let meeting = action.meeting
 			return{
 				...state,
-				meetingList : state.meetingList.map(
-					(item) => item.id === index ? meeting : item
-				)
+				meetingElement : action.meeting
 			};
 		case "DELETE_MEETING":
 			return{
 				...state,
-				meetingList : state.meetingList.filter(
-					(item) => item.id !== action.index)
+				meetingList : emptyMeeting
 			};
 
 		case "GET_MEETING_LIST":

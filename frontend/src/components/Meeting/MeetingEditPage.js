@@ -30,14 +30,13 @@ class MeetingEditPage extends Component {
 
     onSubmitHandler = (e) => {
         e.preventDefault()
-        this.props.putMeetingRequest(this.meetingSerializer(), )
+        this.props.putMeetingRequest(this.meetingSerializer(), this.props.meetingElement.id)
     }
 
 
     render() {
-        return (this.props.requestDone) ? (
-            <Redirect to={`/meeting/${this.props.meetingElement.id}/`} />
-        ) : (
+        //console.log(this.state)
+        return  (
             <div className="meeting_add_page">
                 <fieldset onSubmit={this.onSubmitHandler}>
                     <form>
@@ -109,7 +108,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         putMeetingRequest : (meeting, index) => {
-            dispatch(actions.meeting.postMeetingRequest(meeting, index))
+            dispatch(actions.meeting.putMeetingRequest(meeting, index))
         },
     }
 }

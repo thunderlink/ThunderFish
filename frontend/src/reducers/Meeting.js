@@ -88,10 +88,11 @@ export default function meeting(state=initialState, action) {
 			return state;
 
 		*/
+
 		case "GET_MEETING":
 			return{
 				...state,
-				requestDone : true,
+				getDone : true,
 				meetingElement : action.meeting
 			}
 		case "POST_MEETING":
@@ -101,7 +102,7 @@ export default function meeting(state=initialState, action) {
 				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":
-			return{
+				return{
 				...state,
 				requestDone : true,
 				meetingElement : action.meeting

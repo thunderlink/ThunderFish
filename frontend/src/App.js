@@ -45,7 +45,7 @@ class App extends Component {
 								<Route exact path="/user/:id" component={Userpage} />
 								<Route exact path="/meeting/add" component={MeetingAddPage}/>
 								<Route exact path="/meeting/:id" component={MeetingPage} />
-								<Route exact path="/meeting/:id" component={MeetingEditPage} />
+								<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
 								<Route exact path="/search/:query" component={SearchPage} />
 								<Route exact path="/search/:query/:options" component={SearchPage} />
 								<Route component={NotFound} />

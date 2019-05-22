@@ -16,12 +16,18 @@ class MeetingPage extends Component {
 
 	constructor(props) {
 		super(props);
-		console.log(this.props.match.params.id)
-		this.props.getMeetingRequest(this.props.match.params.id);
+		//console.log(this.props.match.params.id);
+		this.props.getMeetingRequest(this.props.match.params.id)
+		this.routeChange = this.routeChange.bind(this);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
+
 		//this.createMap()
+	}
+
+	state = {
+		flag : false
 	}
 
 	createMap() {
@@ -50,19 +56,20 @@ class MeetingPage extends Component {
 		infowindow.open(map, marker)
 	}
 
-	onPutHandler = (e) => {
-		e.preventDefault()
-		this.props.putMeetingRequest(/* TODO :: meeting*/)
+	routeChange = () => {
+		this.props.history.push('/meeting/'+this.props.meetingElement.id+'/edit')
 	}
 
 	onDeleteHandler = (e) => {
 		e.preventDefault()
-		this.props.deleteComment()
+		this.props.deleteMeetingRequest(this.props.meetingElement.id)
+		this.props.history.push('/')
 	}
 
 	render() {
-		return (!this.props.requestDone) ?
-			(<div> Loading... </div>) : (
+		return (this.props.meetingElement == undefined) ?
+			(<div> Loading... </div>) :
+			(
 			<div className="meeting_page">
 				<Route component={SearchBar} />
 				<div className="header">
@@ -117,17 +124,21 @@ class MeetingPage extends Component {
 					<hr />
 					<div>
 						{
+							(this.props.meetingElement.comments !== undefined) ?
+
 							Object.keys(this.props.meetingElement.comments).map(key => (
-								<Comments
-									key={`comment_${key}`}
-									commentDetail={this.props.meetingElement.comments[key]}
-								/>
+							<Comments
+							key={`comment_${key}`}
+							commentDetail={this.props.meetingElement.comments[key]}
+							/>
 							))
+								: <h2>No Comment</h2>
 						}
+
 					</div>
 				</div>
 				<div className="buttons">
-					<button onClick={this.onPutHandler}> 수정 </button>
+					<button onClick={this.routeChange} > 수정 </button>
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
 			</div>
@@ -144,7 +155,8 @@ class MeetingPage extends Component {
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
-		requestDone: state.meeting.requestDone
+		requestDone: state.meeting.requestDone,
+		getDone: state.meeting.getDone
 	}
 }
 
@@ -153,11 +165,8 @@ const mapDispatchToProps = dispatch => {
 		getMeetingRequest: (index) => {
 			dispatch(actions.meeting.getMeetingRequest(index))
 		},
-		putMeetingRequest: (meeting) => {
-			dispatch(actions.meeting.putMeetingRequest(this.props.token, meeting, this.props.meetingElement.id))
-		},
-		deleteMeetingRequest: () => {
-			dispatch(actions.meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
+		deleteMeetingRequest: (index) => {
+			dispatch(actions.meeting.deleteMeetingRequest(index))
 		},
 
 

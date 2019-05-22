@@ -151,6 +151,7 @@ export function* watchPostMeetingRequest() {
 export function* putMeetingRequest(index, meeting) {
 
 	const token = yield localStorage.getItem("token")
+	console.log(meeting)
 	const { status } = yield call(api.put, `${meetingUrl}${index}/`, meeting, token)
 	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting : meeting })
@@ -171,7 +172,7 @@ export function* watchPutMeetingRequest() {
 // DELETE 'meetings/id/'
 export function* deleteMeetingRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, '${meetingUrl}${index}/', token)
+	const { status } = yield call(api.delete, meetingUrl+index+'/', token)
 	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
@@ -361,12 +362,14 @@ export default function* rootSaga() {
 	yield fork(watchPutMeetingRequest)
 
 	yield fork(watchDeleteMeetingRequest)
-		/*
-	yield fork(watchSearchMeetingRequest)
+	/*
+yield fork(watchSearchMeetingRequest)
 
-	yield fork(watchPostCommentRequest)
-	yield fork(watchPutCommentRequest)
-	*/
-	yield fork(watchDeleteCommentRequest)
+yield fork(watchPostCommentRequest)
+yield fork(watchPutCommentRequest)
+
+
+*/
+	//	yield fork(watchDeleteCommentRequest)
 	yield fork(watchGetUserRequest)
 }

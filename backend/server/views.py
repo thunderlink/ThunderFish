@@ -21,9 +21,22 @@ class ProfileList(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+class GetProfile(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def get(self, request, *args, **kwargs):
+        token = request.headers['Authorization'].split()[1]
+        profile = Token.objects.get(key=token).user.profile
+        ret = {'id': profile.id, 'nickname': profile.nickname}
+        return Response(ret, status=HTTP_200_OK) 
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
 
 class MeetingList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -31,7 +44,9 @@ class MeetingList(generics.ListCreateAPIView):
     serializer_class = MeetingSerializer
 
     def post(self, request, *args, **kwargs):
-        request.data['host'] = request.user.id # Set host as request user's id
+        token = request.headers['Authorization'].split()[1]
+        profile_id = Token.objects.get(key=token).user.profile.id
+        request.data['host'] = profile_id # Set host as request profile's id
         request.data['comment_set'] = [] # Initially, no comments
         request.data['membership_set'] = [] # Initially, no membership
         request.data['status'] = "0" # Initially, status is recruiting
@@ -46,6 +61,23 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
+    def get(self, request, *args, **kwargs):
+        ret = {}
+        meeting = Meeting.objects.get(pk=kwargs['pk'])
+        print(meeting)
+        ret = MeetingSerializer(meeting).data
+        comment_set = meeting.comment_set.all()
+        print(comment_set)
+        serialized_comment = {}
+        for comment in comment_set:
+            data = CommentSerializer(comment).data
+            data.pop('parent_meeting', None)
+            data.pop('writer', None)
+            serialized_comment[str(comment.id)] = data
+        # comment id,nickname is necessary!!!
+        ret['comments'] = serialized_comment
+        return Response(ret, status=HTTP_200_OK)
+
     # DELETE works
     # http -v DELETE http://127.0.0.1:8000/meetings/7/ "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e"
 
@@ -53,6 +85,12 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner, )
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def put(self, request, *args, **kwargs):
+        comment = Comment.objects.get(pk=kwargs['pk'])
+        request.data['parent_meeting'] = comment.parent_meeting.id
+        request.data['writer'] = comment.writer.id
+        return self.update(request, *args, **kwargs)
 
     # Put Works
     # http -v PUT http://127.0.0.1:8000/comment/1/ comment_text='수정할 댓글' parent_meeting='1' writer='3'
@@ -63,6 +101,12 @@ class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+    def post(self, request, *args, **kwargs):
+        token = request.headers['Authorization'].split()[1]
+        profile = Token.objects.get(pk=token).user.profile
+        request.data['writer'] = profile.id
+        return self.create(request, *args, **kwargs)
+    
     # Post Works
     # http -v POST http://127.0.0.1:8000/comment/ comment_text='테스트 댓글' parent_meeting='1' writer='2'
 

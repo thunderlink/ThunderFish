@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import * as actions from '../../actions'
 
 import logo from "../../logos/logo_renewal.png"
 import search_button from '../../icons/search-button.png'
@@ -71,12 +72,16 @@ class SearchBar extends Component {
 const mapStateToProps = state => {
 	return {
 		query: state.meeting.searchText,
-		option: state.meeting.searchOption
+		option: state.meeting.searchOption,
+		token: state.user.token,
 	}
 }
 
-const mapDispatchToProps = state => {
+const mapDispatchToProps = dispatch => {
 	return {
+		getMeetingListRequest : () => {
+			dispatch(actions.meeting.getMeetingListRequest(this.props.query, this.props.token))
+		},
 	}
 }
 

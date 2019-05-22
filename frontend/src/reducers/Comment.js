@@ -1,6 +1,9 @@
-const initialState = {
+/*const initialState = {
 	commentList: [], //comment lists
 }
+*/
+
+import initialState from './Meeting'
 
 export default function comment(state=initialState, action) {
 	switch (action.type) {

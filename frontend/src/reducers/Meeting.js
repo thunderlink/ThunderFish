@@ -40,9 +40,9 @@ const meeting2 =	{
 	open_chat: "",
 	tag: ["스포츠", "아웃도어", "러닝", "서울대"],
 	comment: [
-		{id:"이성찬", text:"소개원실 언제함"},
-		{id:"서준원", text:"오늘함"},
-		{id:"박종호", text:"ㅇㅋ"}
+		{writer:"이성찬", text:"소개원실 언제함"},
+		{writer:"서준원", text:"오늘함"},
+		{writer:"박종호", text:"ㅇㅋ"}
 	]
 }
 
@@ -67,7 +67,7 @@ const emptyMeeting = {
 	comment: []
 }
 
-const initialState = {
+export const initialState = {
 	meetingList: [meeting1, meeting2], //holds list of meetings; Sample data
 	meetingElement: emptyMeeting, //holds one meeting
 	searchText: "", //holds the search query of meeting

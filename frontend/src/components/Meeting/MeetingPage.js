@@ -4,24 +4,24 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import Comment from './Comment'
+import Comments from './Comments'
 
 import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
 
-import { meeting } from '../../actions'
+import * as actions from '../../actions'
 import './MeetingPage.css'
 
 class MeetingPage extends Component {
 
 	constructor(props) {
 		super(props);
-		this.props.showMeeting(this.props.match.params.id);
-
+		console.log(this.props.match.params.id)
+		this.props.getMeetingRequest(this.props.match.params.id);
 	}
 
 	componentDidMount() {
-		this.createMap()
+		//this.createMap()
 	}
 
 	createMap() {
@@ -59,8 +59,10 @@ class MeetingPage extends Component {
 		e.preventDefault()
 		this.props.deleteComment()
 	}
+
 	render() {
-		return (
+		return (!this.props.requestDone) ?
+			(<div> Loading... </div>) : (
 			<div className="meeting_page">
 				<Route component={SearchBar} />
 				<div className="header">
@@ -101,11 +103,6 @@ class MeetingPage extends Component {
 					<h2> 태그 </h2>
 					<hr/>
 					<ul>
-						{this.props.meetingElement.tag.map(item => (
-							<li key={`tag_${item.id}_${item}`}>
-								{`#${item} `}
-							</li>
-						))}
 					</ul>
 					<h2> 지도 </h2>
 					<hr/>
@@ -118,17 +115,18 @@ class MeetingPage extends Component {
 				<div className="comments">
 					<h2> 댓글 </h2>
 					<hr />
-					<ul>
-						{this.props.meetingElement.comment.map(item =>
-							<Comment/>
-							/*<li key={`${item.id}_${item.text}`}>
-								<h3> {item.id} </h3>
-								<p> {item.text} </p>
-							</li>*/
-							)}
-					</ul>
+					<div>
+						{
+							Object.keys(this.props.meetingElement.comments).map(key => (
+								<Comments
+									key={`comment_${key}`}
+									commentDetail={this.props.meetingElement.comments[key]}
+								/>
+							))
+						}
+					</div>
 				</div>
-				<div /*className="buttons"*/>
+				<div className="buttons">
 					<button onClick={this.onPutHandler}> 수정 </button>
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
@@ -136,24 +134,30 @@ class MeetingPage extends Component {
 		)
 	}
 }
-
+/*
+						{this.props.meetingElement.tag.map(item => (
+							<li key={`tag_${item.id}_${item}`}>
+								{`#${item} `}
+							</li>
+						))}
+							*/
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
-		token: state.user.token
+		requestDone: state.meeting.requestDone
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		getMeetingRequest: () => {
-			dispatch(meeting.getMeetingRequest(this.props.token, this.props.meetingElement.id))
+		getMeetingRequest: (index) => {
+			dispatch(actions.meeting.getMeetingRequest(index))
 		},
 		putMeetingRequest: (meeting) => {
-			dispatch(meeting.putMeetingRequest(this.props.token, meeting, this.props.meetingElement.id))
+			dispatch(actions.meeting.putMeetingRequest(this.props.token, meeting, this.props.meetingElement.id))
 		},
 		deleteMeetingRequest: () => {
-			dispatch(meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
+			dispatch(actions.meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
 		},
 
 

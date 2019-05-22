@@ -1,31 +1,29 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../actions'
 
-
-
-class Comment extends Component {
+class Comments extends Component {
 
     onPutHandler = (e) => {
         e.preventDefault()
-        this.props.putComment(this.props.commentElement.id, /* TODO :: comment*/)
+        this.props.putComment(this.props.commentDetail.id /* TODO :: comment*/)
     }
 
     onDeleteHandler = (e) => {
         e.preventDefault()
-        this.props.deleteComment(this.props.commentElement.id, this.props.token)
-    }
-    render() {
+        this.props.deleteComment(this.props.commentDetail.id)
+		}
+
+	render() {
         return (
             <div className="comment">
                 <div className="header">
                     <div className="header_left">
                         <div className="username">
-                            <h2> {this.props.commentElement.writer} </h2>
+                            <h2> {this.props.commentDetail.nickname} </h2>
                         </div>
                         <div className="text">
-                            <h2> {this.props.commentElement.text}</h2>
+                            <h2> {this.props.commentDetail.comment_text}</h2>
                         </div>
                     </div>
                     <div className="content">
@@ -44,8 +42,6 @@ class Comment extends Component {
 
 const mapStateToProps = state => {
     return {
-        commentElement: state.meeting.meetingElement.comment,
-        token: state.user.token
     }
 }
 
@@ -61,5 +57,5 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comment);
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);
 

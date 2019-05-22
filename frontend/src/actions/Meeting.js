@@ -50,19 +50,18 @@ export const REMOVE_MEETING = "REMOVE_MEETING"
 
 /******************** END OF CONSTANTS *********************/
 
-export const getMeetingRequest = (token/*or token? for authentication */, index) => {
+export const getMeetingRequest = (index) => {
+	console.log(index)
     return {
         type: "GET_MEETING_REQUEST",
-        token,
-        index
+				index
     }
 }
 
-export const postMeetingRequest = (meeting, token) => {
+export const postMeetingRequest = (meeting) => {
     return {
         type: "POST_MEETING_REQUEST",
-        meeting,
-        token
+        meeting
     }
 }
 
@@ -74,11 +73,10 @@ export const putMeetingRequest = (meeting, token) => {
     }
 }
 
-export const deleteMeetingRequest = (token, index) => {
+export const deleteMeetingRequest = (index) => {
     return {
         type: "DELETE_MEETING_REQUEST",
-        index,
-        token
+        index
     }
 }
 

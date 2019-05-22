@@ -72,6 +72,7 @@ export const initialState = {
 	meetingElement: emptyMeeting, //holds one meeting
 	searchText: "", //holds the search query of meeting
 	searchOption: {}, //holds the search option of meeting
+	requestDone: false,
 }
 
 export default function meeting(state=initialState, action) {
@@ -90,11 +91,13 @@ export default function meeting(state=initialState, action) {
 		case "GET_MEETING":
 			return{
 				...state,
+				requestDone : true,
 				meetingElement : action.meeting
 			}
 		case "POST_MEETING":
 			return{
 				...state,
+				requestDone : true,
 				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":

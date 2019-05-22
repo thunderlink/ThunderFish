@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as actions from '../../actions'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 class MeetingAddPage extends Component {
 	state = {
@@ -10,20 +11,18 @@ class MeetingAddPage extends Component {
 		max_participant: 0,
 		deadline: '',
 		region: '',
-//		photo: '',
 		content: '',
 		tag: '',
 	}
 
 	meetingSerializer = () => {
 		return {
-			photo: this.state.photo,
+			//photo: this.state.photo,
 			name: this.state.name,
 			date: this.state.date,
 			max_participant: this.state.max_participant,
 			deadline: this.state.deadline,
 			region: this.state.region,
-//			photo: this.state.photo,
 			content: this.state.content,
 			tag: this.state.tag
 		}
@@ -36,7 +35,9 @@ class MeetingAddPage extends Component {
 	
 
 	render() {
-		return(
+		return (this.props.requestDone) ? (
+			<Redirect to={`/meeting/${this.props.meetingElement.id}/`} />
+		) : (
 			<div className="meeting_add_page">
 				<fieldset onSubmit={this.onSubmitHandler}>
 					<form>
@@ -100,14 +101,15 @@ class MeetingAddPage extends Component {
 
 const mapStateToProps = state => {
 	return {
-		token : state.user.token
+		requestDone: state.meeting.requestDone,
+		meetingElement : state.meeting.meetingElement
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		postMeetingRequest : (meeting, token) => {
-			dispatch(actions.meeting.postMeetingRequest(meeting, token))
+		postMeetingRequest : (meeting) => {
+			dispatch(actions.meeting.postMeetingRequest(meeting))
 		},
 	}
 }

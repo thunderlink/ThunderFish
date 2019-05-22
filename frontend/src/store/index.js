@@ -6,7 +6,9 @@ import * as actions from '../actions/index'
 SIGN UP
  */
 
-const backendUrl = 'http://127.0.0.1:8000/'
+const backendUrl = 'http://18.216.47.154:8000/'
+const meetingUrl = `${backendUrl}meetings/`
+
 
 export function* signupRequest(user) {
 	const { status } = yield call(api.signup, user)
@@ -101,46 +103,50 @@ export function* watchUserSetRequest() {
  */
 
 // GET 'meetings/id'
-/*
-export function* getMeetingRequest(token, index) {
-	const { status, data } = yield call(api.get, backendUrl+'meetings/'+index+ '/', token)
-	if(status === 200) {
-		yield put({type: actions.meeting.GET_MEETING, meeting : data})
+
+export function* getMeetingRequest(index) {
+	const { status, data } = yield call(api.get, `${meetingUrl}${index}/`)
+
+	if(status >= 400) {
+		yield put({type: actions.meeting.REQUEST_FAILURE})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE // dummy action 
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		console.log(data)
+		yield put({type: actions.meeting.GET_MEETING, meeting : data})		
 	}
+
 }
 export function* watchGetMeetingRequest() {
 	while(true) {
 		const { token, index } = yield take(actions.meeting.GET_MEETING_REQUEST)
-		yield call(getMeetingRequest, token, index)
+		yield call(getMeetingRequest, index)
 	}
 }
 
 // POST 'meetings/'
-export function* postMeetingRequest(token, meeting) {
+export function* postMeetingRequest(meeting) {
 
-	const { status } = yield call(api.post, backendUrl+'meetings/', meeting, token)
-	if(status === 200) {
-		yield put({type: actions.meeting.POST_MEETING, meeting : meeting})
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.post, meetingUrl, meeting, token)
+	console.log(meeting)
+
+	if(status >= 400) {
+		yield put({type: actions.meeting.REQUEST_FAILURE})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE // dummy action
-		})
+		console.log(data)
+		yield put({type: actions.meeting.POST_MEETING, meeting : data})		
 		// I think we should do ERROR HANDLING using "Catch"
 	}
 }
 
 export function* watchPostMeetingRequest() {
 	while(true) {
-		const { token, meeting } = yield take(actions.meeting.POST_MEETING_REQUEST)
-		yield call(postMeetingRequest, token, meeting)
+		const { meeting } = yield take(actions.meeting.POST_MEETING_REQUEST)
+		yield call(postMeetingRequest, meeting)
 	}
 }
-
+	/*
 // PUT 'meetings/id/'
 export function* putMeetingRequest(token, meeting) {
 
@@ -160,12 +166,12 @@ export function* watchPutMeetingRequest() {
 		yield call(putMeetingRequest, token, meeting)
 	}
 }
-
+*/
 // DELETE 'meetings/id/'
-export function* deleteMeetingRequest(token, index) {
-
-	const { status } = yield call(api.delete, backendUrl+'meetings/' + index + '/', token)
-	if(status === 200) {
+export function* deleteMeetingRequest(index) {
+	const token = yield localStorage.getItem("token")
+	const { status } = yield call(api.delete, `${backendUrl}meetings/${index}/', token`)
+	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
 	else{
@@ -176,11 +182,11 @@ export function* deleteMeetingRequest(token, index) {
 }
 export function* watchDeleteMeetingRequest() {
 	while(true) {
-		const { token, index } = yield take(actions.meeting.DELETE_MEETING_REQUEST)
-		yield call(deleteMeetingRequest, token, index)
+		const { index } = yield take(actions.meeting.DELETE_MEETING_REQUEST)
+		yield call(deleteMeetingRequest, index)
 	}
 }
-
+	/*
 // GET 'search/queryset/'
 export function* searchMeetingRequest(token, query) {
 
@@ -261,12 +267,13 @@ export function* watchPutCommentRequest() {
 		yield call(putCommentRequest, token, comment, index)
 	}
 }
-
+*/
 // DELETE 'comment/id'
-export function* deleteCommentRequest(token, index) {
-
-	const { status} = yield call(api.delete, backendUrl+'comment/'+index+'/', token)
-	if(status === 200) {
+export function* deleteCommentRequest(index) {
+	console.log(index)
+	const token = yield localStorage.getItem("token")
+	const { status } = yield call(api.delete, `${backendUrl}comment/${index}/`, token)
+	if(status < 300) {
 		yield put({type: actions.comment.DELETE_COMMENT,  index : index})
 		//TODO::action might be edited
 	}
@@ -278,12 +285,11 @@ export function* deleteCommentRequest(token, index) {
 }
 export function* watchDeleteCommentRequest() {
 	while(true) {
-		const { token, index } = yield take(actions.comment.deleteCommentRequest)
-		yield call(deleteCommentRequest, token, index)
+		const { index } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
+		yield call(deleteCommentRequest, index)
 	}
 }
 
-*/
 /*
 *****************************************************
 * *************User Detail***************************
@@ -343,16 +349,19 @@ export default function* rootSaga() {
 	yield fork(watchSignupRequest)
 	yield fork(watchSigninRequest)
 	yield fork(watchUserSetRequest)
-		/*
+
 	yield fork(watchGetMeetingRequest)
 	yield fork(watchPostMeetingRequest)
+		/*
 	yield fork(watchPutMeetingRequest)
+	*/
 	yield fork(watchDeleteMeetingRequest)
+		/*
 	yield fork(watchSearchMeetingRequest)
 
 	yield fork(watchPostCommentRequest)
 	yield fork(watchPutCommentRequest)
-	yield fork(watchDeleteCommentRequest)
 	*/
+	yield fork(watchDeleteCommentRequest)
 	yield fork(watchGetUserRequest)
 }

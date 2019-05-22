@@ -11,6 +11,12 @@ export const SIGNIN_FAILED = "SIGNIN_FAILED"
 
 export const SIGNOUT = "SIGNOUT"
 
+export const USER_SET_REQUEST = "USER_SET_REQUEST"
+export const USER_SET_SUCCESSFUL = "USER_SET_SUCCESSFUL"
+export const USER_SET_NONE = "USER_SET_NONE"
+export const USER_SET_FAILED = "USER_SET_FAILED"
+
+
 // THIS IS END OF CONST
 
 export const signupRequest = (user) => {
@@ -48,6 +54,12 @@ export const signout = () => {
 	}
 }
 
+export const userSetRequest = () => {
+	return {
+		type: 'USER_SET_REQUEST'
+	}
+}
+
 /*
 FOR USER DETAIL
 
@@ -55,47 +67,22 @@ First, we need to complete user detail componenet.
 Then, we may make state just in component, or we can make separate REDUCER and implement state there.
 
  */
-export const GET_PROFILE_REQUEST = "GET_PROFILE_REQUEST"
-export const PUT_PROFILE_REQUEST = "PUT_PROFILE_REQUEST"
-export const GET_PROFILE = "GET_PROFILE"
-export const PUT_PROFILE = "PUT_PROFILE"
-export const FAILURE = "FAILURE"
+export const GET_USER_REQUEST = "GET_USER_REQUEST"
+export const PUT_USER_REQUEST = "PUT_USER_REQUEST"
+export const GET_USER = "GET_USER"
+export const PUT_USER = "PUT_USER"
+export const USER_REQUEST_FAILURE = "USER_REQUEST_FAILURE"
 
-export const getProfileRequest = (index, token) => {
+export const getUserRequest = (index) => {
 	return {
-		type: 'GET_PROFILE_REQUEST',
-		index: index,
-		token : token
+		type: 'GET_USER_REQUEST',
+		index: index
 	}
 }
-export const putProfileRequest = (index, profile, token) => {
+export const putUserRequest = (index, profile) => {
 	return {
-		type: 'PUT_PROFILE_REQUEST',
+		type: 'PUT_USER_REQUEST',
 		index: index,
 		profile: profile,
-		token : token
 	}
 }
-
-export const getProfile = (profile) => {
-	return {
-		type: 'GET_PROFILE',
-		profile
-	}
-}
-
-export const putProfile = (profile) => {
-	return {
-		type: 'PUT_PROFILE',
-		profile
-	}
-}
-
-export const failure = () => {
-	return {
-		type: 'FAILURE'
-	}
-}
-
-
-

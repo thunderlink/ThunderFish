@@ -1,9 +1,13 @@
 const initialState = {
+	/* Detail for current user */
 	token: localStorage.getItem("token"), //holds the user token.
 	id: -1,
 	nickname: null, //holds the name of user.
 	isAuthenticated: false, //check if signed-in or not.
 	signupStatus: 'NONE', //check if signup has successed or not.
+
+	/* Detail for user view */
+	user: null
 }
 
 export default function user(state=initialState, action) {
@@ -51,6 +55,33 @@ export default function user(state=initialState, action) {
 				nickname: null,
 				isAuthenticated: false,
 			})
+
+		case 'USER_SET_SUCCESSFUL':
+			console.log(action.type)
+			return Object.assign({}, state, {
+				token: action.token,
+				id: action.id,
+				nickname: action.nickname,
+				isAuthenticated: true
+			})
+
+		case 'USER_SET_NONE':
+		case 'USER_SET_FAILED':
+			console.log(action.type)
+			return Object.assign({}, state, {
+				token: null,
+				id: -1,
+				nickname: null,
+				isAuthenticated: false
+			})
+
+		case 'GET_USER':
+			console.log(action.type)
+			console.log(action.data)
+			return Object.assign({}, state, {
+				user: action.data
+			})
+
 
 		default:
 			return state;

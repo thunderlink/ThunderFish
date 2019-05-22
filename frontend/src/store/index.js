@@ -10,6 +10,7 @@ const backendUrl = 'http://127.0.0.1:8000/'
 
 export function* signupRequest(user) {
 	const { status } = yield call(api.signup, user)
+	console.log(user)
 	if(status === 400) {
 		yield put({type: actions.user.SIGNUP_DUPLICATED})
 	}
@@ -39,8 +40,14 @@ export function* signinRequest(username, password) {
 		password: password
 	}
 	const { status, data } = yield call(api.signin, user)
+	console.log(data)
 	if(status === 200) {
-		yield put({type: actions.user.SIGNIN_SUCCESSFUL, token: data.token, username: username})
+		yield put({
+			type: actions.user.SIGNIN_SUCCESSFUL, 
+			token: data.token,
+			nickname: data.nickname,
+			id: data.id
+		})
 	}
 	else if(status === 403 || status === 401) {
 		yield put({type: actions.user.SIGNIN_AUTH_ERR})
@@ -57,11 +64,34 @@ export function* watchSigninRequest() {
 	}
 }
 
+export function* userSetRequest() {
+	const token = yield localStorage.getItem("token")
 
+	console.log("yeah")
+	if(token == null) {
+		yield put({type: actions.user.USER_SET_NONE})
+	}
+	else {
+		const { status, id, nickname } = yield call(api.userSet, token)
+		if(status >= 400) {
+			yield put({type: actions.user.USER_SET_FAILED})
+		}
+		else {
+			yield put({
+				type: actions.user.USER_SET_SUCCESSFUL, 
+				id: id, 
+				nickname: nickname
+			})
+		}
+	}
+}
 
-
-
-
+export function* watchUserSetRequest() {
+	while(true) {
+		yield take(actions.user.USER_SET_REQUEST)
+		yield call(userSetRequest)
+	}
+}
 
 
 /*
@@ -261,28 +291,29 @@ export function* watchDeleteCommentRequest() {
 *
 * -> GET & PUT
  */
-	/*
-// GET 'user/index/'
-export function* getProfileRequest(token, index) {
 
-    const { status, data } = yield call(api.get, backendUrl+'user/'+index+'/', token)
+// GET 'user/index/'
+export function* getUserRequest(index) {
+	const { status, data } = yield call(api.userGet, index)
+	console.log(data)
     if(status === 200) {
-        yield put({type: actions.user.GET_PROFILE, profile: profile})
+        yield put({type: actions.user.GET_USER, data: data})
     }
     else{
-				yield put({type: actions.user.FAILURE //dummy action 
+				yield put({type: actions.user.USER_FAILURE //dummy action 
 				})
         // I think we should do ERROR HANDLING using "Catch"
     }
 }
-export function* watchGetProfileRequest() {
-    while(true) {
-        const { token, index } = yield take(actions.user.getProfileRequest)
-        yield call(getProfileRequest, token,  index)
-    }
+
+export function* watchGetUserRequest() {
+	while(true) {
+		const { index } = yield take(actions.user.GET_USER_REQUEST)
+		yield call(getUserRequest, index)
+	}
 }
 
-
+	/*
 // PUT 'user/index/'
 export function* putProfileRequest(token, profile, index) {
 
@@ -305,13 +336,13 @@ export function* watchPutProfileRequest() {
 */
 
 
-
 /*
 ROOT
  */
 export default function* rootSaga() {
 	yield fork(watchSignupRequest)
 	yield fork(watchSigninRequest)
+	yield fork(watchUserSetRequest)
 		/*
 	yield fork(watchGetMeetingRequest)
 	yield fork(watchPostMeetingRequest)
@@ -323,4 +354,5 @@ export default function* rootSaga() {
 	yield fork(watchPutCommentRequest)
 	yield fork(watchDeleteCommentRequest)
 	*/
+	yield fork(watchGetUserRequest)
 }

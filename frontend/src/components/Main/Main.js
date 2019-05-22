@@ -12,7 +12,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="main_page">
-				<Route component={SearchBar} />
+				<Route component= {SearchBar} />
 				<Route component= {Chest} />
 				<Route component= {Leg} />
 			</div>

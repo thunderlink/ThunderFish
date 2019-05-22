@@ -13,6 +13,11 @@ class ToolBar extends Component {
 		user: 0
 	}
 
+	constructor(props) {
+		super(props)
+		this.props.userSetRequest()
+	}
+
 	onClickLogo = (e) => {
 		e.preventDefault()
 		this.props.history.push("/")
@@ -55,7 +60,7 @@ class ToolBar extends Component {
 								Notification
 							</li>
 							<li
-								onMouseOver={this.onHoverLink(`/user/${this.state.user}`)}
+								onMouseOver={this.onHoverLink(`/user/${this.props.user}`)}
 								onClick={this.onClickLink}
 							>
 								My Page
@@ -82,6 +87,7 @@ class ToolBar extends Component {
 
 const mapStateToProps = state => {
 	return {
+		user: state.user.id
 	}
 }
 
@@ -89,6 +95,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		signout: () => {
 			dispatch(actions.user.signout())
+		},
+		userSetRequest: () => {
+			dispatch(actions.user.userSetRequest())
 		}
 	}
 }

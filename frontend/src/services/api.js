@@ -1,8 +1,9 @@
 const api = {}
 
-const backend = 'http://127.0.0.1:8000/'
+const backend = 'http://18.216.47.154:8000/'
 const signupUrl = `${backend}signup/`
 const signinUrl = `${backend}signin/`
+const userUrl = `${backend}user/`
 
 api.signup = (user) => {
 	let headers = {
@@ -45,8 +46,54 @@ api.signin = (user) => {
 		})
 }
 
+api.userSet = (token) => {
+	let headers = {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		'Authorization': `Token ${token}`
+	}
+	return fetch(userUrl, {headers, method: "GET"})
+		.then(res => {
+			if(res.status >= 400) {
+				return {
+					status: res.status
+				}
+			}
+			else {
+				return res.json().then(data => {
+					return {
+						status: res.status,
+						id: data.id,
+						nickname: data.nickname
+					}
+				})
+			}
+		})
+}
 
+api.userGet = (id) => {
+	let headers = {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	}
 
+	return fetch(`${userUrl}${id}/`, {headers, method: "GET"})
+		.then(res => {
+			if(res.status >= 400) {
+				return {
+					status: res.status
+				}
+			}
+			else {
+				return res.json().then(data => {
+					return {
+						status: res.status,
+						data: data
+					}
+				})
+			}
+		})
+}
 
 
 

@@ -1,4 +1,4 @@
-from .models import Profile, Meeting, Comment, Notification, User
+from .models import Profile, Meeting, Comment, Notification, User, Tag
 from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
@@ -13,8 +13,10 @@ from django.db.utils import IntegrityError
 
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
-    HTTP_200_OK
+    HTTP_200_OK,
+    HTTP_201_CREATED,
 )
 
 class ProfileList(generics.ListCreateAPIView):
@@ -50,6 +52,16 @@ class MeetingList(generics.ListCreateAPIView):
         request.data['comment_set'] = [] # Initially, no comments
         request.data['membership_set'] = [] # Initially, no membership
         request.data['status'] = "0" # Initially, status is recruiting
+        tag_list = request.data['tag'].split()
+        tag_set = []
+        for tag in tag_list:
+            tag_obj = Tag.objects.filter(name=tag)
+            if len(tag_obj) == 0: # Tag doesn't exist, create new tag
+                t = Tag.objects.create(name=tag)
+                tag_set.append(t.id)
+            else:
+                tag_set.append(tag_obj.id)
+        request.data['tag_set'] = tag_set
         return self.create(request, *args, **kwargs)
 
     # Post Works
@@ -76,6 +88,7 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
             serialized_comment[str(comment.id)] = data
         # comment id,nickname is necessary!!!
         ret['comments'] = serialized_comment
+        ret['nickname'] = meeting.host.nickname
         return Response(ret, status=HTTP_200_OK)
 
     # DELETE works
@@ -166,9 +179,9 @@ class Register(generics.ListCreateAPIView):
         try:
             user = User.objects.create_user(username=data['email'], password=request.data['password'], email=data['email'])
         except IntegrityError:
-            return Response({"A user with that email already exists."}, status=HTTP_400_BAD_REQUEST)
+            return Response({"A user with that email already exists."}, status=HTTP_403_FORBIDDEN)
         
         Profile.objects.create(user_id=user.id, nickname=data['nickname'], name=data['name'])
-        return Response(status=HTTP_200_OK)
+        return Response(status=HTTP_201_CREATED)
 
     # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"

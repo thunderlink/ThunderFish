@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-rdeux'
+import * as actions from '../actions'
 
 import './Toolbar.css'
 
 import small_logo from '../../logos/small_logo.png'
 
-class Toolbar extends Component {
+class ToolBar extends Component {
 
 	state = {
 		nav: "Notification",
@@ -24,6 +26,12 @@ class Toolbar extends Component {
 	onClickLink = (e) => {
 		e.preventDefault()
 		this.props.history.push(this.state.nav)
+	}
+
+	onSignout = (e) => {
+		e.preventDefault()
+		console.log("yeah")
+		this.props.signout()
 	}
 
 	render() {
@@ -60,8 +68,7 @@ class Toolbar extends Component {
 								Add Meeting
 							</li>
 							<li
-								onMouseOver={this.onHoverLink("/")}
-								onClick={this.onClickLink}
+								onClick={this.onSignout}
 							>
 								Sign Out
 							</li>
@@ -73,4 +80,17 @@ class Toolbar extends Component {
 	}
 }
 
-export default Toolbar
+const mapStateToProps = state => {
+	return {
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		signout: () => {
+			dispatch(actions.user.signout)
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToolBar)

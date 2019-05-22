@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom';
+
 import './Chest.css'
 
 class Chest extends Component {
@@ -20,6 +20,7 @@ class Chest extends Component {
 					<div className="background_photo">
 						<img
 							src="https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+							alt="welcome"
 						/>	
 					</div>
 					<div className="content">

@@ -13,6 +13,7 @@ api.signup = (user) => {
 
 	return fetch(signupUrl, {headers, method: "POST", body})
 		.then(res => {
+			console.log(res)
 			return {
 				status: res.status
 			}

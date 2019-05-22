@@ -9,8 +9,11 @@ SIGN UP
 const backendUrl = 'http://127.0.0.1:8000/'
 
 export function* signupRequest(user) {
-	const status = yield call(api.signup, user)
-	if(status >= 400) {
+	const { status } = yield call(api.signup, user)
+	if(status === 400) {
+		yield put({type: actions.user.SIGNUP_DUPLICATED})
+	}
+	else if(status > 400) {
 		yield put({type: actions.user.SIGNUP_FAILED})
 	}
 	else {

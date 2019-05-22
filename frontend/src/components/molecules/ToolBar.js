@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../../actions'
 
 import './ToolBar.css'
 
@@ -26,6 +28,11 @@ class ToolBar extends Component {
 		this.props.history.push(this.state.nav)
 	}
 
+	onSignout = (e) => {
+		e.preventDefault()
+		this.props.signout()
+		this.props.history.push("/")
+	}
 	render() {
 		return (
 			<header className="toolbar">
@@ -61,7 +68,7 @@ class ToolBar extends Component {
 							</li>
 							<li
 								onMouseOver={this.onHoverLink("/")}
-								onClick={this.onClickLink}
+								onClick={this.onSignout}
 							>
 								Sign Out
 							</li>
@@ -73,4 +80,17 @@ class ToolBar extends Component {
 	}
 }
 
-export default ToolBar
+const mapStateToProps = state => {
+	return {
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		signout: () => {
+			dispatch(actions.user.signout())
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToolBar)

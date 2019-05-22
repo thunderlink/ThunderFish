@@ -30,11 +30,24 @@
 	font-size: 1.5rem;
 }
 
-.register .field input {
+.register .field .text_field {
 	text-align: center;
 	font-size: 1.2rem;
 	height: 1.5rem;
 	width: 16rem;
+}
+
+.register .field .gender_select {
+	padding: 0;
+	height: auto;
+	width: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.register .field .radio_field {
+	padding: 0 1rem;
 }
 
 .register .field .reg_form .description {

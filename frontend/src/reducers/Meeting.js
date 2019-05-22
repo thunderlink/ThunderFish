@@ -103,6 +103,7 @@ export default function meeting(state=initialState, action) {
 		case "PUT_MEETING":
 			return{
 				...state,
+				requestDone : true,
 				meetingElement : action.meeting
 			};
 		case "DELETE_MEETING":

@@ -132,11 +132,10 @@ api.get = (url, token) => {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	}
-		/*
+
 	if(token) {
 		headers = {...headers, 'Authorization': `Token ${token}`}
 	}
-	*/
 	return request(url, {headers, method: "GET"})
 }
 

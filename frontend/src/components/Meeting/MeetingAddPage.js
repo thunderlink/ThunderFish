@@ -30,7 +30,7 @@ class MeetingAddPage extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault()
-		this.props.postMeetingRequest(this.meetingSerializer(), this.state.token)
+		this.props.postMeetingRequest(this.meetingSerializer())
 	}
 	
 

@@ -89,30 +89,23 @@ export default function meeting(state=initialState, action) {
 		*/
 		case "GET_MEETING":
 			return{
-				/*
-				// what is this?
-				 */
-
+				...state,
+				meetingElement : action.meeting
 			}
 		case "POST_MEETING":
 			return{
 				...state,
-				meetingList : [...state.meetingList , action.meeting]
+				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":
-			let index = action.index
-			let meeting = action.meeting
 			return{
 				...state,
-				meetingList : state.meetingList.map(
-					(item) => item.id === index ? meeting : item
-				)
+				meetingElement : action.meeting
 			};
 		case "DELETE_MEETING":
 			return{
 				...state,
-				meetingList : state.meetingList.filter(
-					(item) => item.id !== action.index)
+				meetingList : emptyMeeting
 			};
 
 		case "GET_MEETING_LIST":

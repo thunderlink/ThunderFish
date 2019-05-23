@@ -9,6 +9,8 @@ export default function comment(state=initialState, action) {
 	switch (action.type) {
 		case "GET_COMMENT":
 		case "POST_COMMENT":
+			return state
+				/*
 			return{
 				...state,
 				meetingElement : {
@@ -16,8 +18,10 @@ export default function comment(state=initialState, action) {
 					comment : [...state.meetingElement.comment, action.comment]
 				}
 			}
-
+			*/
 		case "PUT_COMMENT":
+			return state
+				/*
 			return{
 				...state,
 				meetingElement : {
@@ -27,8 +31,11 @@ export default function comment(state=initialState, action) {
 					)
 				}
 			}
+			*/
 
 		case "DELETE_COMMENT":
+			return state
+				/*
 			return{
 				...state,
 				meetingElement : {
@@ -38,6 +45,7 @@ export default function comment(state=initialState, action) {
 					)
 				}
 			}
+			*/
 		default:
 			return state;
 	}

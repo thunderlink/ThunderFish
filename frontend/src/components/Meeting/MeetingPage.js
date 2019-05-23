@@ -14,20 +14,23 @@ import './MeetingPage.css'
 
 class MeetingPage extends Component {
 
+	state = {
+		newComment: ""
+	}
+
 	constructor(props) {
 		super(props);
-		//console.log(this.props.match.params.id);
+		this.props.waitRequest()
 		this.props.getMeetingRequest(this.props.match.params.id)
 		this.routeChange = this.routeChange.bind(this);
 	}
 
 	componentWillMount() {
-
 		//this.createMap()
 	}
 
-	state = {
-		flag : false
+	componentWillUnmount() {
+		this.props.waitRequest()
 	}
 
 	createMap() {
@@ -58,6 +61,15 @@ class MeetingPage extends Component {
 
 	routeChange = () => {
 		this.props.history.push('/meeting/'+this.props.meetingElement.id+'/edit')
+
+	onSubmitCommentHandler = (e) => {
+		e.preventDefault()
+		this.props.postCommentRequest(this.props.meetingElement.id, this.state.newComment)
+	}
+
+	onPutHandler = (e) => {
+		e.preventDefault()
+		this.props.putMeetingRequest(/* TODO :: meeting*/)
 	}
 
 	onDeleteHandler = (e) => {
@@ -67,9 +79,8 @@ class MeetingPage extends Component {
 	}
 
 	render() {
-		return (this.props.meetingElement == undefined) ?
-			(<div> Loading... </div>) :
-			(
+		return (!this.props.loadDone) ?
+			(<div> Loading... </div>) : (
 			<div className="meeting_page">
 				<Route component={SearchBar} />
 				<div className="header">
@@ -136,8 +147,18 @@ class MeetingPage extends Component {
 						}
 
 					</div>
+					<div className="add_comments">
+						<form onSubmit={this.onSubmitCommentHandler}>
+							<input 
+								type="text" 
+								onChange={e => this.setState({newComment: e.target.value})}
+								id="new_comment"
+							/>
+							<button type="submit"> 작성하기 </button>
+						</form>
+					</div>
 				</div>
-				<div className="buttons">
+				<div className="meeting_buttons">
 					<button onClick={this.routeChange} > 수정 </button>
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
@@ -145,6 +166,7 @@ class MeetingPage extends Component {
 		)
 	}
 }
+
 /*
 						{this.props.meetingElement.tag.map(item => (
 							<li key={`tag_${item.id}_${item}`}>
@@ -152,11 +174,11 @@ class MeetingPage extends Component {
 							</li>
 						))}
 							*/
+
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
-		requestDone: state.meeting.requestDone,
-		getDone: state.meeting.getDone
+		loadDone: state.meeting.loadDone
 	}
 }
 
@@ -168,8 +190,12 @@ const mapDispatchToProps = dispatch => {
 		deleteMeetingRequest: (index) => {
 			dispatch(actions.meeting.deleteMeetingRequest(index))
 		},
-
-
+		waitRequest: () => {
+			dispatch(actions.meeting.waitRequest())
+		},
+		postCommentRequest: (id, text) => {
+			dispatch(actions.comment.postCommentRequest(id, text))
+		}
 	}
 }
 

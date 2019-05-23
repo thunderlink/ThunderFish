@@ -230,34 +230,37 @@ I HAVE NOT DONE IT BECAUSE ACTION IS NOT SURE
 
 *** WE DON'T NEED "GET"
  */
-/*
-// POST 'comment/'
-export function* postCommentRequest(token, comment) {
 
-	const { status, data } = yield call(api.post, backendUrl+'comment/', comment, token)
-	if(status === 200) {
-		yield put({type: actions.comment.POST_COMMENT, //TODO::action might be edited
-		comment : comment})
+// POST 'comment/'
+export function* postCommentRequest(id, text) {
+
+	const token = yield localStorage.getItem("token")
+	
+	const { status, data } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: id, comment_text: text}, token)
+	if(status < 300) {
+		yield put({type: actions.comment.POST_COMMENT})
 	}
 	else{
 		yield put({type: actions.comment.FAILURE // dummy action 
 		})
-		// I think we should do ERROR HANDLING using "Catch"
 	}
+
 }
 export function* watchPostCommentRequest() {
 	while(true) {
-		const { comment, token } = yield take(actions.comment.postCommentRequest)
-		yield call(postCommentRequest, token, comment)
+		const { id, text } = yield take(actions.comment.POST_COMMENT_REQUEST)
+		yield call(postCommentRequest, id, text)
 	}
 }
 
 // PUT 'comment/'
-export function* putCommentRequest(token, comment, index) {
-
-	const { status, data } = yield call(api.put, backendUrl+'comment/'+index+'/', comment, token)
-	if(status === 200) {
-		yield put({type: actions.comment.PUT_COMMENT, comment : comment, index : index})
+export function* putCommentRequest(id, text) {
+	console.log(id)
+	console.log(text)
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
+	if(status < 300) {
+		yield put({type: actions.comment.PUT_COMMENT})
 		//TODO::action might be edited
 	}
 	else{
@@ -268,15 +271,14 @@ export function* putCommentRequest(token, comment, index) {
 }
 export function* watchPutCommentRequest() {
 	while(true) {
-		const { comment, token, index } = yield take(actions.comment.putCommentRequest)
-		yield call(putCommentRequest, token, comment, index)
+		const { id, text } = yield take(actions.comment.PUT_COMMENT_REQUEST)
+		yield call(putCommentRequest, id, text)
 	}
 }
-*/
-/*
+
 // DELETE 'comment/id'
+
 export function* deleteCommentRequest(index) {
-	console.log(index)
 	const token = yield localStorage.getItem("token")
 	const { status } = yield call(api.delete, , token)
 	if(status < 300) {
@@ -291,8 +293,8 @@ export function* deleteCommentRequest(index) {
 }
 export function* watchDeleteCommentRequest() {
 	while(true) {
-		const { index } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
-		yield call(deleteCommentRequest, index)
+		const { id } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
+		yield call(deleteCommentRequest, id)
 	}
 }
 */
@@ -359,17 +361,15 @@ export default function* rootSaga() {
 
 	yield fork(watchGetMeetingRequest)
 	yield fork(watchPostMeetingRequest)
+
 	yield fork(watchPutMeetingRequest)
-
 	yield fork(watchDeleteMeetingRequest)
-	/*
-yield fork(watchSearchMeetingRequest)
 
-yield fork(watchPostCommentRequest)
-yield fork(watchPutCommentRequest)
+	//yield fork(watchSearchMeetingRequest)
 
+	yield fork(watchPostCommentRequest)
+	yield fork(watchPutCommentRequest)
+	yield fork(watchDeleteCommentRequest)
 
-*/
-	//	yield fork(watchDeleteCommentRequest)
 	yield fork(watchGetUserRequest)
 }

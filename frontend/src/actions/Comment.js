@@ -6,6 +6,8 @@ export const GET_COMMENT = "GET_COMMENT"
 export const POST_COMMENT = "POST_COMMENT"
 export const PUT_COMMENT = "PUT_COMMENT"
 export const DELETE_COMMENT= "DELETE_COMMENT"
+
+//case of key-duplicate. should be renamed.
 export const FAILURE= "FAILURE"
 
 export const getCommentRequest = (index/*which meeting?*/, user/*or token? for authentication */) => {
@@ -16,62 +18,25 @@ export const getCommentRequest = (index/*which meeting?*/, user/*or token? for a
     }
 }
 
-export const postCommentRequest = (comment, token) => {
-    return {
-        type: "POST_COMMENT_REQUEST",
-        comment,
-        token
-    }
+export const postCommentRequest = (id, text) => {
+	return {
+		type: "POST_COMMENT_REQUEST",
+		id,
+		text
+	}
 }
 
-export const putCommentRequest = (index, comment, token) => {
-    return {
-        type: "PUT_COMMENT_REQUEST",
-        index,
-        comment,
-        token
-    }
+export const putCommentRequest = (id, text) => {
+	return {
+    type: "PUT_COMMENT_REQUEST",
+		id,
+		text
+  }
 }
 
-export const deleteCommentRequest = (index, token) => {
-    return {
-        type: "DELETE_COMMENT_REQUEST",
-        index,
-        token
-    }
-}
-
-export const getComment = (comments) => {
-    return {
-        type: "GET_COMMENT",
-        comments
-    }
-}
-
-export const postComment = (comment) => {
-    return {
-        type: "POST_COMMENT",
-        comment
-    }
-}
-
-export const putComment = (index, comment) => {
-    return {
-        type: "PUT_COMMENT",
-        index,
-        comment
-    }
-}
-
-export const deleteComment = (index) => {
-    return {
-        type: "DELETE_COMMENT",
-        index
-    }
-}
-
-export const failure = () => {
-    return {
-        type: "FAILURE"
-    }
+export const deleteCommentRequest = (id) => {
+  return {
+		type: "DELETE_COMMENT_REQUEST",
+		id
+	}
 }

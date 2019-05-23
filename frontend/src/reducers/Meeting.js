@@ -72,7 +72,11 @@ export const initialState = {
 	meetingElement: emptyMeeting, //holds one meeting
 	searchText: "", //holds the search query of meeting
 	searchOption: {}, //holds the search option of meeting
-	requestDone: false,
+
+	loadDone: false,
+	loadFailed: false,
+	postDone: false,
+	requestError: 0,
 }
 
 export default function meeting(state=initialState, action) {
@@ -86,19 +90,25 @@ export default function meeting(state=initialState, action) {
 			return state;
 		case "SEARCH_MEETING":
 			return state;
-
-		*/
-
+*/
+      
+		case "WAIT_REQUEST":
+		console.log("requestDone!")
+			return{
+				...state,
+				postDone: false,
+				loadDone: false
+			}
 		case "GET_MEETING":
 			return{
 				...state,
-				getDone : true,
+				loadDone : true,
 				meetingElement : action.meeting
 			}
 		case "POST_MEETING":
 			return{
 				...state,
-				requestDone : true,
+				postDone : true,
 				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":

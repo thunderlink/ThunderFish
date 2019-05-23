@@ -4,40 +4,81 @@ import * as actions from '../../actions'
 
 class Comments extends Component {
 
-    onPutHandler = (e) => {
-        e.preventDefault()
-        this.props.putComment(this.props.commentDetail.id /* TODO :: comment*/)
-    }
+	state = {
+		editTry: false,
+		editText: ""
+	}	
+	
+	constructor(props) {
+		super(props)
+		this.state.editTry = false
+		this.state.editText = this.props.commentDetail.comment_text
+	}
 
-    onDeleteHandler = (e) => {
-        e.preventDefault()
-        this.props.deleteComment(this.props.commentDetail.id)
-		}
+	onSubmitHandler = (e) => {
+		e.preventDefault()
+		this.props.putCommentRequest(this.props.commentDetail.id, this.state.editText)
+	}
+	onEditHandler = (e) => {
+		e.preventDefault()
+		this.setState((prevState) => {
+			return {...prevState, editTry: !prevState.editTry}
+		})
+		//this.props.putComment(this.props.commentDetail.id /* TODO :: comment*/)
+	}
+
+	onDeleteHandler = (e) => {
+		e.preventDefault()
+		this.props.deleteComment(this.props.commentDetail.id)
+	}
 
 	render() {
-        return (
-            <div className="comment">
-                <div className="header">
-                    <div className="header_left">
-                        <div className="username">
-                            <h2> {this.props.commentDetail.nickname} </h2>
-                        </div>
-                        <div className="text">
-                            <h2> {this.props.commentDetail.comment_text}</h2>
-                        </div>
-                    </div>
-                    <div className="content">
-                    </div>
-                </div>
-                <button onClick={this.onPutHandler}>
-                    수정
-                </button>
-                <button onClick={this.onDeleteHandler}>
-                    삭제
-                </button>
-            </div>
-        )
-    }
+		return (
+			<div className="comment">
+				<div className="header">
+					<div className="header_left">
+						<div className="username">
+							<h2> {this.props.commentDetail.nickname} </h2>
+						</div>
+						{(this.state.editTry) ? (
+							<form>
+								<input 
+									type="text"
+									value={this.state.editText}
+									onChange={(e)=>this.setState({editText: e.target.value})}
+								/>
+							</form>						
+								) : (
+							<div className="text">
+								<h2> {this.props.commentDetail.comment_text}</h2>
+							</div>
+						)}
+					</div>
+					<div className="content">
+					</div>
+				</div>
+				{(this.state.editTry) ? (
+					<div>
+						<button onClick={this.onSubmitHandler}>
+							확인
+						</button>
+						<button onClick={this.onEditHandler}>
+							취소
+						</button>
+					</div>
+				) : (
+					<div>
+						<button onClick={this.onEditHandler}>
+							수정
+						</button>
+						<button onClick={this.onDeleteHandler}>
+							삭제
+						</button>
+					</div>
+				)}
+			</div>
+		)
+	}
 }
 
 const mapStateToProps = state => {
@@ -47,11 +88,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteComment: (id, token) => {
-            dispatch(actions.comment.deleteCommentRequest(id, token))
+        deleteComment: (id) => {
+            dispatch(actions.comment.deleteCommentRequest(id))
         },
-        putComment: (id, comment, token) => {
-            dispatch(actions.comment.putCommentRequest(id, comment, token))
+        putCommentRequest: (id, text) => {
+            dispatch(actions.comment.putCommentRequest(id, text))
         }
         ,
     }

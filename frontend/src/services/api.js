@@ -95,69 +95,36 @@ api.userGet = (id) => {
 		})
 }
 
-function request(url, headers, body) {
-	let options;
-	if(body === undefined) {
-		console.log(headers)
-		return fetch(url, headers)
-			.then(res => {
-				if(res.status >= 500) {
-					console.log("Internal error: " + res.status)
+function request(url, options) {
+	return fetch(url, options)
+		.then(res => {
+			if(res.status >= 500) {
+				console.log("Internal error: " + res.status)
+				return {
+					status: res.status
+				}
+			}
+			else if(res.status >= 400) {
+				console.log("Request error: " + res.status)
+				return {
+					status: res.status
+				}
+			}
+			else if(res.status === 204) {
+				//delete
+				return {
+					status: res.status
+				}
+			}
+			else {
+				return res.json().then(data => {
 					return {
-						status: res.status
+						status: res.status,
+						data: data
 					}
-				}
-				else if(res.status >= 400) {
-					console.log("Request error: " + res.status)
-					return {
-						status: res.status
-					}
-				}
-				else if(res.status === 204) {
-					return {
-						status: res.status
-					}
-				}
-				else {
-					//console.log(res)
-						return {
-							status: res.status,
-						}
-
-				}
-			})
-	}
-	else {
-		console.log({headers, body})
-		return fetch(url, {headers, body})
-			.then(res => {
-				if(res.status >= 500) {
-					console.log("Internal error: " + res.status)
-					return {
-						status: res.status
-					}
-				}
-				else if(res.status >= 400) {
-					console.log("Request error: " + res.status)
-					return {
-						status: res.status
-					}
-				}
-				else if(res.status === 204) {
-					return {
-						status: res.status
-					}
-				}
-				else {
-					return res.json().then(data => {
-						return {
-							status: res.status,
-							data: data
-						}
-					})
-				}
-			})
-	}
+				})
+			}
+		})
 }
 
 api.get = (url, token) => {
@@ -193,30 +160,7 @@ api.post = (url, data, token) => {
 	}
 	let body = JSON.stringify(data)
 
-	return fetch(url, {headers, method: "POST", body})
-		.then(res => {
-			if(res.status >= 500) {
-				console.log("Internal error: " + res.status)
-				return {
-					status: res.status
-				}
-			}
-			else if(res.status >= 400) {
-				console.log("Request error: " + res.status)
-				return {
-					status: res.status
-				}
-			}
-			else {
-
-				return res.json().then(data => {
-					return {
-						status: res.status,
-						data: data
-					}
-				})
-			}
-		})
+	return request(url, {headers, method: "POST", body})
 }
 
 api.put = (url, data, token) => {
@@ -236,7 +180,6 @@ api.delete = (url, token) => {
 		'Content-Type': 'application/json',
 		'Authorization': `Token ${token}`
 	}
-
 
 	return request(url, {headers, method: "DELETE"})
 }

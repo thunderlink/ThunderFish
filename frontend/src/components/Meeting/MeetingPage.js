@@ -19,10 +19,10 @@ class MeetingPage extends Component {
 	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.props.waitRequest()
 		this.props.getMeetingRequest(this.props.match.params.id)
-		this.routeChange = this.routeChange.bind(this);
+		this.routeChange = this.routeChange.bind(this)
 	}
 
 	componentWillMount() {
@@ -60,7 +60,8 @@ class MeetingPage extends Component {
 	}
 
 	routeChange = () => {
-		this.props.history.push('/meeting/'+this.props.meetingElement.id+'/edit')
+		this.props.history.push(`/meeting/${this.props.meetingElement.id}/edit`)
+	}
 
 	onSubmitCommentHandler = (e) => {
 		e.preventDefault()
@@ -79,8 +80,9 @@ class MeetingPage extends Component {
 	}
 
 	render() {
-		return (!this.props.loadDone) ?
-			(<div> Loading... </div>) : (
+		return (!this.props.loadDone) ? (
+			<div> Loading... </div>
+		) : (
 			<div className="meeting_page">
 				<Route component={SearchBar} />
 				<div className="header">
@@ -97,7 +99,7 @@ class MeetingPage extends Component {
 					<div className="content">
 						<h3> 호스트 </h3>
 						<div className="host_info">
-							<p> {this.props.meetingElement.host} </p>
+							<p> {this.props.meetingElement.nickname} </p>
 							<p> User info </p>
 						</div>
 						<h3> 날짜 </h3>
@@ -135,17 +137,13 @@ class MeetingPage extends Component {
 					<hr />
 					<div>
 						{
-							(this.props.meetingElement.comments !== undefined) ?
-
 							Object.keys(this.props.meetingElement.comments).map(key => (
 							<Comments
 							key={`comment_${key}`}
 							commentDetail={this.props.meetingElement.comments[key]}
 							/>
 							))
-								: <h2>No Comment</h2>
 						}
-
 					</div>
 					<div className="add_comments">
 						<form onSubmit={this.onSubmitCommentHandler}>
@@ -163,8 +161,7 @@ class MeetingPage extends Component {
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
 			</div>
-		)
-	}
+		)}
 }
 
 /*

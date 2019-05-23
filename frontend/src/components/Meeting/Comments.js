@@ -24,7 +24,6 @@ class Comments extends Component {
 		this.setState((prevState) => {
 			return {...prevState, editTry: !prevState.editTry}
 		})
-		//this.props.putComment(this.props.commentDetail.id /* TODO :: comment*/)
 	}
 
 	onDeleteHandler = (e) => {

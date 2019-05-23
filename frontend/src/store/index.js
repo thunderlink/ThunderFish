@@ -106,7 +106,7 @@ export function* watchUserSetRequest() {
 
 export function* getMeetingRequest(index) {
 	const { status, data } = yield call(api.get, `${meetingUrl}${index}/`)
-
+	console.log(data)
 	if(status >= 400) {
 		yield put({type: actions.meeting.REQUEST_FAILURE})
 	}
@@ -279,16 +279,14 @@ export function* watchPutCommentRequest() {
 // DELETE 'comment/id'
 
 export function* deleteCommentRequest(index) {
+	console.log("deelelele")
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, , token)
+	const { status } = yield call(api.delete, `${backendUrl}comment/${index}/`, token)
 	if(status < 300) {
-		yield put({type: actions.comment.DELETE_COMMENT,  index : index})
-		//TODO::action might be edited
+		yield put({type: actions.comment.DELETE_COMMENT})
 	}
 	else{
-		yield put({type: actions.comment.FAILURE // dummy action 
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		yield put({type: actions.comment.FAILURE})
 	}
 }
 export function* watchDeleteCommentRequest() {
@@ -297,7 +295,6 @@ export function* watchDeleteCommentRequest() {
 		yield call(deleteCommentRequest, id)
 	}
 }
-*/
 
 /*
 *****************************************************

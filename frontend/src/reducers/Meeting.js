@@ -93,30 +93,33 @@ export default function meeting(state=initialState, action) {
 */
       
 		case "WAIT_REQUEST":
-		console.log("requestDone!")
 			return{
 				...state,
 				postDone: false,
 				loadDone: false
 			}
+
 		case "GET_MEETING":
 			return{
 				...state,
 				loadDone : true,
 				meetingElement : action.meeting
 			}
+
 		case "POST_MEETING":
 			return{
 				...state,
 				postDone : true,
 				meetingElement : action.meeting
-			};
+			}
+
 		case "PUT_MEETING":
-				return{
+			return{
 				...state,
 				requestDone : true,
 				meetingElement : action.meeting
-			};
+			}
+
 		case "DELETE_MEETING":
 			return{
 				...state,

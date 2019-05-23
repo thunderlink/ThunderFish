@@ -11,6 +11,9 @@ class SignupSuccess extends Component {
 		this.props.signupDone();
 	}
 
+	onClickKakao = (e) => {
+	}
+
 	render() {
 		return(
 			<div className="register">
@@ -19,11 +22,11 @@ class SignupSuccess extends Component {
 						Welcome
 					</legend>
 					<h1> {`환영합니다, ${this.props.nickname}님!`} </h1>
-					<p className="description"> 
-						{'번개를 만들고 참여하기 위해 다시 '} 
+					<p className="description">
+						{'번개를 만들고 참여하기 위해 다시 '}
 						<Link to='/signin'>로그인</Link>
 						{'해주세요. '}
-					</p>	
+					</p>
 				</fieldset>
 			</div>
 		)

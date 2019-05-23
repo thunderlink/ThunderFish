@@ -6,6 +6,7 @@ import * as actions from '../../actions'
 import SignupSuccess from './SignupSuccess'
 
 import './Register.css'
+import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
 
 class Signup extends Component {
 	state = {
@@ -33,6 +34,9 @@ class Signup extends Component {
 			) : (this.props.signupStatus === 'SUCCESS') ? (
 				<SignupSuccess />
 			) : (
+
+/**/
+
 				<form className="register"
 					onSubmit={this.onSubmitHandler}
 				>
@@ -52,7 +56,7 @@ class Signup extends Component {
 								{(this.props.signupStatus==="DUPLICATED") ? (
 									<div className="dup_warning" >
 										중복된 이메일입니다. <br />
-										다른 이메일을  입력해주세요.	
+										다른 이메일을  입력해주세요.
 									</div>
 								) : (
 									<div />
@@ -97,6 +101,17 @@ class Signup extends Component {
 								<p />
 								<button type="submit">가입하기</button>
 							</div>
+							<br/>
+							혹은
+							<br/>
+							<div>
+								<img
+									src={kakao_account_login_btn}
+									alt="kakao_account_login_btn"
+									className="kakao_account_login_btn"
+									onClick={this.onClickKakao}
+								/>
+							</div>
 						</div>
 					</fieldset>
 				</form>
@@ -121,4 +136,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)
-

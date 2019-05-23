@@ -5,6 +5,8 @@ import * as actions from '../../actions'
 
 import './Register.css'
 
+import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
+
 class Signin extends Component {
 	state = {
 		username: '',
@@ -25,6 +27,8 @@ class Signin extends Component {
 				<Redirect to="/"/>
 			)
 			: (
+				/**/
+
 				<form className="register"
 					onSubmit={this.onSubmitHandler}
 				>
@@ -55,6 +59,17 @@ class Signin extends Component {
 								<p />
 								<button type="submit">로그인</button>
 							</div>
+							<br/>
+							혹은
+							<br/>
+							<div>
+							  <img
+						  		src={kakao_account_login_btn}
+									alt="kakao_account_login_btn"
+									className="kakao_account_login_btn"
+									onClick={this.onClickKakao}
+								/>
+							</div>
 						</div>
 						<div className="description">
 							<br/>
@@ -62,7 +77,8 @@ class Signin extends Component {
 							<Link to="/signup/"> 여기</Link>
 							{"를 눌러 새로운 계정을 만드세요!"}
 						</div>
-					</fieldset>	
+
+					</fieldset>
 				</form>
 			)
 		)

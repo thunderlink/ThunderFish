@@ -26,7 +26,7 @@ class MeetingPage extends Component {
 	}
 
 	componentWillMount() {
-		//this.createMap()
+		this.createMap()
 	}
 
 	componentWillUnmount() {
@@ -35,13 +35,14 @@ class MeetingPage extends Component {
 
 	createMap() {
 		var coord = new daum.maps.LatLng(33.450701, 126.570667)
-
+	
 		var container = document.getElementById('map');
 		var options = {
 			center: coord
 		}
-		var map = new daum.maps.Map(container, options)
 
+		var map = new daum.maps.Map(container, options)
+			/*
 		var zoomControl = new daum.maps.ZoomControl()
 
 		var marker = new daum.maps.Marker({
@@ -57,6 +58,7 @@ class MeetingPage extends Component {
 		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
 		marker.setMap(map)
 		infowindow.open(map, marker)
+		*/
 	}
 
 	routeChange = () => {

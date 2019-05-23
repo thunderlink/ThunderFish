@@ -1,0 +1,19 @@
+matrix:
+  include:
+    - language: python
+      python : 3.6
+      before_script:
+        - cd backend
+      install:
+        - pip install -r requirements.txt
+      script:
+        - python manage.py __tests__
+
+    - language: node_js
+      node_js:
+        - v10
+      before_install:
+        - cd frontend
+      before_script:
+      script:
+        - npm __tests__ -- --coverage && npm __tests__

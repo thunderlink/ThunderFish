@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from '../../logos/logo_renewal.png'
 import { Route } from 'react-router-dom'
 
 import SearchBar from '../molecules/SearchBar'
@@ -13,7 +12,7 @@ class Main extends Component {
 	render() {
 		return (
 			<div className="main_page">
-				<Route component={SearchBar} />
+				<Route component= {SearchBar} />
 				<Route component= {Chest} />
 				<Route component= {Leg} />
 			</div>

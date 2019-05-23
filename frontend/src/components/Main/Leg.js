@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+
 import './Leg.css'
+
 import { Category } from '../category.js'
 
 class Leg extends Component {
@@ -21,6 +22,7 @@ class Leg extends Component {
 					<ul className="list_big">
 						{Category.map((item, index) => (
 							<li
+								key={`key_${item}_${index}`}
 								onMouseOver={e => this.setState({currentTab: index})}
 							> 
 								{item.big}
@@ -30,8 +32,9 @@ class Leg extends Component {
 				</div>
 				<div className="category_small">
 					<ul className="list_small">
-						{Category[this.state.currentTab].small.map((item) => (
+						{Category[this.state.currentTab].small.map((item, index) => (
 							<li
+								key={`key_${item}_${index}`}
 								onClick={this.onClickLink(item)}
 							>
 								{item}

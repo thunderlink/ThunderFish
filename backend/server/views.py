@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .permissions import IsOwner
+from django.db.utils import IntegrityError
 
 
 from rest_framework.status import (
@@ -25,13 +26,28 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
 
 class MeetingList(generics.ListCreateAPIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
+    def post(self, request, *args, **kwargs):
+        request.data['host'] = request.user.id # Set host as request user's id
+        request.data['comment_set'] = [] # Initially, no comments
+        request.data['membership_set'] = [] # Initially, no membership
+        request.data['status'] = "0" # Initially, status is recruiting
+        return self.create(request, *args, **kwargs)
+
+    # Post Works
+    # http -v POST http://127.0.0.1:8000/meetings/ name="testing meeting" "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e" max_participant="5" content="Test Meeting Content" date="2018-01-01T00:00:00+09:00" deadline="2019-05-15T17:47:18.999698Z" tag_set:='[3, 4]'
+
+
 class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
+
+    # DELETE works
+    # http -v DELETE http://127.0.0.1:8000/meetings/7/ "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e"
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner, )
@@ -90,20 +106,25 @@ def Login(request):
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     key = {'token': token.key}
-    profile = Profile.objects.get(pk=user.id) # get user's profile
+    print(user.id)
+    profile = Profile.objects.get(pk=user.profile.id) # get user's profile
     ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
     return Response(ret, status=HTTP_200_OK)
 
     # Post Works
-    # http -v POST http://127.0.0.1:8000/signin/ username="zx" password="123"
+    # http -v POST http://127.0.0.1:8000/signin/ username="test2" password="doffltmqkqh"
 
 class Register(generics.ListCreateAPIView):
     permission_classes = (AllowAny, )
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        user = User.objects.create_user(username=data['username'], password=request.data['password'])
-        Profile.objects.create(user_id=user.id, gender=data['gender'], nickname=data['nickname'], name=data['name'])
+        try:
+            user = User.objects.create_user(username=data['email'], password=request.data['password'], email=data['email'])
+        except IntegrityError:
+            return Response({"A user with that email already exists."}, status=HTTP_400_BAD_REQUEST)
+        
+        Profile.objects.create(user_id=user.id, nickname=data['nickname'], name=data['name'])
         return Response(status=HTTP_200_OK)
 
-    # http -v POST http://127.0.0.1:8000/signup/ username="zxc" password="123" gender="1" nickname="cxz" name="zxc zxc"
+    # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"

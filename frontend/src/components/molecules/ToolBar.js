@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-rdeux'
-import * as actions from '../actions'
+import { connect } from 'react-redux'
+import * as actions from '../../actions'
 
-import './Toolbar.css'
+import './ToolBar.css'
 
 import small_logo from '../../logos/small_logo.png'
 
@@ -11,6 +11,11 @@ class ToolBar extends Component {
 	state = {
 		nav: "Notification",
 		user: 0
+	}
+
+	constructor(props) {
+		super(props)
+		this.props.userSetRequest()
 	}
 
 	onClickLogo = (e) => {
@@ -30,10 +35,9 @@ class ToolBar extends Component {
 
 	onSignout = (e) => {
 		e.preventDefault()
-		console.log("yeah")
 		this.props.signout()
+		this.props.history.push("/")
 	}
-
 	render() {
 		return (
 			<header className="toolbar">
@@ -56,7 +60,7 @@ class ToolBar extends Component {
 								Notification
 							</li>
 							<li
-								onMouseOver={this.onHoverLink(`/user/${this.state.user}`)}
+								onMouseOver={this.onHoverLink(`/user/${this.props.user}`)}
 								onClick={this.onClickLink}
 							>
 								My Page
@@ -68,6 +72,7 @@ class ToolBar extends Component {
 								Add Meeting
 							</li>
 							<li
+								onMouseOver={this.onHoverLink("/")}
 								onClick={this.onSignout}
 							>
 								Sign Out
@@ -82,13 +87,17 @@ class ToolBar extends Component {
 
 const mapStateToProps = state => {
 	return {
+		user: state.user.id
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
 		signout: () => {
-			dispatch(actions.user.signout)
+			dispatch(actions.user.signout())
+		},
+		userSetRequest: () => {
+			dispatch(actions.user.userSetRequest())
 		}
 	}
 }

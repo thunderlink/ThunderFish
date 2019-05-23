@@ -14,14 +14,22 @@ import './MeetingPage.css'
 
 class MeetingPage extends Component {
 
+	state = {
+		newComment: ""
+	}
+
 	constructor(props) {
 		super(props);
-		console.log(this.props.match.params.id)
+		this.props.waitRequest()
 		this.props.getMeetingRequest(this.props.match.params.id);
 	}
 
 	componentDidMount() {
 		//this.createMap()
+	}
+
+	componentWillUnmount() {
+		this.props.waitRequest()
 	}
 
 	createMap() {
@@ -50,6 +58,11 @@ class MeetingPage extends Component {
 		infowindow.open(map, marker)
 	}
 
+	onSubmitCommentHandler = (e) => {
+		e.preventDefault()
+		this.props.postCommentRequest(this.props.meetingElement.id, this.state.newComment)
+	}
+
 	onPutHandler = (e) => {
 		e.preventDefault()
 		this.props.putMeetingRequest(/* TODO :: meeting*/)
@@ -61,7 +74,7 @@ class MeetingPage extends Component {
 	}
 
 	render() {
-		return (!this.props.requestDone) ?
+		return (!this.props.loadDone) ?
 			(<div> Loading... </div>) : (
 			<div className="meeting_page">
 				<Route component={SearchBar} />
@@ -125,8 +138,18 @@ class MeetingPage extends Component {
 							))
 						}
 					</div>
+					<div className="add_comments">
+						<form onSubmit={this.onSubmitCommentHandler}>
+							<input 
+								type="text" 
+								onChange={e => this.setState({newComment: e.target.value})}
+								id="new_comment"
+							/>
+							<button type="submit"> 작성하기 </button>
+						</form>
+					</div>
 				</div>
-				<div className="buttons">
+				<div className="meeting_buttons">
 					<button onClick={this.onPutHandler}> 수정 </button>
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
@@ -134,6 +157,7 @@ class MeetingPage extends Component {
 		)
 	}
 }
+
 /*
 						{this.props.meetingElement.tag.map(item => (
 							<li key={`tag_${item.id}_${item}`}>
@@ -141,10 +165,11 @@ class MeetingPage extends Component {
 							</li>
 						))}
 							*/
+
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
-		requestDone: state.meeting.requestDone
+		loadDone: state.meeting.loadDone
 	}
 }
 
@@ -159,8 +184,12 @@ const mapDispatchToProps = dispatch => {
 		deleteMeetingRequest: () => {
 			dispatch(actions.meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
 		},
-
-
+		waitRequest: () => {
+			dispatch(actions.meeting.waitRequest())
+		},
+		postCommentRequest: (id, text) => {
+			dispatch(actions.comment.postCommentRequest(id, text))
+		}
 	}
 }
 

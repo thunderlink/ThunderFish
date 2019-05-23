@@ -15,6 +15,11 @@ class MeetingAddPage extends Component {
 		tag: '',
 	}
 
+	constructor(props) {
+		super(props)
+		this.props.waitRequest();
+	}
+
 	meetingSerializer = () => {
 		return {
 			//photo: this.state.photo,
@@ -35,7 +40,7 @@ class MeetingAddPage extends Component {
 	
 
 	render() {
-		return (this.props.requestDone) ? (
+		return (this.props.postDone) ? (
 			<Redirect to={`/meeting/${this.props.meetingElement.id}/`} />
 		) : (
 			<div className="meeting_add_page">
@@ -101,7 +106,7 @@ class MeetingAddPage extends Component {
 
 const mapStateToProps = state => {
 	return {
-		requestDone: state.meeting.requestDone,
+		postDone: state.meeting.postDone,
 		meetingElement : state.meeting.meetingElement
 	}
 }
@@ -111,6 +116,9 @@ const mapDispatchToProps = dispatch => {
 		postMeetingRequest : (meeting) => {
 			dispatch(actions.meeting.postMeetingRequest(meeting))
 		},
+		waitRequest: () => {
+			dispatch(actions.meeting.waitRequest())
+		}
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MeetingAddPage)

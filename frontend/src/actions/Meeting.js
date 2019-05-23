@@ -5,6 +5,7 @@
 
 /********************* CONSTANTS ******************************/
 
+export const WAIT_REQUEST = "WAIT_REQUEST"
 /* Actions for single meeting requests.
  */
 export const GET_MEETING_REQUEST = "GET_MEETING_REQUEST"
@@ -49,6 +50,13 @@ export const EDIT_MEETING = "EDIT_MEETING"
 export const REMOVE_MEETING = "REMOVE_MEETING"
 
 /******************** END OF CONSTANTS *********************/
+
+export const waitRequest = () => {
+	return {
+		type: "WAIT_REQUEST"
+	}
+}
+
 
 export const getMeetingRequest = (index) => {
 	console.log(index)

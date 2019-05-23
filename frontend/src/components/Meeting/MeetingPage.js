@@ -21,10 +21,11 @@ class MeetingPage extends Component {
 	constructor(props) {
 		super(props);
 		this.props.waitRequest()
-		this.props.getMeetingRequest(this.props.match.params.id);
+		this.props.getMeetingRequest(this.props.match.params.id)
+		this.routeChange = this.routeChange.bind(this);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		//this.createMap()
 	}
 
@@ -58,6 +59,9 @@ class MeetingPage extends Component {
 		infowindow.open(map, marker)
 	}
 
+	routeChange = () => {
+		this.props.history.push('/meeting/'+this.props.meetingElement.id+'/edit')
+
 	onSubmitCommentHandler = (e) => {
 		e.preventDefault()
 		this.props.postCommentRequest(this.props.meetingElement.id, this.state.newComment)
@@ -70,7 +74,8 @@ class MeetingPage extends Component {
 
 	onDeleteHandler = (e) => {
 		e.preventDefault()
-		this.props.deleteComment()
+		this.props.deleteMeetingRequest(this.props.meetingElement.id)
+		this.props.history.push('/')
 	}
 
 	render() {
@@ -130,13 +135,17 @@ class MeetingPage extends Component {
 					<hr />
 					<div>
 						{
+							(this.props.meetingElement.comments !== undefined) ?
+
 							Object.keys(this.props.meetingElement.comments).map(key => (
-								<Comments
-									key={`comment_${key}`}
-									commentDetail={this.props.meetingElement.comments[key]}
-								/>
+							<Comments
+							key={`comment_${key}`}
+							commentDetail={this.props.meetingElement.comments[key]}
+							/>
 							))
+								: <h2>No Comment</h2>
 						}
+
 					</div>
 					<div className="add_comments">
 						<form onSubmit={this.onSubmitCommentHandler}>
@@ -150,7 +159,7 @@ class MeetingPage extends Component {
 					</div>
 				</div>
 				<div className="meeting_buttons">
-					<button onClick={this.onPutHandler}> 수정 </button>
+					<button onClick={this.routeChange} > 수정 </button>
 					<button onClick={this.onDeleteHandler}> 삭제 </button>
 				</div>
 			</div>
@@ -178,11 +187,8 @@ const mapDispatchToProps = dispatch => {
 		getMeetingRequest: (index) => {
 			dispatch(actions.meeting.getMeetingRequest(index))
 		},
-		putMeetingRequest: (meeting) => {
-			dispatch(actions.meeting.putMeetingRequest(this.props.token, meeting, this.props.meetingElement.id))
-		},
-		deleteMeetingRequest: () => {
-			dispatch(actions.meeting.deleteMeetingRequest(this.props.token, this.props.meetingElement.id))
+		deleteMeetingRequest: (index) => {
+			dispatch(actions.meeting.deleteMeetingRequest(index))
 		},
 		waitRequest: () => {
 			dispatch(actions.meeting.waitRequest())

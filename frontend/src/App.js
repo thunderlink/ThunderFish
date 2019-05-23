@@ -18,6 +18,7 @@ import Userpage from "./components/Userpage/Userpage"
 import MeetingPage from "./components/Meeting/MeetingPage"
 import SearchPage from "./components/Search/SearchPage"
 import MeetingAddPage from "./components/Meeting/MeetingAddPage"
+import MeetingEditPage from "./components/Meeting/MeetingEditPage"
 import Reloader from "./Reloader"
 
 import './App.css'
@@ -44,6 +45,7 @@ class App extends Component {
 								<Route exact path="/user/:id" component={Userpage} />
 								<Route exact path="/meeting/add" component={MeetingAddPage}/>
 								<Route exact path="/meeting/:id" component={MeetingPage} />
+								<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
 								<Route exact path="/search/:query" component={SearchPage} />
 								<Route exact path="/search/:query/:options" component={SearchPage} />
 								<Route component={NotFound} />

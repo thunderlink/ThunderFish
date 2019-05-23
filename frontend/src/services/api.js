@@ -119,12 +119,11 @@ function request(url, headers, body) {
 					}
 				}
 				else {
-					return res.json().then(data => {
+					//console.log(res)
 						return {
 							status: res.status,
-							data: data
 						}
-					})
+
 				}
 			})
 	}
@@ -166,11 +165,10 @@ api.get = (url, token) => {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	}
-		/*
+
 	if(token) {
 		headers = {...headers, 'Authorization': `Token ${token}`}
 	}
-	*/
 	return request(url, {headers, method: "GET"})
 }
 
@@ -210,6 +208,7 @@ api.post = (url, data, token) => {
 				}
 			}
 			else {
+
 				return res.json().then(data => {
 					return {
 						status: res.status,
@@ -237,6 +236,7 @@ api.delete = (url, token) => {
 		'Content-Type': 'application/json',
 		'Authorization': `Token ${token}`
 	}
+
 
 	return request(url, {headers, method: "DELETE"})
 }

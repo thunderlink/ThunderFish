@@ -90,8 +90,8 @@ export default function meeting(state=initialState, action) {
 			return state;
 		case "SEARCH_MEETING":
 			return state;
-
 */
+      
 		case "WAIT_REQUEST":
 		console.log("requestDone!")
 			return{
@@ -112,8 +112,9 @@ export default function meeting(state=initialState, action) {
 				meetingElement : action.meeting
 			};
 		case "PUT_MEETING":
-			return{
+				return{
 				...state,
+				requestDone : true,
 				meetingElement : action.meeting
 			};
 		case "DELETE_MEETING":

@@ -146,12 +146,14 @@ export function* watchPostMeetingRequest() {
 		yield call(postMeetingRequest, meeting)
 	}
 }
-	/*
-// PUT 'meetings/id/'
-export function* putMeetingRequest(token, meeting) {
 
-	const { status } = yield call(api.put, backendUrl+'meetings/', meeting, token)
-	if(status === 200) {
+// PUT 'meetings/id/'
+export function* putMeetingRequest(index, meeting) {
+
+	const token = yield localStorage.getItem("token")
+	console.log(meeting)
+	const { status } = yield call(api.put, `${meetingUrl}${index}/`, meeting, token)
+	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting : meeting })
 	}
 	else{
@@ -162,15 +164,15 @@ export function* putMeetingRequest(token, meeting) {
 }
 export function* watchPutMeetingRequest() {
 	while(true) {
-		const { token, meeting } = yield take(actions.meeting.PUT_MEETING_REQUEST)
-		yield call(putMeetingRequest, token, meeting)
+		const { index, meeting } = yield take(actions.meeting.PUT_MEETING_REQUEST)
+		yield call(putMeetingRequest, index, meeting)
 	}
 }
-*/
+
 // DELETE 'meetings/id/'
 export function* deleteMeetingRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}meetings/${index}/', token`)
+	const { status } = yield call(api.delete, meetingUrl+index+'/', token)
 	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
@@ -186,6 +188,9 @@ export function* watchDeleteMeetingRequest() {
 		yield call(deleteMeetingRequest, index)
 	}
 }
+
+
+
 	/*
 // GET 'search/queryset/'
 export function* searchMeetingRequest(token, query) {
@@ -275,7 +280,7 @@ export function* watchPutCommentRequest() {
 
 export function* deleteCommentRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}comment/${index}/`, token)
+	const { status } = yield call(api.delete, , token)
 	if(status < 300) {
 		yield put({type: actions.comment.DELETE_COMMENT,  index : index})
 		//TODO::action might be edited
@@ -292,6 +297,7 @@ export function* watchDeleteCommentRequest() {
 		yield call(deleteCommentRequest, id)
 	}
 }
+*/
 
 /*
 *****************************************************
@@ -355,7 +361,8 @@ export default function* rootSaga() {
 
 	yield fork(watchGetMeetingRequest)
 	yield fork(watchPostMeetingRequest)
-	//yield fork(watchPutMeetingRequest)
+
+	yield fork(watchPutMeetingRequest)
 	yield fork(watchDeleteMeetingRequest)
 
 	//yield fork(watchSearchMeetingRequest)
@@ -363,5 +370,6 @@ export default function* rootSaga() {
 	yield fork(watchPostCommentRequest)
 	yield fork(watchPutCommentRequest)
 	yield fork(watchDeleteCommentRequest)
+
 	yield fork(watchGetUserRequest)
 }

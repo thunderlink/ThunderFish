@@ -1,14 +1,14 @@
 /*global daum*/
 
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Comments from './Comments'
 
 import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
-
+import KakaoMap from '../molecules/KakaoMap'
 import * as actions from '../../actions'
 import './MeetingPage.css'
 
@@ -25,41 +25,14 @@ class MeetingPage extends Component {
 		this.routeChange = this.routeChange.bind(this)
 	}
 
-	componentWillMount() {
-		this.createMap()
+	componentDidMount() {
+
 	}
 
 	componentWillUnmount() {
 		this.props.waitRequest()
 	}
 
-	createMap() {
-		var coord = new daum.maps.LatLng(33.450701, 126.570667)
-	
-		var container = document.getElementById('map');
-		var options = {
-			center: coord
-		}
-
-		var map = new daum.maps.Map(container, options)
-			/*
-		var zoomControl = new daum.maps.ZoomControl()
-
-		var marker = new daum.maps.Marker({
-			position: coord
-		});
-
-		var infoContent = `<div>${this.props.meetingElement.name}</div>`
-		var infowindow = new daum.maps.InfoWindow({
-			position: coord,
-			content: infoContent
-		})
-
-		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
-		marker.setMap(map)
-		infowindow.open(map, marker)
-		*/
-	}
 
 	routeChange = () => {
 		this.props.history.push(`/meeting/${this.props.meetingElement.id}/edit`)
@@ -102,7 +75,11 @@ class MeetingPage extends Component {
 						<h3> 호스트 </h3>
 						<div className="host_info">
 							<p> {this.props.meetingElement.nickname} </p>
-							<p> User info </p>
+							<Link 
+								to={`/user/${this.props.meetingElement.host}/`}
+							> 
+								User info 
+							</Link>
 						</div>
 						<h3> 날짜 </h3>
 						<Moment format='LLLL' locale='ko'>
@@ -116,6 +93,13 @@ class MeetingPage extends Component {
 						<p/>
 						<h3> 위치 </h3>
 						<p> {this.props.meetingElement.region} </p>
+						<h3> 최대 인원 </h3>
+						<p> {this.props.meetingElement.max_participant} </p>
+						<h3> 모집 상태 </h3>
+						<p> 
+							{(this.props.meetingElement.status === 0) 
+									? '모집중' : '마감'}
+						</p>
 					</div>
 				</div>
 				<div className="description">
@@ -125,13 +109,25 @@ class MeetingPage extends Component {
 					<h2> 태그 </h2>
 					<hr/>
 					<ul>
-					</ul>
+						{
+							Object.keys(this.props.meetingElement.tag_set).map(key => (
+								<li key={`tag_${key}`}>
+									<Link 
+										to={`/search/${this.props.meetingElement.tag_set[key]}`} 
+									>
+										{`#${this.props.meetingElement.tag_set[key]} `}
+									</Link>
+								</li>
+							))}					
+						</ul>
 					<h2> 지도 </h2>
 					<hr/>
 						<div 
 							className="map"
-							id="map"
 						>
+							<KakaoMap 
+								name={this.props.meetingElement.region}
+							/>
 						</div>
 					</div>
 				<div className="comments">
@@ -167,11 +163,7 @@ class MeetingPage extends Component {
 }
 
 /*
-						{this.props.meetingElement.tag.map(item => (
-							<li key={`tag_${item.id}_${item}`}>
-								{`#${item} `}
-							</li>
-						))}
+
 							*/
 
 const mapStateToProps = state => {

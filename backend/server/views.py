@@ -60,7 +60,7 @@ class MeetingList(generics.ListCreateAPIView):
                 t = Tag.objects.create(name=tag)
                 tag_set.append(t.id)
             else:
-                tag_set.append(tag_obj.id)
+                tag_set.append(tag_obj[0].id)
         request.data['tag_set'] = tag_set
         return self.create(request, *args, **kwargs)
 
@@ -75,8 +75,10 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         ret = {}
-        meeting = Meeting.objects.get(pk=kwargs['pk'])
-        print(meeting)
+        try:
+            meeting = Meeting.objects.get(pk=kwargs['pk'])
+        except:
+            return Response({"Meeting does not exist"}, status=HTTP_404_NOT_FOUND)
         ret = MeetingSerializer(meeting).data
         comment_set = meeting.comment_set.all()
         print(comment_set)
@@ -88,7 +90,11 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
             serialized_comment[str(comment.id)] = data
         # comment id,nickname is necessary!!!
         ret['comments'] = serialized_comment
-        ret['nickname'] = meeting.host.nickname
+        # Modify tag to return the tag name
+        tag_name = []
+        for tag_id in ret['tag_set']:
+            tag_name.append(Tag.objects.get(id=tag_id).name)
+        ret['tag_set'] = tag_name
         return Response(ret, status=HTTP_200_OK)
 
     # DELETE works
@@ -140,12 +146,17 @@ class UserMeetingList(generics.ListCreateAPIView):
 
 
 class SearchResult(generics.ListCreateAPIView):
+    permission_classes = (AllowAny, )
     queryset = None
     serializer_class = MeetingSerializer
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Meeting.objects.filter(name__contains=kwargs['keyword'])
-        self.queryset.union(Meeting.objects.filter(tag_set__name__contains=kwargs['keyword']), all=False)
+        name_result = Meeting.objects.filter(name__contains=kwargs['keyword'])
+        print(kwargs['keyword'])
+        tag_result = Meeting.objects.filter(tag_set__name__contains=kwargs['keyword'])
+        result = name_result | tag_result
+        self.queryset = result.distinct()
+        print(self.queryset)
         return self.list(request, *args, **kwargs)
 
 @csrf_exempt

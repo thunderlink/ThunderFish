@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../../actions'
 
 import logo from "../../logos/logo_renewal.png"
 import search_button from '../../icons/search-button.png'
@@ -14,13 +13,12 @@ class SearchBar extends Component {
 	}	
 	
 	constructor(props){
-		super(props);
+		super(props)
 		let param = this.props.match.params.query
-		this.state.query = (param == undefined) ? '' : param
+		this.state.query = (param === undefined) ? '' : param
 	}
 
 	componentDidMount() {
-		//this.state.query = this.props.match.params.query
 	}
 
 	onClickLogo = (e) => {
@@ -59,7 +57,7 @@ class SearchBar extends Component {
 							<img 
 								src={search_button}
 								alt="search-button"
-								onClick={this.onSubmitSearch}
+								type="submit"
 							/>
 						</form>
 					</div>
@@ -73,15 +71,13 @@ const mapStateToProps = state => {
 	return {
 		query: state.meeting.searchText,
 		option: state.meeting.searchOption,
-		token: state.user.token,
+		loadDone: state.meeting.loadDone,
+		meetingList: state.meeting.meetingList
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		getMeetingListRequest : () => {
-			dispatch(actions.meeting.getMeetingListRequest(this.props.query, this.props.token))
-		},
 	}
 }
 

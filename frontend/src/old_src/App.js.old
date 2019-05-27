@@ -19,9 +19,6 @@ import MeetingPage from "./components/Meeting/MeetingPage"
 import SearchPage from "./components/Search/SearchPage"
 import MeetingAddPage from "./components/Meeting/MeetingAddPage"
 import MeetingEditPage from "./components/Meeting/MeetingEditPage"
-
-import MajorView from './MajorView'
-
 import './App.css'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -30,20 +27,34 @@ let store = createStore(rootReducer,
 )
 sagaMiddleware.run(rootSaga)
 
-function App() {
-  return (
-		<div className="app-wrapper">
+class App extends Component {
+
+	render() {
+		return (
 			<Provider store={store}>
-				<BrowserRouter>
-					<Switch>
-						<Route exact path="/signin/" component={Signin} />
-						<Route exact path="/signup/" component={Signup} />
-						<Route component={MajorView} />
-					</Switch>
-				</BrowserRouter>
+				<main style={{marginTop: '64px'}}>
+					<BrowserRouter>
+						<Route component={ToolBar} />
+						<main style={{marginTop: '64px'}}>
+							<Switch>
+								<Route exact path="/" component={Main} />
+								<Route exact path="/signin" component={Signin} />
+								<Route exact path="/signup" component={Signup} />
+								<Route exact path="/user/:id" component={Userpage} />
+								<Route exact path="/meeting/add" component={MeetingAddPage}/>
+								<Route exact path="/meeting/:id" component={MeetingPage} />
+								<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
+								<Route exact path="/search/:query" component={SearchPage} />
+								<Route exact path="/search/:query/:options" component={SearchPage} />
+								<Route component={NotFound} />
+							</Switch>
+						</main>
+						<Footer />
+					</BrowserRouter>
+				</main>
 			</Provider>
-		</div>
-  );
+		)
+	}
 }
 
-export default App;
+export default App

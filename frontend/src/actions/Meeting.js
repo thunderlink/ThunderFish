@@ -88,47 +88,10 @@ export const deleteMeetingRequest = (index) => {
     }
 }
 
-export const getMeeting = (meeting) => {
-    return {
-        type: "GET_MEETING",
-        meeting
-    }
-}
-
-export const postMeeting = (meeting) => {
-    return {
-        type: "POST_MEETING",
-        meeting
-    }
-}
-
-export const putMeeting = (meeting, index) => {
-    return {
-        type: "PUT_MEETING",
-        meeting,
-        index
-    }
-}
-
-export const deleteMeeting = (index) => {
-    return {
-        type: "DELETE_MEETING",
-        index
-    }
-}
-
-export const getMeetingListRequest = (query, token) => {
+export const getMeetingListRequest = (query) => {
     return {
         type: "GET_MEETING_LIST_REQUEST",
-        query,
-        token
-    }
-}
-
-export const getMeetingList = (meetings) => {
-    return {
-        type: "GET_MEETING_LIST",
-        meetings
+        query
     }
 }
 

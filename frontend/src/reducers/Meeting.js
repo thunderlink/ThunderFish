@@ -76,6 +76,7 @@ export const initialState = {
 	loadDone: false,
 	loadFailed: false,
 	postDone: false,
+	searchDone: false,
 	requestError: 0,
 }
 
@@ -96,7 +97,8 @@ export default function meeting(state=initialState, action) {
 			return{
 				...state,
 				postDone: false,
-				loadDone: false
+				loadDone: false,
+				searchDone: false,
 			}
 
 		case "GET_MEETING":
@@ -116,20 +118,20 @@ export default function meeting(state=initialState, action) {
 		case "PUT_MEETING":
 			return{
 				...state,
-				requestDone : true,
-				meetingElement : action.meeting
+				requestDone: true,
+				meetingElement: action.meeting
 			}
 
 		case "DELETE_MEETING":
 			return{
 				...state,
-				meetingList : emptyMeeting
 			};
 
 		case "GET_MEETING_LIST":
 			return{
 				...state,
-				meetingList : action.meetings
+				meetingList: action.meetings,
+				searchDone: true,
 			};
 
 			//TODO
@@ -138,16 +140,6 @@ export default function meeting(state=initialState, action) {
 		case "ACCEPT_MEETING":
 			return state;
 
-		case "SHOW_MEETING":
-			var target
-			state.meetingList.map((item) => {
-				if(item.id == action.id)
-					target = item
-				return item;
-			})
-			return Object.assign({}, state, {
-				meetingElement: target
-			})
 		default:
 			return state;
 	}

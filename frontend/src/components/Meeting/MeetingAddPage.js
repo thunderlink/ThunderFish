@@ -13,6 +13,7 @@ class MeetingAddPage extends Component {
 		region: '',
 		content: '',
 		tag: '',
+		open_chat: '',
 	}
 
 	constructor(props) {
@@ -29,7 +30,8 @@ class MeetingAddPage extends Component {
 			deadline: this.state.deadline,
 			region: this.state.region,
 			content: this.state.content,
-			tag: this.state.tag
+			tag: this.state.tag,
+			open_chat: this.state.open_chat
 		}
 	}
 
@@ -76,6 +78,13 @@ class MeetingAddPage extends Component {
 							/>
 						</div>
 						<div>
+							<h2> 최대 인원 </h2>
+							<input
+								type="number" id="maxParticipant"
+								onChange={(e)=>this.setState({maxParticipant: e.target.value})}
+							/>
+						</div>
+						<div>
 							<h2> 위치 </h2>
 							<input
 								type="text" id="location"
@@ -94,6 +103,14 @@ class MeetingAddPage extends Component {
 							<input
 								type="text" id="tag"
 								onChange={(e)=>this.setState({tag : e.target.value})}
+							/>
+						</div>
+						<div>
+							<h2> 채팅방 링크 </h2>
+							<input
+								type="text" id="open_chat"
+								onChange={(e)=>this.setState({open_chat : e.target.value})}
+								placeholder="To be added..."
 							/>
 						</div>
 						<button type="submit"> 번개 만들기 </button>

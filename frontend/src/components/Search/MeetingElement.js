@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Moment from 'react-moment'
 
 import ImageBox from  '../molecules/ImageBox'
 import './MeetingElement.css'
@@ -16,7 +17,11 @@ class MeetingElement extends Component {
 						<h2>{this.props.name} </h2>
 					</div>
 					<p> <strong>{this.props.host}</strong> host </p>
-					<p> {this.props.date} </p>
+					<Moment format='LLLL' locale='ko'
+						parse="YYYY-MM-DDTHH:mm:ssZZ"
+					> 
+						{this.props.date} 
+					</Moment>
 					<p> {this.props.region} </p>
 				</div>
 			</div>

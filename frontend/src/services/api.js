@@ -136,6 +136,7 @@ api.get = (url, token) => {
 	if(token) {
 		headers = {...headers, 'Authorization': `Token ${token}`}
 	}
+
 	return request(url, {headers, method: "GET"})
 }
 

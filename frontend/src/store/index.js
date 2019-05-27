@@ -1,4 +1,4 @@
-import { take, put, call, fork, select } from 'redux-saga/effects'
+import { take, put, call, fork } from 'redux-saga/effects'
 import api from '../services/api'
 import * as actions from '../actions/index'
 
@@ -118,7 +118,7 @@ export function* getMeetingRequest(index) {
 }
 export function* watchGetMeetingRequest() {
 	while(true) {
-		const { token, index } = yield take(actions.meeting.GET_MEETING_REQUEST)
+		const { index } = yield take(actions.meeting.GET_MEETING_REQUEST)
 		yield call(getMeetingRequest, index)
 	}
 }
@@ -189,30 +189,23 @@ export function* watchDeleteMeetingRequest() {
 	}
 }
 
-
-
-	/*
 // GET 'search/queryset/'
-export function* searchMeetingRequest(token, query) {
-
-	const { status, data } = yield call(api.get, backendUrl+'meetings/'+query+ '/', token)
-	if(status === 200) {
-		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data // Is it right? 
-		})
+export function* getMeetingListRequest(query) {
+	const { status, data } = yield call(api.get, `${backendUrl}search/${query}`)
+	if(status < 300) {
+		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE // dummy action 
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		yield put({type: actions.meeting.REQUEST_FAILURE})
 	}
 }
-export function* watchSearchMeetingRequest() {
+export function* watchGetMeetingListRequest() {
 	while(true) {
-		const { token, query } = yield take(actions.meeting.GET_MEETING_LIST_REQUEST)
-		yield call(searchMeetingRequest, token, query)
+		const { query } = yield take(actions.meeting.GET_MEETING_LIST_REQUEST)
+		yield call(getMeetingListRequest, query)
 	}
 }
-*/
+
 /*
 TODO::
 - joinMeeting Request
@@ -236,7 +229,7 @@ export function* postCommentRequest(id, text) {
 
 	const token = yield localStorage.getItem("token")
 	
-	const { status, data } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: id, comment_text: text}, token)
+	const { status } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: id, comment_text: text}, token)
 	if(status < 300) {
 		yield put({type: actions.comment.POST_COMMENT})
 	}
@@ -258,7 +251,8 @@ export function* putCommentRequest(id, text) {
 	console.log(id)
 	console.log(text)
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
+	const { status } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
+
 	if(status < 300) {
 		yield put({type: actions.comment.PUT_COMMENT})
 		//TODO::action might be edited
@@ -362,7 +356,7 @@ export default function* rootSaga() {
 	yield fork(watchPutMeetingRequest)
 	yield fork(watchDeleteMeetingRequest)
 
-	//yield fork(watchSearchMeetingRequest)
+	yield fork(watchGetMeetingListRequest)
 
 	yield fork(watchPostCommentRequest)
 	yield fork(watchPutCommentRequest)

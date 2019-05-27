@@ -1,0 +1,68 @@
+.major-header {
+	width: 100%;
+	margin: 0 0 8px;
+	padding: 8px 16px;
+	background: #ffffff;
+	border-bottom: 1px solid #dee2e6;
+
+	box-sizing: border-box;	
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.major-header .menu-button-wrapper {
+
+	padding: 6px 12px;
+	margin: 0 16px;
+
+	background: #ffffff;
+
+	border: 1px solid #fed008;
+	border-radius: 8px;
+}
+
+.major-header .menu-button-wrapper img {
+	height: 24px;
+}
+
+.major-header .search-bar__form {
+	border: 1px solid #fed008;
+	padding: 6px 12px;
+	border-radius: 8px;
+
+	display: flex;
+	align-items: center;
+	justify-content: felx-start;
+}
+
+.major-header .search-bar__form img {
+	height: 16px;
+	margin: 0 8px 0 4px;
+}
+
+.major-header .input-wrapper input {
+	border: none;
+	width: 320px;
+	height: 24px;
+}
+
+.major-header .spacer {
+	border: 3px solid white;
+	flex-grow: 1;
+}
+
+.major-header .image-cutter {
+	height: 48px;
+	width: 48px;
+	overflow: hidden;
+	border-radius: 24px;
+
+	background: #dee2e6;
+	border: #1d1d1d;
+}
+
+.major-header .profile-photo {
+	height: 48px;
+	width: 48px;
+}

@@ -57,18 +57,44 @@
 	background: #dddddd;
 	max-width: 800px;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
 	padding-bottom: 32px;
 }
 
+.meeting_page .header .header_content {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+}
+
 .meeting_page .header .header_left {
+	flex-grow: 1;
+	width: 100%;
 	padding: 0;
+}
+
+.meeting_page .header .header_left .left_buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 8px;
+}
+
+.meeting_page .header .header_left .left_buttons button{
+	width: 80px;
+	height: 32px;
+	font-size: 16px;
+	margin: 0 8px;
 }
 
 .meeting_page .header .image_wrapper {
 	position: relative;
 	margin: 0, 24px;
+	width: 100%;
 }
 
 .meeting_page .header .photo .photo_cutter {
@@ -90,11 +116,9 @@
 	object-fit: cover;
 }
 
-.meeting_page .header .content {
-	flex-grow: 1;
+.meeting_page .header .header_content .content {
 	width: 100%;
-	padding-top: 32px;
-	padding-left: 32px;
+	padding: 0 32px;
 	box-sizing: border-box;
 }
 

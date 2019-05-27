@@ -1,0 +1,19 @@
+.major-sidebar + .major-content {
+	padding: 0 0 0 0;
+	box-sizing: border-box;
+	transition: margin .1s ease-in;
+	width: 100%;
+}
+
+.major-sidebar--open + .major-content {
+	padding: 0 0 0 224px;
+	margin: 0 0 0 0;
+	box-sizing: border-box;
+	transition: padding .2s ease-in;
+	width: 100%;
+}
+
+
+.major-content .main-content {
+	padding: 0 16px 0 16px;
+}

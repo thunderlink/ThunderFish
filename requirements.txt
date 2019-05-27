@@ -1,0 +1,7 @@
+Django==2.1.7
+djangorestframework==3.9.2
+keyring==10.6.0
+keyrings.alt==3.0
+Pillow==6.0.0
+Pygments==2.3.1
+python-debian==0.1.32

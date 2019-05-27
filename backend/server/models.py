@@ -6,6 +6,9 @@ import re
 # DEFAULT_IMAGE = '../../images/app_logo.png'
 pic_folder = './migrations/pic_folder'
 
+# Unique email for each user
+User._meta.local_fields[7].__dict__['_unique'] = True
+
 class Profile(models.Model):
     GENDER_MALE = 0
     GENDER_FEMALE = 1
@@ -15,9 +18,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
     photo = models.ImageField(upload_to=pic_folder, blank=True)
-    email = models.EmailField(max_length=30)
+    # email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
-    gender = models.IntegerField(choices=GENDER_CHOICES)
+    gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_PRIVATE)
     region = models.CharField(max_length=100, blank = True)  # may not be necessary, use API ??
     introduce = models.CharField(max_length=200, blank = True)
 

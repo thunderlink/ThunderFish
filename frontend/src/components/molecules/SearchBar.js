@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../../actions'
+
 import logo from "../../logos/logo_renewal.png"
 import search_button from '../../icons/search-button.png'
-import './SearchBar.css'
 
-import { Route, withRouter } from 'react-router'
+import './SearchBar.css'
 
 class SearchBar extends Component {
 
 	state = {
-		query: "",
+		query: '',
+	}	
+	
+	constructor(props){
+		super(props);
+		let param = this.props.match.params.query
+		this.state.query = (param == undefined) ? '' : param
+	}
+
+	componentDidMount() {
+		//this.state.query = this.props.match.params.query
 	}
 
 	onClickLogo = (e) => {
@@ -19,12 +31,6 @@ class SearchBar extends Component {
 	onSubmitSearch = (e) => {
 		e.preventDefault()
 		this.props.history.push(`/search/${(this.state.query).replace("/", " ")}`)
-	}
-
-	componentDidMount() {
-		this.setState({
-			query: this.props.match.params.query
-		})
 	}
 
 	render() {
@@ -64,6 +70,19 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = state => {
+	return {
+		query: state.meeting.searchText,
+		option: state.meeting.searchOption,
+		token: state.user.token,
+	}
 }
 
-export default SearchBar
+const mapDispatchToProps = dispatch => {
+	return {
+		getMeetingListRequest : () => {
+			dispatch(actions.meeting.getMeetingListRequest(this.props.query, this.props.token))
+		},
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

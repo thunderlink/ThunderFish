@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import SearchBar from '../molecules/SearchBar'
 import MeetingElement from './MeetingElement'
@@ -13,33 +14,17 @@ class SearchPage extends Component {
 	}
 
 	render() {
-		const meetings = [
-			{
-				name: "축구",
-				date: "2019년 5월 5일 17:00",
-				host: "서준원",
-				region: "서울특별시 관악구 관악로1 대운동장",
-				id: 0
-			},
-			{
-				name: "컴개실",
-				date: "2019년 5월 10일 17:00",
-				host: "이성찬",
-				photo: "https://4.imimg.com/data4/CO/YS/MY-29352968/samsung-desktop-computer-500x500.jpg",
-				region: "서울특별시 관악구 관악로1 301동 314호",
-				id: 1
-			}	
-		]
 		return(
 			<div className="search_page">
 				<Route component={SearchBar} />
-				<div class="search_content">
-					<div class="search_option">
+				<div className="search_content">
+					<div className="search_option">
 					</div>				
-					<div class="search_list">
-						{meetings.map(item => (
+					<div className="search_list">
+						{this.props.meetingList.map(item => (
 							<div 
 								onClick={this.onClickMeeting(item.id)}
+								key={`key_${item.name}`}
 							>
 								<MeetingElement
 									name={item.name}
@@ -57,5 +42,15 @@ class SearchPage extends Component {
 	}
 }
 
+const mapStateToProps = state => {
+	return {
+		meetingList: state.meeting.meetingList
+	}
+}
 
-export default SearchPage
+const mapDispatchToProps = dispatch => {
+	return {
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

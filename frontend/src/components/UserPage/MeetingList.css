@@ -1,0 +1,10 @@
+.meeting-list {
+	width: 100%;
+}
+
+.meeting-list .meeting-link {
+	width: auto;
+	height: auto;
+	text-decoration: none;
+	color: #000000;
+}

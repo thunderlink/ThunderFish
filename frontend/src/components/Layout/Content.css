@@ -17,3 +17,7 @@
 .major-content .main-content {
 	padding: 0 16px 0 16px;
 }
+
+.major-content {
+	background: #f8f9fa;
+}

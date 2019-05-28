@@ -1,0 +1,78 @@
+.user-detail {
+	position: relative;
+
+	height: auto;
+	padding: 16px 16px;
+
+	background: #dddddd;
+	
+	display: flex;
+}
+
+.user-detail .profile-name {
+	display: flex;
+}
+
+
+.user-detail .image-wrapper {
+	position: relative;
+	width: 168px;
+	height: 168px;
+	float: left;
+	margin-right: 24px;
+}
+
+.user-detail .content {
+	width: auto;
+	margin-top: 16px;
+	margin-right: 24px;
+	
+}
+
+.user-detail .content .username {
+	font-size: 2rem;
+	font-weight: bold;
+	margin: 0;
+}
+
+.user-detail .content .description {
+	font-size: 1rem;
+	margin: 0;
+	margin-top: 1rem;
+}
+
+.user-detail .badge {
+	padding: 2px;
+	display: flex;
+	justify-content: flex-end;
+	flex-grow: 1;
+}
+
+.user-detail .badge .report-button, .edit-button {
+	display: flex;
+	color: white;
+	text-decoration: none;
+	border-radius: 1rem;
+	align-items: center;
+	height: 1rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+	font-weight: bold;
+	font-family: Arial;
+}
+
+.user-detail .badge .report-button img, .edit-button img {
+	height: 1rem;
+}
+
+.user-detail .badge .edit-button {
+	width: 54px;
+	background: #1b1464;
+}
+
+.user-detail .badge .report-button {
+	width: 72px;
+	background: red;
+}

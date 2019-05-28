@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../../actions'
 
-import menu_button from '../icons/menu-button.png'
-import search_button from '../icons/search-button.png'
+import menu_button from '../../icons/menu-button.png'
+import search_button from '../../icons/search-button.png'
 
 import './Header.css'
 
-export default class Header extends Component {
+class Header extends Component {
 
 	state = {
 		query: ''
@@ -13,6 +15,7 @@ export default class Header extends Component {
 
 	constructor(props) {
 		super(props);
+		this.props.userSetRequest();
 		let param = this.props.match.params.query;
 		this.state.query = (param === undefined) ? '' : param;
 	}
@@ -70,3 +73,18 @@ export default class Header extends Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		userSetRequest: () => {
+			dispatch(actions.user.userSetRequest());
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

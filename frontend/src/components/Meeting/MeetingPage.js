@@ -4,10 +4,14 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Comments from './Comments'
 
-import SearchBar from '../molecules/SearchBar'
 import ImageBox from '../molecules/ImageBox'
 import KakaoMap from '../molecules/KakaoMap'
+import CommentList from './CommentList'
+
 import * as actions from '../../actions'
+
+import default_meeting from '../../icons/default-meeting.png'
+
 import './MeetingPage.css'
 
 class MeetingPage extends Component {
@@ -36,11 +40,6 @@ class MeetingPage extends Component {
 		this.props.history.push(`/meeting/${this.props.meetingElement.id}/edit`)
 	}
 
-	onSubmitCommentHandler = (e) => {
-		e.preventDefault()
-		this.props.postCommentRequest(this.props.meetingElement.id, this.state.newComment)
-	}
-
 	onPutHandler = (e) => {
 		e.preventDefault()
 		this.props.putMeetingRequest(/* TODO :: meeting*/)
@@ -56,86 +55,124 @@ class MeetingPage extends Component {
 		return (!this.props.loadDone) ? (
 			<div> Loading... </div>
 		) : (
-			<div className="meeting_page">
-				<Route component={SearchBar} />
-				<div className="header">
-					<div className="header_title">
-						<h1> {this.props.meetingElement.name} </h1>
-					</div>
-					<div className="header_content">
-						<div className="header_left">
-							<div className="image_wrapper">
+			<div className="meeting-page">
+				<div className="meeting-title">
+					<h1> {this.props.meetingElement.name} </h1>
+					<hr/>
+				</div>
+				<div className="meeting-content">
+					<div className="detail">
+						<div className="description">
+							<div className="image-wrapper">
 								<ImageBox 
 									src={this.props.meetingElement.photo}
+									default={default_meeting}
+								/>
+							</div>							
+							<div className="description-body">
+								<div className="host-info">
+									<p> 
+										<strong> {this.props.meetingElement.nickname} </strong>
+										호스트
+									</p>
+									<Link
+										to={`/user/${this.props.meetingElement.host}/`}
+									>
+										정보
+									</Link>
+								</div>
+								<div className="meeting-info">
+									<p> {this.props.meetingElement.content} </p>
+									<ul className="tag-list">
+										{
+											Object.keys(this.props.meetingElement.tag_set).map(key => (
+												<li key={`tag_${key}`}>
+													<Link 
+														to={`/search/${this.props.meetingElement.tag_set[key]}`} 
+													>
+														{`#${this.props.meetingElement.tag_set[key]} `}
+													</Link>
+												</li>
+										))}					
+									</ul>
+							
+									{(this.props.meetingElement.host === this.props.id) ? (
+										<div className="host-buttons">
+											<button onClick={this.routeChange} > 수정 </button>
+											<button onClick={this.onDeleteHandler}> 삭제 </button>
+										</div>
+									) : (
+										<div className="guest-buttons">
+											<button> 참가하기 </button>
+											<button> 신고하기 </button>
+										</div>
+									)}
+								</div>
+							</div>
+							<ul className="description-list">
+								<li>
+									<p> 
+										<strong> 현재 상태 </strong>
+										{(this.props.meetingElement.status === 0) 
+												? '모집중' : '마감'
+										}
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong> 날짜 </strong>
+										<Moment format='LLLL' locale='ko'>
+											{this.props.meetingElement.date}
+										</Moment>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong> 모집 마감 </strong>
+										<Moment format='LLLL' locale='ko'>
+											{this.props.meetingElement.deadline}
+										</Moment>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong> 최대 인원 </strong>
+										{this.props.meetingElement.max_participant}명
+									</p>
+								</li>
+							</ul>
+						</div>
+						<div className="meeting-place">
+							<div 
+								className="map"
+							>
+								<KakaoMap	
+									name={this.props.meetingElement.region}	
 								/>
 							</div>
-							<div className="left_buttons">
-								<button> 참가하기 </button>
-								<button> 신고하기 </button>
-							</div>
+							<ul className="description-list">
+								<li>
+									<p className="location">
+										<strong> 위치 </strong>
+										{this.props.meetingElement.region}
+									</p>
+								</li>
+							</ul>
 						</div>
-						<div className="content">
-							<h3> 호스트 </h3>
-							<div className="host_info">
-								<p> {this.props.meetingElement.nickname} </p>
-								<Link 
-									to={`/user/${this.props.meetingElement.host}/`}
-								> 
-									User info 
-								</Link>
-							</div>
-							<h3> 날짜 </h3>
-							<Moment format='LLLL' locale='ko'>
-								{this.props.meetingElement.date}
-							</Moment>
-							<p/>
-							<h3> 모집 마감 </h3>
-							<Moment format='LLLL' locale='ko'>
-								{this.props.meetingElement.deadline}
-							</Moment>
-							<p/>
-							<h3> 위치 </h3>
-							<p> {this.props.meetingElement.region} </p>
-							<h3> 최대 인원 </h3>
-							<p> {this.props.meetingElement.max_participant} </p>
-							<h3> 모집 상태 </h3>
-							<p> 
-								{(this.props.meetingElement.status === 0) 
-										? '모집중' : '마감'}
-							</p>
-						</div>
+					</div>
+					<div className="comments">
+						<CommentList
+							comments={this.props.meetingElement.comments}
+							meetingId={this.props.meetingElement.id}
+						/>
 					</div>
 				</div>
-				<div className="description">
-					<h2> 번개 내용 </h2>
-					<hr />
-					<p> {this.props.meetingElement.content} </p>
-					<h2> 태그 </h2>
-					<hr/>
-					<ul>
-						{
-							Object.keys(this.props.meetingElement.tag_set).map(key => (
-								<li key={`tag_${key}`}>
-									<Link 
-										to={`/search/${this.props.meetingElement.tag_set[key]}`} 
-									>
-										{`#${this.props.meetingElement.tag_set[key]} `}
-									</Link>
-								</li>
-							))}					
-						</ul>
-					<h2> 지도 </h2>
-					<hr/>
-						<div 
-							className="map"
-						>
-							<KakaoMap 
-								name={this.props.meetingElement.region}
-							/>
-						</div>
-					</div>
-				<div className="comments">
-					<h2> 댓글 </h2>
+			</div>
+		)}
+}
+
+/*
+ <h2> 댓글 </h2>
 					<hr />
 					<div>
 						{
@@ -157,23 +194,15 @@ class MeetingPage extends Component {
 							<button type="submit"> 작성하기 </button>
 						</form>
 					</div>
-				</div>
-				<div className="meeting_buttons">
-					<button onClick={this.routeChange} > 수정 </button>
-					<button onClick={this.onDeleteHandler}> 삭제 </button>
-				</div>
-			</div>
-		)}
-}
 
-/*
 
 							*/
 
 const mapStateToProps = state => {
 	return {
 		meetingElement: state.meeting.meetingElement,
-		loadDone: state.meeting.loadDone
+		loadDone: state.meeting.loadDone,
+		id: state.user.id,
 	}
 }
 

@@ -19,6 +19,7 @@ class Comments extends Component {
 		e.preventDefault()
 		this.props.putCommentRequest(this.props.commentDetail.id, this.state.editText)
 	}
+
 	onEditHandler = (e) => {
 		e.preventDefault()
 		this.setState((prevState) => {
@@ -39,42 +40,41 @@ class Comments extends Component {
 						<div className="username">
 							<h2> {this.props.commentDetail.nickname} </h2>
 						</div>
-						{(this.state.editTry) ? (
-							<form>
-								<input 
-									type="text"
-									value={this.state.editText}
-									onChange={(e)=>this.setState({editText: e.target.value})}
-								/>
-							</form>						
-								) : (
-							<div className="text">
-								<h2> {this.props.commentDetail.comment_text}</h2>
-							</div>
-						)}
-					</div>
-					<div className="content">
+						<form onSubmit={this.onSubmitHandler}>
+							{(this.state.editTry) ? (
+								<div className="content">
+									<input 
+										type="text"
+										value={this.state.editText}
+										onChange={(e)=>this.setState({editText: e.target.value})}
+									/>
+									<div>
+										<button type="submit">
+											확인
+										</button>
+										<button onClick={this.onEditHandler}>
+											취소
+										</button>
+									</div>				
+								</div>
+							) : (
+								<div className="content">
+									<div className="text">
+										<h2> {this.props.commentDetail.comment_text}</h2>
+									</div>
+									<div>
+										<button onClick={this.onEditHandler}>
+											수정
+										</button>
+										<button onClick={this.onDeleteHandler}>
+											삭제
+										</button>
+									</div>			
+								</div>
+							)}
+						</form>	
 					</div>
 				</div>
-				{(this.state.editTry) ? (
-					<div>
-						<button onClick={this.onSubmitHandler}>
-							확인
-						</button>
-						<button onClick={this.onEditHandler}>
-							취소
-						</button>
-					</div>
-				) : (
-					<div>
-						<button onClick={this.onEditHandler}>
-							수정
-						</button>
-						<button onClick={this.onDeleteHandler}>
-							삭제
-						</button>
-					</div>
-				)}
 			</div>
 		)
 	}

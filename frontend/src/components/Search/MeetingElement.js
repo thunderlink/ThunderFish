@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Moment from 'react-moment'
 
 import ImageBox from  '../molecules/ImageBox'
+
+import default_meeting from '../../icons/default-meeting.png'
 import './MeetingElement.css'
 
 class MeetingElement extends Component {
@@ -9,7 +11,10 @@ class MeetingElement extends Component {
 		return(
 			<div className="meeting_element">
 				<div className="image_wrapper">
-					<ImageBox src={this.props.photo}/>
+					<ImageBox 
+						default={default_meeting}
+						src={this.props.photo}
+					/>
 				</div>
 				<div className="meeting_content">
 					<div className="title">

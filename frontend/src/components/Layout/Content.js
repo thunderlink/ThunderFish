@@ -4,16 +4,17 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 
-import Main from "./Main/Main"
-import NotFound from "./NotFound"
-import Footer from "./molecules/Footer"
-import Signin from "./Register/Signin"
-import Signup from "./Register/Signup"
-import Userpage from "./Userpage/Userpage"
-import MeetingPage from "./Meeting/MeetingPage"
-import SearchPage from "./Search/SearchPage"
-import MeetingAddPage from "./Meeting/MeetingAddPage"
-import MeetingEditPage from "./Meeting/MeetingEditPage"
+import Main from "../Main/Main"
+import NotFound from "../NotFound"
+import Footer from "../molecules/Footer"
+import Signin from "../Register/Signin"
+import Signup from "../Register/Signup"
+import UserPage from "../UserPage/UserPage"
+import UserEditPage from "../UserPage/UserEditPage"
+import MeetingPage from "../Meeting/MeetingPage"
+import SearchPage from "../Search/SearchPage"
+import MeetingAddPage from "../Meeting/MeetingAddPage"
+import MeetingEditPage from "../Meeting/MeetingEditPage"
 
 import Header from "./Header"
 
@@ -29,7 +30,8 @@ class Content extends Component {
 					<Switch>
 						<Route exact path="/" component={Main} />
 						<Route exact path="/signup" component={Signup} />
-						<Route exact path="/user/:id" component={Userpage} />
+						<Route exact path="/user/:id" component={UserPage} />
+						<Route exact path="/user/:id/edit" component={UserEditPage} />
 						<Route exact path="/meeting/add" component={MeetingAddPage}/>
 						<Route exact path="/meeting/:id" component={MeetingPage} />
 						<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />

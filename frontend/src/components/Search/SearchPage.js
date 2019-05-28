@@ -5,6 +5,7 @@ import * as actions from '../../actions'
 
 import SearchBar from '../molecules/SearchBar'
 import MeetingElement from './MeetingElement'
+import MeetingList from '../UserPage/MeetingList'
 
 import './SearchPage.css'
 
@@ -46,33 +47,19 @@ class SearchPage extends Component {
 			(
 				<div> Loading... </div>
 			) :	(
-			<div className="search_page">
-				<Route component={SearchBar} />
-				<div className="search_content">
-					<div className="search_option">
-					</div>				
-					<div className="search_list">
-						{
-							console.log(this.props.meetingList)
-						}
-						{
-							this.props.meetingList.map(item => (
-							<div 
-								onClick={this.onClickMeeting(item.id)}
-								key={`key_${item.name}_${item.id}`}
-							>
-								<MeetingElement
-									name={item.name}
-									date={item.date}
-									host={item.nickname}
-									region={item.region}
-									photo={item.photo}
-								/>
-							</div>
-						))}
+				<div className="search-page">
+					<div className="search-title">
+						<h1> {this.props.match.params.query} 검색 결과 </h1>
+						<hr />
+					</div>
+					<div className="search-content">
+						<div className="search-list">
+							<MeetingList meetings={this.props.meetingList} />
+						</div>
+						<div className="search-option">
+						</div>
 					</div>
 				</div>
-			</div>
 		)	
 	}
 }

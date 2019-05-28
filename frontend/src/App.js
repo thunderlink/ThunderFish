@@ -5,15 +5,14 @@ import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 import createSagaMiddleware from 'redux-saga'
 
-import rootReducer from "./reducers/index"
-import rootSaga from "./store"
+import rootReducer from "store/reducers"
+import rootSaga from "store/sagas"
 
-import Signin from "./components/Register/Signin"
-import Signup from "./components/Register/Signup"
-import Signout from "./components/Register/Signout"
+import Signin from "components/Register/Signin"
+import Signup from "components/Register/Signup"
+import Signout from "components/Register/Signout"
 
-import MajorView from './components/Layout/MajorView'
-
+import MajorView from "components/Layout/MajorView"
 import './App.css'
 
 const sagaMiddleware = createSagaMiddleware()

@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actions from '../../actions'
+import * as actions from 'store/actions'
 
-import SearchBar from '../molecules/SearchBar'
-import MeetingElement from './MeetingElement'
-import MeetingList from '../UserPage/MeetingList'
+import MeetingList from 'components/molecules/Meeting/MeetingList'
 
 import './SearchPage.css'
 

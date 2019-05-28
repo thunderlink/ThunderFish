@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actions from '../../actions'
 
-import small_logo from '../../logos/small_logo.png'
+import * as actions from 'store/actions'
+
+import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
 
-import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
+import kakao_account_login_btn from 'icons/kakao_account_login_btn.png'
 
 class Signin extends Component {
 	state = {

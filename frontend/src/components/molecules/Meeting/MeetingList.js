@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import MeetingElement from '../Search/MeetingElement.js'
+import MeetingElement from './MeetingElement.js'
 
 import './MeetingList.css'
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
 
-import ImageBox from  '../molecules/ImageBox'
+import ImageBox from  'components/molecules/ImageBox'
 
-import default_meeting from '../../icons/default-meeting.png'
+import default_meeting from 'icons/default-meeting.png'
 import './MeetingElement.css'
 
 class MeetingElement extends Component {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Comments from './Comments'
+import CommentElement from './CommentElement'
 
-import * as actions from '../../actions'
+import * as actions from 'store/actions'
 
 import './CommentList.css'
 
@@ -24,7 +24,7 @@ class CommentList extends Component {
 				<div className="current-comments">
 					{
 						Object.keys(this.props.comments).map(key => (
-							<Comments
+							<CommentElement
 								key={`comment_${key}`}
 								commentDetail={this.props.comments[key]}
 							/>
@@ -32,13 +32,21 @@ class CommentList extends Component {
 					}
 				</div>
 				<div className="add-comment">
-					<form onSubmit={this.onSubmitCommentHandler}>
-						<input
+					<div className="new-comment-title">
+						<p> 새 댓글 작성 </p>
+					</div>
+					<form 
+						className="new-comment-text"
+						onSubmit={this.onSubmitCommentHandler}
+					>
+						<textarea
 							type="text"
 							onChange={e => this.setState({newComment: e.target.value})}
 							id="new_comment"
 						/>
-						<button type="submit"> 작성 </button>
+						<div className="button-set">
+							<button type="submit"> 작성 </button>
+						</div>
 					</form>
 				</div>
 			</div>

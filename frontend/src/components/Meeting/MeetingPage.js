@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import Comments from './Comments'
 
-import ImageBox from '../molecules/ImageBox'
-import KakaoMap from '../molecules/KakaoMap'
-import CommentList from './CommentList'
+import ImageBox from 'components/molecules/ImageBox'
+import KakaoMap from 'components/molecules/KakaoMap'
+import CommentList from 'components/molecules/Comment/CommentList'
 
-import * as actions from '../../actions'
+import * as actions from 'store/actions'
 
-import default_meeting from '../../icons/default-meeting.png'
+import default_meeting from 'icons/default-meeting.png'
 
 import './MeetingPage.css'
 
@@ -161,6 +160,7 @@ class MeetingPage extends Component {
 						</div>
 					</div>
 					<div className="comments">
+						<h1> 댓글 </h1>
 						<CommentList
 							comments={this.props.meetingElement.comments}
 							meetingId={this.props.meetingElement.id}

@@ -4,17 +4,17 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 
-import Main from "../Main/Main"
-import NotFound from "../NotFound"
-import Footer from "../molecules/Footer"
-import Signin from "../Register/Signin"
-import Signup from "../Register/Signup"
-import UserPage from "../UserPage/UserPage"
-import UserEditPage from "../UserPage/UserEditPage"
-import MeetingPage from "../Meeting/MeetingPage"
-import SearchPage from "../Search/SearchPage"
-import MeetingAddPage from "../Meeting/MeetingAddPage"
-import MeetingEditPage from "../Meeting/MeetingEditPage"
+import Main from "components/Main/Main"
+import NotFound from "components/NotFound"
+import Footer from "components/molecules/Footer"
+import Signin from "components/Register/Signin"
+import Signup from "components/Register/Signup"
+import UserPage from "components/UserPage/UserPage"
+import UserEditPage from "components/UserPage/UserEditPage"
+import MeetingPage from "components/Meeting/MeetingPage"
+import SearchPage from "components/Search/SearchPage"
+import MeetingAddPage from "components/Meeting/MeetingAddPage"
+import MeetingEditPage from "components/Meeting/MeetingEditPage"
 
 import Header from "./Header"
 
@@ -26,7 +26,7 @@ class Content extends Component {
 		return (
 			<div className="major-content">
 				<Route component={Header}/>
-				<main style={{marginTop: '64px'}}>
+				<main>
 					<Switch>
 						<Route exact path="/" component={Main} />
 						<Route exact path="/signup" component={Signup} />

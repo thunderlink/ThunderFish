@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 
-import * as actions from '../../actions'
+import * as actions from 'store/actions'
 
 import SignupSuccess from './SignupSuccess'
 
-import small_logo from '../../logos/small_logo.png'
+import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
 import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'

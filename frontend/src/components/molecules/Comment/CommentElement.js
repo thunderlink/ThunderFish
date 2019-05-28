@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../../actions'
 
-class Comments extends Component {
+import * as actions from 'store/actions'
+
+import './CommentElement.css'
+
+class CommentElement extends Component {
 
 	state = {
 		editTry: false,
@@ -34,35 +37,35 @@ class Comments extends Component {
 
 	render() {
 		return (
-			<div className="comment">
-				<div className="header">
-					<div className="header_left">
-						<div className="username">
-							<h2> {this.props.commentDetail.nickname} </h2>
-						</div>
-						<form onSubmit={this.onSubmitHandler}>
-							{(this.state.editTry) ? (
+			<div className="comment-element">
+				<div className="writer">
+					<p> {this.props.commentDetail.nickname} </p>
+				</div>
+				<form onSubmit={this.onSubmitHandler}>
+					{
+						(this.props.id === this.props.id) ? (
+							(this.state.editTry) ? (
 								<div className="content">
-									<input 
+									<textarea 
 										type="text"
 										value={this.state.editText}
 										onChange={(e)=>this.setState({editText: e.target.value})}
 									/>
-									<div>
+									<div className="button-set">
 										<button type="submit">
 											확인
 										</button>
 										<button onClick={this.onEditHandler}>
-											취소
+												취소
 										</button>
-									</div>				
+									</div>	
 								</div>
-							) : (
+							) : (							
 								<div className="content">
 									<div className="text">
-										<h2> {this.props.commentDetail.comment_text}</h2>
+										<p> {this.props.commentDetail.comment_text}</p>
 									</div>
-									<div>
+									<div className="button-set">
 										<button onClick={this.onEditHandler}>
 											수정
 										</button>
@@ -71,31 +74,36 @@ class Comments extends Component {
 										</button>
 									</div>			
 								</div>
-							)}
-						</form>	
-					</div>
-				</div>
+							)) : (
+							<div className="content">
+								<div className="text">
+									<p> {this.props.commentDetail.comment_text}</p>
+								</div>
+							</div>
+						)
+					}
+				</form>	
 			</div>
 		)
 	}
 }
 
 const mapStateToProps = state => {
-    return {
-    }
+	return {
+		id: state.user.id, 
+  }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        deleteComment: (id) => {
-            dispatch(actions.comment.deleteCommentRequest(id))
-        },
-        putCommentRequest: (id, text) => {
-            dispatch(actions.comment.putCommentRequest(id, text))
-        }
-        ,
-    }
+	return {
+		deleteComment: (id) => {
+			dispatch(actions.comment.deleteCommentRequest(id))
+		},
+		putCommentRequest: (id, text) => {
+			dispatch(actions.comment.putCommentRequest(id, text))
+		},
+	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentElement);
 

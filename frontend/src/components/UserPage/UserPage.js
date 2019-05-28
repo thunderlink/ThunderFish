@@ -3,14 +3,13 @@ import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import UserDetail from './UserDetail'
-import MeetingList from './MeetingList'
-import SearchBar from '../molecules/SearchBar'
-import ImageBox from '../molecules/ImageBox'
+import MeetingList from 'components/molecules/Meeting/MeetingList'
+import ImageBox from 'components/molecules/ImageBox'
 
-import * as actions from '../../actions'
+import * as actions from 'store/actions'
 
-import report from '../../icons/report-button.png'
-import edit from '../../icons/edit-button.png'
+import report from 'icons/report-button.png'
+import edit from 'icons/edit-button.png'
 
 import "./UserPage.css"
 
@@ -29,23 +28,29 @@ class UserPage extends Component {
 			(<div> Loading... </div>) :
 		(
 			<div className="user-page">
-				<div className="user-component" >
-					<UserDetail user={this.props.user} />
+				<div className="user-page-title">
+					<h1> 이용자 정보 </h1>
+					<hr />
 				</div>
-				<div className="meeting-component">
-					<div className="meeting-lists">
-						{
-							console.log(this.props.user)
-						}
+				<div className="user-page-content">
+					<div className="user-component" >
+						<UserDetail user={this.props.user} />
 						<h1> 호스팅한 번개 </h1>
 						<hr />
 						<MeetingList meetings={this.props.user.meeting_hosted} />
-						<h1> 참가한 번개 </h1>
-						<hr />
-						<MeetingList meetings={this.props.user.meeting_set} />
-						<h1> 참여 대기중 </h1>
-						<hr />
-						<MeetingList meetings={this.props.user.membership_set} />
+					</div>
+					<div className="meeting-component">
+						<div className="meeting-lists">
+							{
+								console.log(this.props.user)
+							}
+							<h1> 참가중인 번개 </h1>
+							<hr />
+							<MeetingList meetings={this.props.user.meeting_set} />
+							<h1> 승인 대기중인 번개 </h1>
+							<hr />
+							<MeetingList meetings={this.props.user.membership_set} />
+						</div>
 					</div>
 				</div>
 			</div>

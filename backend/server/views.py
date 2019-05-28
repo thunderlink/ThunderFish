@@ -32,12 +32,27 @@ class GetProfile(generics.RetrieveUpdateDestroyAPIView):
         token = request.headers['Authorization'].split()[1]
         profile = Token.objects.get(key=token).user.profile
         ret = {'id': profile.id, 'nickname': profile.nickname}
-        return Response(ret, status=HTTP_200_OK) 
+        return Response(ret, status=HTTP_200_OK)
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def put(self, request, *args, **kwargs):
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        old_profile = ProfileSerializer(profile).data
+
+        # Refer to original data and
+        # If the data is not in the request
+        # Add to the request data
+        for key in old_profile:
+            if key not in request.data:
+                request.data[key] = old_profile[key]
+
+        print(request.data)
+        return self.update(request, *args, **kwargs)
+
 
 
 class MeetingList(generics.ListCreateAPIView):

@@ -17,7 +17,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=pic_folder, blank=True)
+    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
     # email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
     gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_PRIVATE)
@@ -46,7 +46,7 @@ class Meeting(models.Model):
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
     region = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to=pic_folder, blank=True)
+    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
@@ -67,6 +67,9 @@ class Meeting(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-id']
 
 
 class Tag(models.Model):

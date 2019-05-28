@@ -67,6 +67,17 @@ class MeetingList(generics.ListCreateAPIView):
     # Post Works
     # http -v POST http://127.0.0.1:8000/meetings/ name="testing meeting" "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e" max_participant="5" content="Test Meeting Content" date="2018-01-01T00:00:00+09:00" deadline="2019-05-15T17:47:18.999698Z" tag_set:='[3, 4]'
 
+class RecentMeetingList(generics.ListCreateAPIView):
+    permission_classes = (AllowAny, )
+    queryset = Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+    def get(self, request, *args, **kwargs):
+        idx = kwargs['id']
+        start_idx = (idx - 1) * 10
+        end_idx = idx * 10
+        self.queryset = Meeting.objects.all()[start_idx:end_idx]
+        return self.list(request, *args, **kwargs)
 
 class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -125,7 +136,7 @@ class CommentList(generics.ListCreateAPIView):
         profile = Token.objects.get(pk=token).user.profile
         request.data['writer'] = profile.id
         return self.create(request, *args, **kwargs)
-    
+
     # Post Works
     # http -v POST http://127.0.0.1:8000/comment/ comment_text='테스트 댓글' parent_meeting='1' writer='2'
 
@@ -191,7 +202,7 @@ class Register(generics.ListCreateAPIView):
             user = User.objects.create_user(username=data['email'], password=request.data['password'], email=data['email'])
         except IntegrityError:
             return Response({"A user with that email already exists."}, status=HTTP_403_FORBIDDEN)
-        
+
         Profile.objects.create(user_id=user.id, nickname=data['nickname'], name=data['name'])
         return Response(status=HTTP_201_CREATED)
 

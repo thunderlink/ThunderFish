@@ -126,6 +126,20 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
     # DELETE works
     # http -v DELETE http://127.0.0.1:8000/meetings/7/ "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e"
 
+    def put(self, request, *args, **kwargs):
+        meeting = Meeting.objects.get(pk=kwargs['pk'])
+        old_meeting = MeetingSerializer(meeting).data
+
+        # Refer to original data and
+        # If the data is not in the request
+        # Add to the request data
+        for key in old_meeting:
+            if key not in request.data:
+                request.data[key] = old_meeting[key]
+
+        print(request.data)
+        return self.update(request, *args, **kwargs)
+
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner, )
     queryset = Comment.objects.all()

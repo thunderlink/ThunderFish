@@ -2,24 +2,32 @@ import React, { Component } from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 
 import { Provider } from "react-redux"
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
+import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from "./reducers/index"
+import rootSaga from "./store"
 
 import Main from "./components/Main/Main"
 import NotFound from "./components/NotFound"
-import Toolbar from "./components/Toolbar/Toolbar"
-import Footer from "./components/Toolbar/Footer"
+import ToolBar from "./components/molecules/ToolBar"
+import Footer from "./components/molecules/Footer"
 import Signin from "./components/Register/Signin"
 import Signup from "./components/Register/Signup"
 import Userpage from "./components/Userpage/Userpage"
-import Meetingpage from "./components/Meeting/Meetingpage"
+import MeetingPage from "./components/Meeting/MeetingPage"
 import SearchPage from "./components/Search/SearchPage"
 import MeetingAddPage from "./components/Meeting/MeetingAddPage"
+import MeetingEditPage from "./components/Meeting/MeetingEditPage"
+import Reloader from "./Reloader"
 
 import './App.css'
 
-let store = createStore(rootReducer)
+const sagaMiddleware = createSagaMiddleware()
+let store = createStore(rootReducer,
+	applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
 
 class App extends Component {
 
@@ -28,6 +36,7 @@ class App extends Component {
 			<Provider store={store}>
 				<main style={{marginTop: '64px'}}>
 					<BrowserRouter>
+						<Route component={ToolBar} />
 						<main style={{marginTop: '64px'}}>
 							<Switch>
 								<Route exact path="/" component={Main} />
@@ -35,13 +44,13 @@ class App extends Component {
 								<Route exact path="/signup" component={Signup} />
 								<Route exact path="/user/:id" component={Userpage} />
 								<Route exact path="/meeting/add" component={MeetingAddPage}/>
-								<Route exact path="/meeting/:id" component={Meetingpage} />
+								<Route exact path="/meeting/:id" component={MeetingPage} />
+								<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
 								<Route exact path="/search/:query" component={SearchPage} />
 								<Route exact path="/search/:query/:options" component={SearchPage} />
 								<Route component={NotFound} />
 							</Switch>
 						</main>
-						<Route component={Toolbar} />
 						<Footer />
 					</BrowserRouter>
 				</main>

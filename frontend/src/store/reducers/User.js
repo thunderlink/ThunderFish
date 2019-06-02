@@ -2,16 +2,27 @@ const initialState = {
 	/* Detail for current user */
 	token: localStorage.getItem("token"), //holds the user token.
 	id: -1,
-	nickname: null, //holds the name of user.
+	nickname: '', //holds the name of user.
 	isAuthenticated: false, //check if signed-in or not.
 	signupStatus: 'NONE', //check if signup has successed or not.
 
 	/* Detail for user view */
-	user: null
+	user: null,
+	loadDone: false,
+	loadFailed: false,
+	postDone: false,
 }
 
 export default function user(state=initialState, action) {
 	switch (action.type) {
+		case 'WAIT_REQUEST' :
+			return {
+				...state,
+				loadDone: false,
+				postDone: false,
+				loadFailed: false,
+			}
+
 		case 'SIGNUP_SUCCESSFUL': 
 			return Object.assign({}, state, {
 				signupStatus: 'SUCCESS', 
@@ -57,7 +68,6 @@ export default function user(state=initialState, action) {
 			})
 
 		case 'USER_SET_SUCCESSFUL':
-			console.log(action.type)
 			return Object.assign({}, state, {
 				token: action.token,
 				id: action.id,
@@ -67,7 +77,6 @@ export default function user(state=initialState, action) {
 
 		case 'USER_SET_NONE':
 		case 'USER_SET_FAILED':
-			console.log(action.type)
 			return Object.assign({}, state, {
 				token: null,
 				id: -1,
@@ -76,12 +85,18 @@ export default function user(state=initialState, action) {
 			})
 
 		case 'GET_USER':
-			console.log(action.type)
-			console.log(action.data)
 			return Object.assign({}, state, {
-				user: action.data
+				user: action.data,
+				loadDone: true,
+				loadFailed: false,
 			})
 
+		case 'USER_REQUEST_FAILURE':
+			return {
+				...state,
+				loadDone: true,
+				loadFailed: true,
+			}
 
 		default:
 			return state;

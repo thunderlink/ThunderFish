@@ -12,6 +12,7 @@
 .user-detail .profile-body {
 	padding: 16px 16px;
 
+	box-sizing: border-box;
 	height: auto;
 	width: 100%;
 

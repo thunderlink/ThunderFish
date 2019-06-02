@@ -24,6 +24,8 @@ export const DELETE_MEETING= "DELETE_MEETING"
  */
 export const GET_MEETING_LIST_REQUEST = "GET_MEETING_LIST_REQUEST"
 export const GET_MEETING_LIST = "GET_MEETING_LIST"
+export const GET_RECENT_MEETING_REQUEST = "GET_RECENT_MEETING_REQUEST"
+export const GET_RECENT_MEETING = "GET_RECENT_MEETING"
 
 /* Actions for single meeting request, it will only
  * PUT on the meeting, 'waiter'.
@@ -37,17 +39,7 @@ export const JOIN_MEETING = "JOIN_MEETING"
 export const ACCEPT_MEETING_REQUEST = "ACCEPT_MEETING_REQUEST"
 export const ACCEPT_MEETING = "ACCEPT_MEETING"
 
-export const REQUEST_FAILURE = "REQUEST_FAILURE"
-
-/* Actions for testing without backend.
- * It will only make effects on the frontend status,
- * without the backend API.
- * It will be not used after backend prepared.
- */
-export const SHOW_MEETING = "SHOW_MEETING" //get one meeting by its id. Will not be used when backend API prepared.
-export const ADD_MEETING = "ADD_MEETING"
-export const EDIT_MEETING = "EDIT_MEETING"
-export const REMOVE_MEETING = "REMOVE_MEETING"
+export const MEETING_REQUEST_FAILURE = "MEETING_REQUEST_FAILURE"
 
 /******************** END OF CONSTANTS *********************/
 
@@ -59,108 +51,63 @@ export const waitRequest = () => {
 
 
 export const getMeetingRequest = (index) => {
-	console.log(index)
-    return {
-        type: "GET_MEETING_REQUEST",
-				index
-    }
+	return {
+		type: "GET_MEETING_REQUEST",
+		index
+	}
 }
 
 export const postMeetingRequest = (meeting) => {
-    return {
-        type: "POST_MEETING_REQUEST",
-        meeting
-    }
-}
-
-export const putMeetingRequest = (meeting, token) => {
-    return {
-        type: "PUT_MEETING_REQUEST",
-        meeting,
-        token
-    }
-}
-
-export const deleteMeetingRequest = (index) => {
-    return {
-        type: "DELETE_MEETING_REQUEST",
-        index
-    }
-}
-
-export const getMeetingListRequest = (query) => {
-    return {
-        type: "GET_MEETING_LIST_REQUEST",
-        query
-    }
-}
-
-export const joinMeetingRequest = (index, user, token) => {
-    return {
-        type: "JOIN_MEETING_REQUEST",
-        index,
-        user,
-        token
-    }
-}
-
-export const joinMeeting = (index, user) => {
-    return {
-        type: "JOIN_MEETING",
-        index,
-        user
-    }
-}
-
-export const acceptMeetingRequest = (index, user) => {
-    return {
-        type: "ACCEPT_MEETING_REQUEST",
-        index,
-        user
-    }
-}
-
-export const acceptMeeting = (index, user) => {
-    return {
-        type: "ACCEPT_MEETING",
-        index,
-        user
-    }
-}
-
-export const requestFailure = (/**/) => {
-    return {
-        type: "REQUEST_FAILURE"
-    }
-}
-
-/*
-
-export const addMeeting = (meeting) => {
 	return {
-		type: "ADD_MEETING",
+		type: "POST_MEETING_REQUEST",
 		meeting
 	}
 }
 
-export const editMeeting = (index, meeting) => {
+export const putMeetingRequest = (index, meeting) => {
 	return {
-		type: "EDIT_MEETING",
+		type: "PUT_MEETING_REQUEST",
 		index,
 		meeting
 	}
 }
 
-export const removeMeeting = (index) => {
+export const deleteMeetingRequest = (index) => {
 	return {
-		type: "REMOVE_MEETING",
+		type: "DELETE_MEETING_REQUEST",
 		index
 	}
 }
 
-export const showMeeting = (id) => {
+export const getMeetingListRequest = (query) => {
 	return {
-		type: "SHOW_MEETING",
-		id
+		type: "GET_MEETING_LIST_REQUEST",
+		query
 	}
-}*/
+}
+
+export const getRecentMeetingRequest = (index) => {
+	console.log("getting " + index);
+	return {
+		type: "GET_RECENT_MEETING_REQUEST",
+		index
+	}
+}
+
+export const joinMeetingRequest = (index, user, token) => {
+	return {
+		type: "JOIN_MEETING_REQUEST",
+		index,
+		user,
+		token
+	}
+}
+
+export const acceptMeetingRequest = (index, user) => {
+	return {
+		type: "ACCEPT_MEETING_REQUEST",
+		index,
+		user
+	}
+}
+

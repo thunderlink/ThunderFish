@@ -5,7 +5,7 @@ import './Footer.css'
 class Footer extends Component {
 	render() {
 		return (
-			<div className="foot">
+			<div className="footer">
 				<p className="description"> 
 					{"This site was made by "}
 					<a href="https://github.com/thunderlink"> thunderlink</a>

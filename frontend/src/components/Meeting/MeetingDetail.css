@@ -1,0 +1,93 @@
+.meeting-detail {
+	flex-basis: 50%;
+	margin: 0 8px;
+}
+
+.meeting-detail .description {
+	width: 100%;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+	overflow: hidden;
+	margin-bottom: 16px;
+}
+
+.meeting-detail .description .image-wrapper {
+	height: 304px;
+}
+
+.meeting-detail .description .description-body {
+	padding: 8px 16px;
+}
+
+.meeting-detail .description .description-body 
+.host-info {
+	display: flex;
+	align-items: flex-start;
+}
+
+.meeting-detail .description .description-body .host-info p {
+	margin: 0;
+	font-size: 20px;
+}
+
+.meeting-detail .description .description-body .host-info a {
+	font-size: 8px;
+}
+
+.meeting-detail .description .description-body .meeting-info .tag-list {
+	padding: 0;
+	list-style: none;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.meeting-detail .description .description-body .meeting-info .tag-list li {
+	margin-right: 4px;
+}
+
+.meeting-detail .description .description-body .meeting-info .tag-list a {
+	color: #222222;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.meeting-detail .meeting-place {
+	width: 100%;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+	overflow: hidden;
+	margin-bottom: 16px;
+}	
+
+.meeting-detail .meeting-place .map {
+	width: 100%;
+	height: 304px;
+}
+
+.meeting-detail .meeting-place .location {
+
+}
+
+.meeting-detail .description-list {
+
+	margin: 0;
+	list-style: none;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.meeting-detail .description-list li {
+	border-top: 1px solid #dddddd;
+	padding: 8px 16px;
+}
+
+.meeting-detail .description-list p {
+	margin: 0;
+}

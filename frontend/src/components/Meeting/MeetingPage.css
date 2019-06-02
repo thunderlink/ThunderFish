@@ -1,7 +1,39 @@
+@media(min-width: 1000px) {
+	.meeting-page {
+		width: 80%;
+		min-width: 1000px;
+		max-width: 1150px;
+	}
+	.meeting-page .meeting-content {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+}
+
+@media(max-width: 1000px) and (min-width: 500px) {
+	.meeting-page {
+		width: 80%;
+		min-width: 500px;
+		max-width: 550px;
+	}
+	.meeting-page .meeting-content {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+@media(max-width: 500px) {
+	.meeting-page {
+		width: 100%;
+		max-width: 500px;
+	}
+	.meeting-page .meeting-content {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
 .meeting-page {
-	width: 80%;
-	min-width: 1000px;
-	max-width: 1150px;
 	margin: 0 auto;
 
 	display: flex;
@@ -17,109 +49,6 @@
 	width: 100%;
 
 	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-}
-
-.meeting-page .meeting-content .detail {
-	flex-basis: 50%;
-	margin: 0 8px;
-}
-
-.meeting-page .meeting-content .detail .description {
-	width: 100%;
-
-	background: #ffffff;
-	border: 1px solid #dddddd;
-	border-radius: 8px;
-	overflow: hidden;
-	margin-bottom: 16px;
-}
-
-.meeting-page .meeting-content .detail .description .image-wrapper {
-	height: 304px;
-}
-
-.meeting-page .meeting-content .detail .description .description-body {
-	padding: 8px 16px;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.host-info {
-	display: flex;
-	align-items: flex-start;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.host-info p {
-	margin: 0;
-	font-size: 20px;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.host-info a {
-	font-size: 8px;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.meeting-info .tag-list {
-	padding: 0;
-	list-style: none;
-
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.meeting-info .tag-list li {
-	margin-right: 4px;
-}
-
-.meeting-page .meeting-content .detail .description .description-body 
-.meeting-info .tag-list a {
-	color: #222222;
-	text-decoration: none;
-	font-size: 14px;
-}
-
-
-
-.meeting-page .meeting-content .detail .meeting-place {
-	width: 100%;
-
-	background: #ffffff;
-	border: 1px solid #dddddd;
-	border-radius: 8px;
-	overflow: hidden;
-	margin-bottom: 16px;
-}	
-
-.meeting-page .meeting-content .detail .meeting-place .map {
-	width: 100%;
-	height: 304px;
-}
-
-.meeting-page .meeting-content .detail .meeting-place .location {
-
-}
-
-.meeting-page .meeting-content .detail .description-list {
-
-	margin: 0;
-	list-style: none;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-}
-
-.meeting-page .meeting-content .detail .description-list li {
-	border-top: 1px solid #dddddd;
-	padding: 8px 16px;
-}
-
-.meeting-page .meeting-content .detail .description-list p {
-	margin: 0;
 }
 
 .meeting-page .meeting-content .comments {

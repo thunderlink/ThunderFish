@@ -8,3 +8,23 @@
 	text-decoration: none;
 	color: #000000;
 }
+
+.meeting-list .no-meeting-wrapper {
+	width: 100%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.meeting-list .no-meeting-wrapper .no-meeting {
+	margin: 0;
+	text-align: center;
+	color: #444444;
+}
+
+.meeting-list .no-meeting-wrapper img {
+	height: 32px;
+}
+

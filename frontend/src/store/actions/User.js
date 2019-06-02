@@ -16,9 +16,6 @@ export const USER_SET_SUCCESSFUL = "USER_SET_SUCCESSFUL"
 export const USER_SET_NONE = "USER_SET_NONE"
 export const USER_SET_FAILED = "USER_SET_FAILED"
 
-
-// THIS IS END OF CONST
-
 export const signupRequest = (user) => {
 	return {
 		type: 'SIGNUP_REQUEST',
@@ -60,18 +57,19 @@ export const userSetRequest = () => {
 	}
 }
 
-/*
-FOR USER DETAIL
-
-First, we need to complete user detail componenet.
-Then, we may make state just in component, or we can make separate REDUCER and implement state there.
-
- */
+/* FOR USER DETAIL */
+export const WAIT_REQUEST = "WAIT_REQUEST"
 export const GET_USER_REQUEST = "GET_USER_REQUEST"
 export const PUT_USER_REQUEST = "PUT_USER_REQUEST"
 export const GET_USER = "GET_USER"
 export const PUT_USER = "PUT_USER"
 export const USER_REQUEST_FAILURE = "USER_REQUEST_FAILURE"
+
+export const waitRequest = () => {
+	return {
+		type: 'WAIT_REQUEST'
+	}
+}
 
 export const getUserRequest = (index) => {
 	return {
@@ -79,6 +77,7 @@ export const getUserRequest = (index) => {
 		index: index
 	}
 }
+
 export const putUserRequest = (index, profile) => {
 	return {
 		type: 'PUT_USER_REQUEST',

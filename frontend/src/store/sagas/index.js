@@ -3,17 +3,18 @@ import { take, put, call, fork } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from 'store/actions'
 
-/*
-SIGN UP
- */
-
 const backendUrl = 'http://18.216.47.154:8000/'
-const meetingUrl = `${backendUrl}meetings/`
 
+/**************************************
+ * Register Functions.
+ *	Sign Up
+ *	Sign In
+ *	User Set
+ **************************************/
 
+/* Sign Up functions */
 export function* signupRequest(user) {
 	const { status } = yield call(api.signup, user)
-	console.log(user)
 	if(status === 400) {
 		yield put({type: actions.user.SIGNUP_DUPLICATED})
 	}
@@ -32,18 +33,13 @@ export function* watchSignupRequest() {
 	}
 }
 
-/**************************
-*********SIGN IN***********
- * ************************
- */
-
+/* Sign In Functions */
 export function* signinRequest(username, password) {
 	const user = {
 		username: username,
 		password: password
 	}
 	const { status, data } = yield call(api.signin, user)
-	console.log(data)
 	if(status === 200) {
 		yield put({
 			type: actions.user.SIGNIN_SUCCESSFUL, 
@@ -67,10 +63,10 @@ export function* watchSigninRequest() {
 	}
 }
 
+/* User Set functions */
 export function* userSetRequest() {
 	const token = yield localStorage.getItem("token")
 
-	console.log("yeah")
 	if(token == null) {
 		yield put({type: actions.user.USER_SET_NONE})
 	}
@@ -97,22 +93,28 @@ export function* watchUserSetRequest() {
 }
 
 
-/*
-**********************
-* *******MEETING******
-* ********************
- */
-
-// GET 'meetings/id'
-
+/**************************************
+ * Meeting Functions.
+ *	GET meeting
+ *	POST meeting
+ *	PUT meeting
+ *	DELETE meeting
+ *
+ *	GET meeting list
+ *
+ * Umimplement yet
+ *  Accept Meeting
+ *  Deny Meeting
+ *  Join Meeting
+ *  Cancel join meeting
+ **************************************/
+/* Meeting get functions */
 export function* getMeetingRequest(index) {
-	const { status, data } = yield call(api.get, `${meetingUrl}${index}/`)
-	console.log(data)
+	const { status, data } = yield call(api.get, `${backendUrl}meetings/${index}/`)
 	if(status >= 400) {
-		yield put({type: actions.meeting.REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 	else{
-		console.log(data)
 		yield put({type: actions.meeting.GET_MEETING, meeting : data})		
 	}
 
@@ -124,20 +126,20 @@ export function* watchGetMeetingRequest() {
 	}
 }
 
-// POST 'meetings/'
+/* Meeting post functions */
 export function* postMeetingRequest(meeting) {
 
-	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, meetingUrl, meeting, token)
+	console.log("do post")
 	console.log(meeting)
-
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.post, `${backendUrl}meetings/`, meeting, token)
+	console.log("end post")
+	console.log(data)
 	if(status >= 400) {
-		yield put({type: actions.meeting.REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 	else{
-		console.log(data)
 		yield put({type: actions.meeting.POST_MEETING, meeting : data})		
-		// I think we should do ERROR HANDLING using "Catch"
 	}
 }
 
@@ -148,19 +150,20 @@ export function* watchPostMeetingRequest() {
 	}
 }
 
-// PUT 'meetings/id/'
+/* Meeting put functions */
 export function* putMeetingRequest(index, meeting) {
 
-	const token = yield localStorage.getItem("token")
+	console.log("do put")
 	console.log(meeting)
-	const { status } = yield call(api.put, `${meetingUrl}${index}/`, meeting, token)
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/`, meeting, token)
+	console.log("end put")
+	console.log(data)
 	if(status < 300) {
-		yield put({type: actions.meeting.PUT_MEETING, meeting : meeting })
+		yield put({type: actions.meeting.PUT_MEETING, meeting: data})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE // dummy action 
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 }
 export function* watchPutMeetingRequest() {
@@ -170,17 +173,15 @@ export function* watchPutMeetingRequest() {
 	}
 }
 
-// DELETE 'meetings/id/'
+/* Meeting delete functions */
 export function* deleteMeetingRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, meetingUrl+index+'/', token)
+	const { status } = yield call(api.delete, `${backendUrl}meetings/${index}/`, token)
 	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE // dummy action 
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 }
 export function* watchDeleteMeetingRequest() {
@@ -190,14 +191,14 @@ export function* watchDeleteMeetingRequest() {
 	}
 }
 
-// GET 'search/queryset/'
+/* Meeting list get functions */
 export function* getMeetingListRequest(query) {
 	const { status, data } = yield call(api.get, `${backendUrl}search/${query}`)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
 	else{
-		yield put({type: actions.meeting.REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 }
 export function* watchGetMeetingListRequest() {
@@ -207,25 +208,33 @@ export function* watchGetMeetingListRequest() {
 	}
 }
 
-/*
-TODO::
-- joinMeeting Request
-- acceptMeeting Request
+/* Recent Meeting get functions */
+export function* getRecentMeetingRequest(index) {
+	console.log(index);
+	const { status, data } = yield call(api.get, `${backendUrl}meetings/new/${index}/`)
+	console.log(data)
+	if(status < 300) {
+		yield put({type: actions.meeting.GET_RECENT_MEETING, meetings: data, index: index})
+	}
+	else {
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+}
 
-I HAVE NOT DONE IT BECAUSE ACTION IS NOT SURE
+export function* watchGetRecentMeetingRequest() {
+	while(true) {
+		const { index } = yield take(actions.meeting.GET_RECENT_MEETING_REQUEST)
+		yield call(getRecentMeetingRequest, index)
+	}
+}
 
- */
-
-
-/*
-****************************************
-* **************COMMENT*****************
-* **************************************
-
-*** WE DON'T NEED "GET"
- */
-
-// POST 'comment/'
+/**************************************
+ * Comment Functions.
+ *	POST comment
+ *	PUT comment
+ *	DELETE comment
+ **************************************/
+/* Comment post functions */
 export function* postCommentRequest(id, text) {
 
 	const token = yield localStorage.getItem("token")
@@ -235,8 +244,7 @@ export function* postCommentRequest(id, text) {
 		yield put({type: actions.comment.POST_COMMENT})
 	}
 	else{
-		yield put({type: actions.comment.FAILURE // dummy action 
-		})
+		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
 	}
 
 }
@@ -247,21 +255,16 @@ export function* watchPostCommentRequest() {
 	}
 }
 
-// PUT 'comment/'
+/* Comment put functions */
 export function* putCommentRequest(id, text) {
-	console.log(id)
-	console.log(text)
 	const token = yield localStorage.getItem("token")
 	const { status } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
 
 	if(status < 300) {
 		yield put({type: actions.comment.PUT_COMMENT})
-		//TODO::action might be edited
 	}
 	else{
-		yield put({type: actions.comment.FAILURE //dummy action
-		})
-		// I think we should do ERROR HANDLING using "Catch"
+		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
 	}
 }
 export function* watchPutCommentRequest() {
@@ -271,19 +274,18 @@ export function* watchPutCommentRequest() {
 	}
 }
 
-// DELETE 'comment/id'
-
+/* Comment delete functions */
 export function* deleteCommentRequest(index) {
-	console.log("deelelele")
 	const token = yield localStorage.getItem("token")
 	const { status } = yield call(api.delete, `${backendUrl}comment/${index}/`, token)
 	if(status < 300) {
 		yield put({type: actions.comment.DELETE_COMMENT})
 	}
 	else{
-		yield put({type: actions.comment.FAILURE})
+		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
 	}
 }
+
 export function* watchDeleteCommentRequest() {
 	while(true) {
 		const { id } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
@@ -291,26 +293,23 @@ export function* watchDeleteCommentRequest() {
 	}
 }
 
-/*
-*****************************************************
-* *************User Detail***************************
-* ***************************************************
-*
-* -> GET & PUT
- */
-
-// GET 'user/index/'
+/**************************************
+ * User Functions.
+ *  GET user
+ *	PUT user
+ *
+ * Improvements
+ *  Should get more detail of meetings
+ **************************************/
+/* User get functions */
 export function* getUserRequest(index) {
 	const { status, data } = yield call(api.userGet, index)
-	console.log(data)
-    if(status === 200) {
-        yield put({type: actions.user.GET_USER, data: data})
-    }
-    else{
-				yield put({type: actions.user.USER_FAILURE //dummy action 
-				})
-        // I think we should do ERROR HANDLING using "Catch"
-    }
+	if(status === 200) {
+		yield put({type: actions.user.GET_USER, data: data})
+	}
+	else{
+		yield put({type: actions.user.USER_REQUEST_FAILURE})
+	}
 }
 
 export function* watchGetUserRequest() {
@@ -320,32 +319,26 @@ export function* watchGetUserRequest() {
 	}
 }
 
-	/*
-// PUT 'user/index/'
-export function* putProfileRequest(token, profile, index) {
 
-    const { status, data } = yield call(api.put, backendUrl+'user/'+index+'/', profile, token)
-    if(status === 200) {
-        yield put({type: actions.user.PUT_PROFILE, profile: profile})
-    }
-    else{
-				yield put({type: actions.user.FAILURE // dummy action 
-				})
-        // I think we should do ERROR HANDLING using "Catch"
-    }
+/* User put functions */
+export function* putUserRequest(index, profile) {
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}user/${index}/`, profile, token)
+	if(status === 200) {
+		yield put({type: actions.user.PUT_PROFILE, profile: profile})
+	}
+	else{
+		yield put({type: actions.user.USER_REQUEST_FAILURE})
+	}
 }
-export function* watchPutProfileRequest() {
-    while(true) {
-        const { profile, token, index } = yield take(actions.user.putProfileRequest)
-        yield call(putProfileRequest, token, profile, index)
-    }
+
+export function* watchPutUserRequest() {
+	while(true) {
+		const { index, profile } = yield take(actions.user.PUT_USER_REQUEST)
+		yield call(putUserRequest, index, profile)
+	}
 }
-*/
 
-
-/*
-ROOT
- */
 export default function* rootSaga() {
 	yield fork(watchSignupRequest)
 	yield fork(watchSigninRequest)
@@ -358,10 +351,12 @@ export default function* rootSaga() {
 	yield fork(watchDeleteMeetingRequest)
 
 	yield fork(watchGetMeetingListRequest)
+	yield fork(watchGetRecentMeetingRequest)
 
 	yield fork(watchPostCommentRequest)
 	yield fork(watchPutCommentRequest)
 	yield fork(watchDeleteCommentRequest)
 
 	yield fork(watchGetUserRequest)
+	yield fork(watchPutUserRequest)
 }

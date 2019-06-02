@@ -7,7 +7,6 @@ import './KakaoMap.css'
 class KakaoMap extends Component {
 	componentDidMount() {
 		this.createMap();
-		console.log("done!")
 	}
 
 	createMap = () => {

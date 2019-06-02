@@ -1,7 +1,39 @@
+@media(min-width: 1000px) {
+	.user-page {
+		width: 80%;
+		min-width: 1000px;
+		max-width: 1150px;
+	}
+	.user-page .user-page-content {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+}
+
+@media(max-width: 1000px) and (min-width: 500px) {
+	.user-page {
+		width: 80%;
+		min-width: 500px;
+		max-width: 550px;
+	}
+	.user-page .user-page-content {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+@media(max-width: 500px) {
+	.user-page {
+		width: 100%;
+		max-width: 500px;
+	}
+	.user-page .user-page-content {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
 .user-page {
-	width: 80%;
-	min-width: 1000px;
-	max-width: 1150px;
 	margin: 0 auto;
 }
 

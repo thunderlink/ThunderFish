@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 
 import MeetingElement from './MeetingElement.js'
 
+import dead_fish from 'icons/dead-fish.png'
+
 import './MeetingList.css'
 
 class MeetingList extends Component {
@@ -25,7 +27,20 @@ class MeetingList extends Component {
 							photo={item.photo}
 						/>
 					</Link>
-				))}
+					))
+				}
+				{
+					(this.props.meetings.length === 0) ? (
+						<div className="no-meeting-wrapper">
+							<p className="no-meeting"> 번개가 관측되지 않았어요.... </p>
+							<img src={dead_fish} alt="dead fish" />
+						</div>
+					) :	(
+						<div className="no-meeting-wrapper">
+							<p className="no-meeting"/>
+						</div>
+					)
+				}
 			</div>
 		)
 	}

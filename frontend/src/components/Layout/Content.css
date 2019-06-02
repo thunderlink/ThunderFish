@@ -1,21 +1,24 @@
 .major-sidebar + .major-content {
-	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 	box-sizing: border-box;
 	transition: margin .1s ease-in;
 	width: 100%;
+	height: 100%;
+	min-height: 100vh;
 }
 
 .major-sidebar--open + .major-content {
-	padding: 0 0 0 224px;
-	margin: 0 0 0 0;
+
+	margin: 0 0 0 224px;
 	box-sizing: border-box;
-	transition: padding .2s ease-in;
-	width: 100%;
+	transition: margin .2s ease-in;
 }
 
 
 .major-content .main-content {
-	padding: 0 16px 0 16px;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0 16px 32px 16px;
 }
 
 .major-content {

@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import UserDetail from './UserDetail'
 import MeetingList from 'components/molecules/Meeting/MeetingList'
 import ImageBox from 'components/molecules/ImageBox'
+import Loading from 'components/Loading'
+import NotFound from 'components/NotFound'
 
 import * as actions from 'store/actions'
 
@@ -20,13 +22,16 @@ class UserPage extends Component {
 
 	constructor(props) {
 		super(props)
+		this.props.waitRequest()
 		this.props.getUserRequest(this.props.match.params.id)
 	}
 
 	render() {
-		return (this.props.user == null) ?
-			(<div> Loading... </div>) :
-		(
+		return (!this.props.loadDone) ? (
+			<Loading />
+		) : (this.props.loadFailed) ? (
+			<NotFound />
+		) : (
 			<div className="user-page">
 				<div className="user-page-title">
 					<h1> 이용자 정보 </h1>
@@ -60,7 +65,9 @@ class UserPage extends Component {
 
 const mapStateToProps = state => {
 	return {
-		user: state.user.user
+		user: state.user.user,
+		loadDone: state.user.loadDone,
+		loadFailed: state.user.loadFailed
 	}
 }
 
@@ -68,6 +75,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getUserRequest: (user) => {
 			dispatch(actions.user.getUserRequest(user))
+		},
+		waitRequest: () => {
+			dispatch(actions.user.waitRequest())
 		}
 	}
 }

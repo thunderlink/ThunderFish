@@ -26,7 +26,7 @@ class Content extends Component {
 		return (
 			<div className="major-content">
 				<Route component={Header}/>
-				<main>
+				<main className="main-content">
 					<Switch>
 						<Route exact path="/" component={Main} />
 						<Route exact path="/signup" component={Signup} />

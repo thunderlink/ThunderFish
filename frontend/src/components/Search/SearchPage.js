@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from 'store/actions'
 
+import Loading from 'components/Loading'
 import MeetingList from 'components/molecules/Meeting/MeetingList'
 
 import './SearchPage.css'
@@ -15,7 +16,7 @@ class SearchPage extends Component {
 
 	constructor(props) {
 		super(props)
-		//this.props.waitRequest()
+		this.props.waitRequest()
 		this.state.query = this.props.match.params.query
 		this.props.getMeetingListRequest(this.state.query)
 	}
@@ -26,6 +27,7 @@ class SearchPage extends Component {
 
 	static getDerivedStateFromProps(props, state) {
 		if(props.match.params.query !== state.query) {
+			props.waitRequest()
 			props.getMeetingListRequest(props.match.params.query)
 			return {
 				query: props.match.params.query
@@ -36,14 +38,14 @@ class SearchPage extends Component {
 	}
 
 	onClickMeeting = (id) => (e) => {
-		this.props.getMeetingRequest(id)
+		this.props.waitRequest()
 		this.props.history.push(`/meeting/${id}/`)
 	}
 
 	render() {
-		return (!this.props.searchDone) ?
+		return (!this.props.loadDone) ?
 			(
-				<div> Loading... </div>
+				<Loading/>
 			) :	(
 				<div className="search-page">
 					<div className="search-title">
@@ -65,7 +67,7 @@ class SearchPage extends Component {
 const mapStateToProps = state => {
 	return {
 		meetingList: state.meeting.meetingList,
-		searchDone: state.meeting.searchDone
+		loadDone: state.meeting.loadDone
 	}
 }
 

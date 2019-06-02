@@ -23,12 +23,14 @@ class CommentList extends Component {
 			<div className="comment-list">
 				<div className="current-comments">
 					{
-						Object.keys(this.props.comments).map(key => (
-							<CommentElement
-								key={`comment_${key}`}
-								commentDetail={this.props.comments[key]}
-							/>
-						))
+						(this.props.comments!=undefined) ?
+							Object.keys(this.props.comments).map(key => (
+								<CommentElement
+									key={`comment_${key}`}
+									commentDetail={this.props.comments[key]}
+								/>
+							))
+							: (<div/>)
 					}
 				</div>
 				<div className="add-comment">

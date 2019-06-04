@@ -169,6 +169,12 @@ class Kakao(generics.ListCreateAPIView):
         except IntegrityError:
             return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
 
-        return Response(status=HTTP_200_OK)
+        if not user:
+            return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
+        token, _ = Token.objects.get_or_create(user=user)
+        key = {'token': token.key}
+        profile = Profile.objects.get(pk=user.profile.id)  # get user's profile
+        ret = {**ProfileSerializer(profile).data, **key}  # Merge two dictionaries
+        return Response(ret, status=HTTP_200_OK)
 
     # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"

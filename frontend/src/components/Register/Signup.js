@@ -23,11 +23,14 @@ class Signup extends Component {
         window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a');
         window.Kakao.Auth.createLoginButton({
             container : '#kakaologin',
-            success : ((response) => {
-                console.log(response)
-            }),
+            success : this.kakaoHandler,
             /*fail : ,*/
         })
+    }
+
+    kakaoHandler = (object) => {
+	    console.log(object)
+	    this.props.kakaologinRequest(object);
     }
 
 
@@ -149,6 +152,10 @@ const mapDispatchToProps = dispatch => {
 		signupRequest: (user) => {
 			dispatch(actions.user.signupRequest(user))
 		},
+        kakaologinRequest: (object) => {
+		    dispatch(actions.user.kakaologinRequest(object))
+        }
+        ,
 	}
 }
 

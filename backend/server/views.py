@@ -130,6 +130,18 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         meeting = Meeting.objects.get(pk=kwargs['pk'])
         old_meeting = MeetingSerializer(meeting).data
 
+        if 'tag_set' in request.data:
+            tag_set = request.data['tag_set'][0:]
+            request.data['tag_set'] = []
+            for tagname in tag_set:
+                try:
+                    tag = Tag.objects.get(name=tagname)
+                    request.data['tag_set'].append(tag.id)
+                except Tag.DoesNotExist:
+                    ## Add new tag
+                    t = Tag.objects.create(name=tagname)
+                    request.data['tag_set'].append(t.id)
+
         # Refer to original data and
         # If the data is not in the request
         # Add to the request data

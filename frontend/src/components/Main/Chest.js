@@ -30,6 +30,9 @@ class Chest extends Component {
 								<h2>
 									환영합니다!
 								</h2>
+								<p>
+									{`${this.props.nickname}님, 새로운 번개를 만들거나 참여해보세요.`}
+								</p>
 							</div>
 						</div>
 					) : (
@@ -71,7 +74,8 @@ class Chest extends Component {
 
 const mapStateToProps = state => {
 	return {
-		isAuthenticated: state.user.isAuthenticated
+		isAuthenticated: state.user.isAuthenticated,
+		nickname: state.user.nickname
 	}
 }
 

@@ -1,0 +1,51 @@
+.meeting_element {
+	margin: 8px 0;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.meeting_element .image_wrapper {
+	padding: 8px;
+
+	height: 160px;
+	width: 160px;
+
+	box-sizing: border-box;
+
+	flex-shrink: 0;
+	flex-basis: 160px;
+}
+
+.meeting_element .meeting_content {
+	padding-left: 0;
+	box-sizing: border-box;
+
+	flex-grow: 1;
+}
+
+.meeting_element .meeting_content .title {
+	display: flex;
+	align-items: center;
+}
+
+.meeting_element .meeting_content .small_square {
+	background: #fed008;
+	width: 8px;
+	height: 8px;
+	margin-right: 8px;
+}
+
+.meeting_element .meeting_content p,
+.meeting_element .meeting_content h2 {
+	margin: 0;
+	color: black;
+}
+
+
+

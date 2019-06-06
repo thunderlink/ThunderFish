@@ -1,24 +1,36 @@
 .register {
-	width: 50%;
-	margin: 0 auto;
-	text-align: center;
-	font-family: Arial;
+	width: 100%;
+	height: 100vh;
+
+	margin: 0;
+
+	background: #f8f9fa;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .register .field {
-	border: 5px solid #1b1464;
-	border-radius: 2rem;
-	background: #EEEEEE;
+	border: 1px solid #fed008;
+	background: #ffffff;
+	text-align: center;
+	padding: 16px;
 }
 
-.register .field legend {
-	font-size: 2.5rem;
-	font-weight: bolder;
-	text-align: center;
+.register .field .field-logo-wrapper {
+	height: 48px;
+	width: 48px;
+}
+
+.register .field hr {
+	width: 366px;
+	color: #fed008;
+	margin: 16px 0 0 0;
 }
 
 .register .field button {
-	width: 16rem;
+	width: 366px;
 	height: 2rem;
 	font-size: 1.2rem;
 	font-weight: bold;
@@ -34,20 +46,7 @@
 	text-align: center;
 	font-size: 1.2rem;
 	height: 1.5rem;
-	width: 16rem;
-}
-
-.register .field .gender_select {
-	padding: 0;
-	height: auto;
-	width: auto;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.register .field .radio_field {
-	padding: 0 1rem;
+	width: 366px;
 }
 
 .register .field .reg_form .description {
@@ -59,3 +58,7 @@
 	margin: 0;
 }
 
+.register .field .kakao_account_login_btn {
+	margin: 8px;
+	width: 16rem;
+}

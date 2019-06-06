@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import * as actions from '../../actions'
+import { Link, Redirect } from 'react-router-dom'
+
+import * as actions from 'store/actions'
 
 import SignupSuccess from './SignupSuccess'
+
+import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
 import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
@@ -41,9 +44,17 @@ class Signup extends Component {
 					onSubmit={this.onSubmitHandler}
 				>
 					<fieldset className="field">
-						<legend>
-							Sign up
-						</legend>
+						<Link
+							to="/"
+							className="field-logo-wrapper"
+						>
+							<img 
+								className="field-logo"
+								src={small_logo}
+								height="48px"
+								alt="thunderfish small logo"
+							/>
+						</Link>
 						<div className="reg_form">
 							<div>
 								<h2> 이메일 </h2>
@@ -97,6 +108,7 @@ class Signup extends Component {
 									onChange={(e)=>this.setState({nickname: e.target.value})}
 								/>
 							</div>
+							<hr />
 							<div>
 								<p />
 								<button type="submit">가입하기</button>

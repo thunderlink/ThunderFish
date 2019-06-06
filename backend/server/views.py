@@ -258,8 +258,7 @@ def Login(request):
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     key = {'token': token.key}
-    print(user.id)
-    profile = Profile.objects.get(pk=user.profile.id) # get user's profile
+    profile = Profile.objects.get(pk=user.profile.id) # get user's profile 
     ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
     return Response(ret, status=HTTP_200_OK)
 

@@ -1,0 +1,141 @@
+.major-sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 224px;
+	left: -224px;
+
+	z-index: 1000;
+
+	padding: 0;
+	
+	font-weight: 200;
+	color: #ffffff;
+
+	background-position: center center;
+	background-size: cover;
+	background: #1d1d1d;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	transition: left .1s ease-in;
+}
+
+.major-sidebar--open {
+	left: 0;
+	transition: left .2s ease-in;
+}
+
+.sidebar-logo {
+	width: 100%;
+	margin: 16px 0;
+
+	text-decoration: none;
+	color: #ffffff;
+
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.sidebar-logo .logo-img {
+	height: 32px;
+}
+
+.sidebar-logo .logo-text {
+	margin: 0 4px;
+	font-size: 1.5rem;
+	font-family: Poppins, Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-weight: 600;
+}
+
+.sidebar-content {
+	width: 100%;
+}
+
+.sidebar-content {
+}
+
+.sidebar-content .sidebar-item-grey {
+	color: #ffffff;
+	text-decoration: none;
+
+	padding: 0 16px;	
+
+	display: flex;
+	align-items: center;
+	background: #242424;
+	font-weight: 300;
+}
+
+.sidebar-content .sidebar-item-grey:hover {
+	font-weight: 900;
+}
+
+.sidebar-content .sidebar-item-grey h1 {
+	font-weight: inherit;
+}
+
+.sidebar-content .sidebar-item-grey .item-logo {
+	height: 1.5rem;
+	width: 1.5rem;
+	margin: 0 4px;
+}
+
+.sidebar-content .sidebar-item-grey .item-text {
+	font-size: 1rem;
+	padding: 0;
+}
+
+.sidebar-content .sidebar-item-black {
+	display: flex;
+	flex-direction: column;
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-big {
+	color: #ffffff;
+	text-decoration: none;
+
+	padding: 0 20px;;
+
+	display: flex;
+	align-items: center;
+	background: #1d1d1d;
+	font-weight: 300;
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-big .list-toggle {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-big .list-text {
+	text-decoration: none;
+	color: #ffffff;
+	font-size: 1rem;
+	padding: 0;
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-list {
+	overflow: hidden;
+
+	display: flex;
+	flex-direction: column; 
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-list 
+.sidebar-item-black-small {
+	text-decoration: none;
+	padding: 0 20px 0 64px;
+}
+
+.sidebar-content .sidebar-item-black .sidebar-item-black-list 
+.sidebar-item-black-small .list-text {
+	color: #ffffff;
+	font-size: 1rem;
+	padding: 0;
+}
+

@@ -8,6 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class MeetingSerializer(serializers.ModelSerializer):
     nickname = serializers.ReadOnlyField(source='host.nickname')
+    
     class Meta:
         model = Meeting
         fields = ('id', 'name', 'host', 'nickname', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set', 'latitude', 'longitude')
@@ -34,9 +35,12 @@ class MembershipSerializer(serializers.ModelSerializer):
         fields = ('profile', 'meeting', 'created_at', 'status', 'message')
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = serializers.PrimaryKeyRelatedField(many=True, queryset=Profile.objects.all())
+    meetings = serializers.PrimaryKeyRelatedField(many=True, queryset=Meeting.objects.all())
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'password')
+        fields = ('id', 'username', 'profile')
 
     def validate(self, data):
         # Validate the data given for registering

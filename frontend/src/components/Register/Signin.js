@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actions from '../../actions'
+
+import * as actions from 'store/actions'
+
+import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
 
-import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
+import kakao_account_login_btn from 'icons/kakao_account_login_btn.png'
 
 class Signin extends Component {
 	state = {
@@ -25,24 +28,29 @@ class Signin extends Component {
 		return (
 			(this.props.isAuthenticated) ? (
 				<Redirect to="/"/>
-			)
-			: (
-				/**/
-
+			) : (
 				<form className="register"
 					onSubmit={this.onSubmitHandler}
 				>
 					<fieldset className="field">
-						<legend>
-							Sign in
-						</legend>
+						<Link
+							to="/"
+							className="field-logo-wrapper"
+						>
+							<img 
+								className="field-logo"
+								src={small_logo}
+								height="48px"
+								alt="thunderfish small logo"
+							/>
+						</Link>
 						<div className="reg_form">
 							<div>
-								<h2> ID </h2>
+								<h2> Email </h2>
 								<input
 									className="text_field"
-									type="text" id="username"
-									placeholder="ID를 입력하세요"
+									type="email" id="username"
+									placeholder="이메일을 입력하세요."
 									onChange={(e)=>this.setState({username: e.target.value})}
 								/>
 							</div>
@@ -51,10 +59,11 @@ class Signin extends Component {
 								<input
 									className="text_field"
 									type="password" id="password"
-									placeholder="패스워드를 입력하세요"
+									placeholder="패스워드를 입력하세요."
 									onChange={(e)=>this.setState({password: e.target.value})}
 								/>
 							</div>
+							<hr />
 							<div>
 								<p />
 								<button type="submit">로그인</button>
@@ -77,10 +86,9 @@ class Signin extends Component {
 							<Link to="/signup/"> 여기</Link>
 							{"를 눌러 새로운 계정을 만드세요!"}
 						</div>
-
 					</fieldset>
 				</form>
-			)
+				)
 		)
 	}
 }

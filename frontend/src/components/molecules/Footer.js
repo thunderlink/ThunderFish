@@ -12,7 +12,7 @@ class Footer extends Component {
 					{", as a project of swpp, course of SNU."}
 				</p>
 				<p className="description">
-					{"Source cord can be found on "}
+					{"Source code can be found on "}
 					<a href="https://github.com/thunderlink/ThunderFish">
 						here
 					</a>

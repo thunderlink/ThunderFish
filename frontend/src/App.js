@@ -5,22 +5,14 @@ import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 import createSagaMiddleware from 'redux-saga'
 
-import rootReducer from "./reducers/index"
-import rootSaga from "./store"
+import rootReducer from "store/reducers"
+import rootSaga from "store/sagas"
 
-import Main from "./components/Main/Main"
-import NotFound from "./components/NotFound"
-import ToolBar from "./components/molecules/ToolBar"
-import Footer from "./components/molecules/Footer"
-import Signin from "./components/Register/Signin"
-import Signup from "./components/Register/Signup"
-import Userpage from "./components/Userpage/Userpage"
-import MeetingPage from "./components/Meeting/MeetingPage"
-import SearchPage from "./components/Search/SearchPage"
-import MeetingAddPage from "./components/Meeting/MeetingAddPage"
-import MeetingEditPage from "./components/Meeting/MeetingEditPage"
-import Reloader from "./Reloader"
+import Signin from "components/Register/Signin"
+import Signup from "components/Register/Signup"
+import Signout from "components/Register/Signout"
 
+import MajorView from "components/Layout/MajorView"
 import './App.css'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -29,34 +21,21 @@ let store = createStore(rootReducer,
 )
 sagaMiddleware.run(rootSaga)
 
-class App extends Component {
-
-	render() {
-		return (
+function App() {
+  return (
+		<div className="app-wrapper">
 			<Provider store={store}>
-				<main style={{marginTop: '64px'}}>
-					<BrowserRouter>
-						<Route component={ToolBar} />
-						<main style={{marginTop: '64px'}}>
-							<Switch>
-								<Route exact path="/" component={Main} />
-								<Route exact path="/signin" component={Signin} />
-								<Route exact path="/signup" component={Signup} />
-								<Route exact path="/user/:id" component={Userpage} />
-								<Route exact path="/meeting/add" component={MeetingAddPage}/>
-								<Route exact path="/meeting/:id" component={MeetingPage} />
-								<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
-								<Route exact path="/search/:query" component={SearchPage} />
-								<Route exact path="/search/:query/:options" component={SearchPage} />
-								<Route component={NotFound} />
-							</Switch>
-						</main>
-						<Footer />
-					</BrowserRouter>
-				</main>
+				<BrowserRouter>
+					<Switch>
+						<Route exact path="/signin/" component={Signin} />
+						<Route exact path="/signup/" component={Signup} />
+						<Route exact path="/signout/" component={Signout} />
+						<Route component={MajorView} />
+					</Switch>
+				</BrowserRouter>
 			</Provider>
-		)
-	}
+		</div>
+  );
 }
 
-export default App
+export default App;

@@ -1,1 +1,37 @@
+@media(min-width: 1000px) {
+	.meeting-add {
+		width: 80%;
+		min-width: 1000px;
+		max-width: 1150px;
+	}
+}
+
+@media(max-width: 1000px) and (min-width: 500px) {
+	.meeting-add {
+		width: 80%;
+		min-width: 500px;
+		max-width: 550px;
+	}
+}
+
+@media(max-width: 500px) {
+	.meeting-add {
+		width: 100%;
+		max-width: 500px;
+	}
+}
+
+.meeting-add {
+	margin: 0 auto;
+}
+
+.meeting-add .meeting-add-title {
+	width: 100%;
+}
+
+.meeting-add .meeting-add-content {
+	width: 100%;
+
+}
+
 

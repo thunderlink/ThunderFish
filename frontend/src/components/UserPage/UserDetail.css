@@ -1,0 +1,106 @@
+.user-detail {
+	width: 100%;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.user-detail .profile-body {
+	padding: 16px 16px;
+
+	box-sizing: border-box;
+	height: auto;
+	width: 100%;
+
+	display: flex;
+}
+
+.user-detail .profile-body .body-left {
+	flex-basis: 168px;
+	display: flex;
+
+	flex-direction: column;
+	align-item: center;
+}
+
+
+.user-detail .profile-body .body-left .image-wrapper {
+	position: relative;
+	width: 168px;
+	height: 168px;
+	
+	border: 1px solid #dddddd;
+}
+
+.user-detail .profile-body .body-left .button-set {
+	padding: 2px;
+}
+
+.user-detail .profile-body .body-left .button-set .report-button, .edit-button {
+	padding: 4px 8px;
+	margin: 0 auto;
+
+	height: 16px;
+
+	border-radius: 1rem;
+
+	color: white;
+	text-decoration: none;
+	font-weight: 600;
+
+	display: flex;
+	align-items: center;
+}
+
+.user-detail .profile-body .body-left .button-set .report-button img, .edit-button img {
+	height: 1rem;
+}
+
+.user-detail .profile-body .body-left .button-set .edit-button {
+	width: 54px;
+	background: #fed008;
+}
+
+.user-detail .profile-body .body-left .button-set .report-button {
+	width: 72px;
+	background: red;
+}
+
+.user-detail .profile-body .body-right {
+	padding: 0 16px; 
+
+	flex-grow: 1;
+	
+}
+
+.user-detail .profile-body .body-right .username {
+	font-size: 32px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.user-detail .profile-body .body-right .description {
+	font-size: 16px;
+	margin: 0;
+	margin-top: 16px;
+}
+
+.user-detail .profile-info .info-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.user-detail .profile-info .info-list li {
+	padding: 8px 16px;
+
+	border-top: 1px solid #dddddd;
+}
+.user-detail .profile-info .info-list p {
+	margin: 0;
+}
+

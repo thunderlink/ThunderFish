@@ -4,12 +4,13 @@ from .models import Profile, Meeting, Tag, Comment, Notification, Membership, Us
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'nickname', 'photo', 'email', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set')
+        fields = ('id', 'user', 'nickname', 'photo', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set')
 
 class MeetingSerializer(serializers.ModelSerializer):
+    nickname = serializers.ReadOnlyField(source='host.nickname')
     class Meta:
         model = Meeting
-        fields = ('id', 'name', 'host', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set')
+        fields = ('id', 'name', 'host', 'nickname', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set', 'latitude', 'longitude')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:

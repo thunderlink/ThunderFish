@@ -199,6 +199,18 @@ class SearchResult(generics.ListCreateAPIView):
         print(self.queryset)
         return self.list(request, *args, **kwargs)
 
+class SearchLocation(generics.ListCreateAPIView):
+    permission_classes = (AllowAny, )
+    queryset = None
+    serializer_class = MeetingSerializer
+
+    # Latitude and longitude must be included in the request
+    def get(self, request, *args, **kwargs):
+        data = request.data
+        lat, long, dist = float(data['latitude']), float(data['longitude']), int(kwargs['dist'])
+        self.queryset = Meeting.distance_search(dist, lat, long)
+        return self.list(request, *args, **kwargs)
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))

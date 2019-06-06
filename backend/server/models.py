@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 import re
+from django.db.models.functions import Sqrt
+from math import sqrt
 
 # Path to default image
 # DEFAULT_IMAGE = '../../images/app_logo.png'
@@ -51,6 +53,8 @@ class Meeting(models.Model):
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
     open_chat = models.URLField(max_length=100, blank=True) # remove default
+    latitude = models.DecimalField(max_digits=30, decimal_places=15, default=0, blank=True)
+    longitude = models.DecimalField(max_digits=30, decimal_places=15, default=0, blank=True)
 
     # content에서 tags를 추출하여, Tag 객체 가져오기, 신규 태그는 Tag instance 생성, 본인의 tag_set에 등록,
     # Question :    Does \w support korean?
@@ -67,6 +71,20 @@ class Meeting(models.Model):
 
     def __str__(self):
         return self.name
+
+    def distance_search(dist, lat, long):
+        ## Returns queryset of meetings that is
+        ## less than dist kilometers far from (latitude, longitude)
+        recuriting = Meeting.objects.filter(status=0)
+        ret_queryset = Meeting.objects.none()
+        for meet in recuriting:
+            delta_phi = abs(float(meet.latitude) - lat) ** 2
+            delta_theta = abs(float(meet.longitude) - long) ** 2
+            if float(6371 * sqrt(delta_phi + delta_theta)) <= dist:
+                ret_queryset |= Meeting.objects.filter(pk=meet.id)
+
+        return ret_queryset
+
 
     class Meta:
         ordering = ['-id']

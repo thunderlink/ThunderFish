@@ -39,6 +39,21 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+    def get(self, request, *args, **kwargs):
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        ret = ProfileSerializer(profile).data
+        hosted = ret['meeting_hosted'][0:]
+        ret['meeting_hosted'] = []
+        for id in hosted:
+            meet = Meeting.objects.get(pk=id)
+            ret['meeting_hosted'].append(MeetingSerializer(meet).data)
+        participated = ret['meeting_set'][0:]
+        ret['meeting_set'] = []
+        for id in participated:
+            meet = Meeting.objects.get(pk=id)
+            ret['meeting_set'].append(MeetingSerializer(meet).data)
+        return Response(ret, status=HTTP_200_OK)
+
     def put(self, request, *args, **kwargs):
         profile = Profile.objects.get(pk=kwargs['pk'])
         old_profile = ProfileSerializer(profile).data
@@ -52,7 +67,6 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
 
         print(request.data)
         return self.update(request, *args, **kwargs)
-
 
 
 class MeetingList(generics.ListCreateAPIView):

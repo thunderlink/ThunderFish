@@ -1,5 +1,5 @@
-from .models import Profile, Meeting, Comment, Notification, User, Tag
-from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer
+from .models import Profile, Meeting, Comment, Notification, User, Tag, Membership
+from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer, MembershipSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from rest_framework.authtoken.models import Token
@@ -14,7 +14,7 @@ from django.db.utils import IntegrityError
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_403_FORBIDDEN,
-    HTTP_404_NOT_FOUND,
+    HTTP_404_NOT_FOUND, 
     HTTP_200_OK,
     HTTP_201_CREATED,
 )
@@ -285,7 +285,7 @@ def Login(request):
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     key = {'token': token.key}
-    profile = Profile.objects.get(pk=user.profile.id) # get user's profile 
+    profile = Profile.objects.get(pk=user.profile.id) # get user's profile
     ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
     return Response(ret, status=HTTP_200_OK)
 

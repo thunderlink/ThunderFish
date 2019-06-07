@@ -107,15 +107,23 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
+    # For notification 1 : New comment for host
+    def save(self, *args, **kwargs):
+        notification = Notification(meeting=self.parent_meeting, profile=self.parent_meeting.host, notification = Notification.NOTIFICATION_NEW_COMMENT_FOR_HOST)
+        notification.save()
+        super().save(*args, **kwargs)
+
 # we should add url field.
 class Notification(models.Model):
     NOTIFICATION_NEW_APPLY = 0
     NOTIFICATION_NEW_COMMENT_FOR_HOST = 1
-    NOTIFICATION_CHOICES = [(NOTIFICATION_NEW_APPLY, 'new apply'), (NOTIFICATION_NEW_COMMENT_FOR_HOST, 'new comment for host')]
+    NOTIFICATION_APPLY_REJECTED = 2
+    NOTIFICATION_APPLY_APPROVED = 3
+    NOTIFICATION_CHOICES = [(NOTIFICATION_NEW_APPLY, 'new apply'), (NOTIFICATION_NEW_COMMENT_FOR_HOST, 'new comment for host'),(NOTIFICATION_APPLY_REJECTED, 'apply is rejected'),(NOTIFICATION_APPLY_APPROVED, 'apply is approved')]
 
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     checked = models.BooleanField(default=False)
-    url = models.URLField(blank = True)
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     notification = models.IntegerField(choices=NOTIFICATION_CHOICES)
 
     def __str__(self):
@@ -141,9 +149,16 @@ class Membership(models.Model):
             ('profile', 'meeting')
         )
 
-    # For notification 1 : New apply
-    # We should add url.
+    # For notification 0 : New apply
+    # For notification 2 : Apply rejected
+    # For notification 3 : Apply approved
     def save(self, *args, **kwargs):
-        notification = Notification(profile=self.meeting.host, notification = Notification.NOTIFICATION_NEW_APPLY)
+        if(self.pk==None):
+            notification = Notification(meeting=self.meeting, profile=self.meeting.host, notification = Notification.NOTIFICATION_NEW_APPLY)
+        else:
+            if(status == STATUS_CHOICES.STATUS_APPROVED):
+                notification = Notification(meeting=self.meeting, profile=self.profile, notification = Notification.NOTIFICATION_APPLY_APPROVED)
+            elif(status == STATUS_CHOICES.STATUS_REJECTED):
+                notification = Notification(meeting = self.meeting, profile = self.profile, notification = Notification.NOTIFICATION_APPLY_REJECTED)
         notification.save()
         super().save(*args, **kwargs)

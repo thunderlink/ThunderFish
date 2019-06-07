@@ -9,6 +9,9 @@ import my_page from 'icons/my-page.png'
 import sign_out from 'icons/sign-out.png'
 import sign_in from 'icons/sign-in.png'
 import sign_up from 'icons/sign-up.png'
+import list_button from 'icons/list-button.png'
+
+import { Category } from 'components/category'
 
 import './Sidebar.css'
 
@@ -25,7 +28,7 @@ const sidebar_items_guest = [
 
 class Sidebar extends Component {
 	state = {
-		query: ''
+		openedContent: 0,
 	}
 
 	render() {
@@ -49,7 +52,7 @@ class Sidebar extends Component {
 						sidebar_items_user :
 						sidebar_items_guest
 					).map(({name, icon, link}, index) => (
-						<Link className="sidebar-item"
+						<Link className="sidebar-item-grey"
 							key={`${index}${name}`}
 							to={(name=="마이페이지") ? `${link}${this.props.id}` : link}
 						>
@@ -63,6 +66,55 @@ class Sidebar extends Component {
 							</h1>
 						</Link>
 					))}
+					{
+						Category.map((name, index) => {
+							return(
+								<div className="sidebar-item-black">
+									<div 
+										className="sidebar-item-black-big"
+										onClick={(e)=>{
+											(this.state.openedContent === index + 1) 
+												?	this.setState({openedContent: 0})
+												: this.setState({openedContent: index + 1})
+										}}
+									>
+										<img
+											src={list_button}
+											className="list-toggle"
+											style={{
+												transform: (this.state.openedContent === index+1)
+													? 'rotate(90deg)'
+													: 'rotate(0deg)',
+												transitionDuration: '0.3s',
+												transitionProperty: 'transform',
+											}}
+										/>
+										<h1 className="list-text">
+											{name.big}	
+										</h1>
+									</div>
+									<div
+										className="sidebar-item-black-list"
+										style={{
+											'max-height': (this.state.openedContent === index+1) ? '1000px' : '0',
+											transition: 'max-height 0.3s',
+										}}
+									> 
+										{
+											name.small.map(item => (
+												<Link 
+													className="sidebar-item-black-small"
+													to={`/search/${item}/`}
+												>
+												<h1 className="list-text"> {item} </h1>
+											</Link>
+											))
+										}
+									</div>
+								</div>
+							)
+						})
+					}
 				</div>
 			</aside>
 		)

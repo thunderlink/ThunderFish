@@ -2,6 +2,9 @@
 	.major-header .menu-button-wrapper {
 		margin: 0 16px;
 	}
+	.major-header .search-bar {
+		width: 100%;
+	}
 	.major-header .search-bar__form {
 		width: 360px;
 	}
@@ -77,6 +80,10 @@
 .major-header .search-bar__form img {
 	height: 16px;
 	margin: 0 8px 0 4px;
+}
+
+.major-header .input-wrapper {
+	width: 100%;
 }
 
 .major-header .input-wrapper input {

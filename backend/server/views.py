@@ -286,7 +286,7 @@ class Kakao(generics.ListCreateAPIView):
 
 
 
-    def req(access_token):
+    def req(self, access_token):
         #https://developers.kakao.com/docs/restapi/user-management#%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%A0%95%EB%B3%B4-%EC%9A%94%EC%B2%AD
         #https://devlog.jwgo.kr/2017/11/09/how-to-call-rest-api/ 참고
         url = 'https://kapi.kakao.com/v2/user/me'
@@ -299,18 +299,20 @@ class Kakao(generics.ListCreateAPIView):
 
 
     def post(self, request, *args, **kwargs):
+        access_token = request.data['access_token']
 
-        access_token = request.access_token
+        resp = self.req(access_token)
+        print(resp.json())
+        
+        resp = resp.json()
 
-        resp = req(access_token)
-
-        email = resp.kakao_account['email']
-        nickname = resp.properties['nickname']
-        gender = resp.kakao_account['gender']
-        name =  None#resp.
+        email = resp['kakao_account']['email']
+        nickname = resp['properties']['nickname']
+        gender = resp['kakao_account']['gender']
+        name = None # resp['kakao_account'][
 
         try:
-            user, created = self.model.objects.get_or_create(username=email,
+            user, created = User.objects.get_or_create(username=email,
                             password=None,email=email)
             if created:  # 사용자 생성할 경우
                 Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
@@ -318,9 +320,11 @@ class Kakao(generics.ListCreateAPIView):
             user.is_active = True
             user.save()
 
-        except IntegrityError:
+        #except IntegrityError:
+            print("Hi")
             return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
-
+        except:
+            print("Except")
         if not user:
             return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
         token, _ = Token.objects.get_or_create(user=user)

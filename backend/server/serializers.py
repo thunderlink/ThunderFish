@@ -34,7 +34,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
-        fields = ('profile', 'meeting', 'created_at', 'status', 'message')
+        fields = ('id', 'profile', 'meeting', 'created_at', 'status', 'message')
 
 class UserSerializer(serializers.ModelSerializer):
     profile = serializers.PrimaryKeyRelatedField(many=True, queryset=Profile.objects.all())

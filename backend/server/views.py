@@ -211,10 +211,9 @@ class AcceptMeeting(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MembershipSerializer
 
     def put(self, request, *args, **kwargs):
-        membership = Membership.objects.get(pk=kwargs['pk_membership'])
-        print(membership)
+        membership = Membership.objects.get(pk=kwargs['pk'])
         request.data['profile'] = membership.profile.id
-        request.data['meeting'] = kwargs['pk']
+        request.data['meeting'] = kwargs['meeting']
         request.data['status'] = 1
         return self.update(request, *args, **kwargs)
 
@@ -224,7 +223,10 @@ class RejectMeeting(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MembershipSerializer
 
     def put(self, request, *args, **kwargs):
-
+        membership = Membership.objects.get(pk=kwargs['pk'])
+        request.data['profile'] = membership.profile.id
+        request.data['meeting'] = kwargs['meeting']
+        request.data['status'] = 2
         return self.update(request, *args, **kwargs)
 
 

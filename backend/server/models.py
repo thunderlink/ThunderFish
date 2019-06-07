@@ -156,11 +156,11 @@ class Membership(models.Model):
             notification = Notification(meeting=self.meeting, profile=self.meeting.host, notification = Notification.NOTIFICATION_NEW_APPLY)
             notification.save()
         else:
-            if(self.status == self.STATUS_CHOICES[1]):
+            if(self.status == self.STATUS_CHOICES[1][0]):
                 notification = Notification(meeting=self.meeting, profile=self.profile, notification = Notification.NOTIFICATION_APPLY_APPROVED)
                 notification.save()
                 print("Notify")
-            elif(self.status == self.STATUS_CHOICES[2]):
+            elif(self.status == self.STATUS_CHOICES[2][0]):
                 notification = Notification(meeting = self.meeting, profile = self.profile, notification = Notification.NOTIFICATION_APPLY_REJECTED)
                 notification.save()
         super().save(*args, **kwargs)

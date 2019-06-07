@@ -12,8 +12,8 @@ urlpatterns = [
     path('meetings/new/<int:id>/', views.RecentMeetingList.as_view()),
     path('meetings/<int:pk>/', views.MeetingDetail.as_view()),
     path('meetings/<int:pk>/join/', views.JoinMeeting.as_view()),
-    path('meetings/<int:pk>/accept/<int:pk_membership>/', views.AcceptMeeting.as_view()),
-    path('meetings/<int:pk_meetings>/reject/<int:pk_membership>/', views.RejectMeeting.as_view()),
+    path('meetings/<int:meeting>/accept/<int:pk>/', views.AcceptMeeting.as_view()),
+    path('meetings/<int:meeting>/reject/<int:pk>/', views.RejectMeeting.as_view()),
     # path('meetings/<int:pk>/join/', views) #POST, PUT, DELETE
     path('search/<str:keyword>/', views.SearchResult.as_view()), #GET
     path('searchdist/<int:dist>/', views.SearchLocation.as_view()), # GET, search by location, distance

@@ -1,5 +1,5 @@
-from .models import Profile, Meeting, Comment, Notification, User, Tag
-from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer
+from .models import Profile, Meeting, Comment, Notification, User, Tag, Membership
+from .serializers import ProfileSerializer, MeetingSerializer, CommentSerializer, NotificationSerializer, UserSerializer, MembershipSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from rest_framework.authtoken.models import Token
@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from .permissions import IsOwner
+from .permissions import IsOwner, MembershipAccess
 from django.db.utils import IntegrityError
 from hashlib import sha256
 
@@ -15,7 +15,7 @@ from hashlib import sha256
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_403_FORBIDDEN,
-    HTTP_404_NOT_FOUND,
+    HTTP_404_NOT_FOUND, 
     HTTP_200_OK,
     HTTP_201_CREATED,
 )
@@ -173,6 +173,33 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
         print(request.data)
         return self.update(request, *args, **kwargs)
+
+
+class MembershipList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = Membership.objects.all()
+    serializer_class = MembershipSerializer
+
+    def post(self, request, *args, **kwargs):
+        token = request.headers['Authorization'].split()[1]
+        profile_id = Token.objects.get(key=token).user.profile.id
+        request.data['profile'] = profile_id # Set host as request profile's id
+        request.data['meeting'] = kwargs['pk']
+        request.data['status'] = "0" # Initially, status is waiting
+
+        return self.create(request, *args, **kwargs)
+
+    # Post Works
+    # http -v POST http://127.0.0.1:8000/meetings/ name="testing meeting" "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e" max_participant="5" content="Test Meeting Content" date="2018-01-01T00:00:00+09:00" deadline="2019-05-15T17:47:18.999698Z" tag_set:='[3, 4]'
+
+
+class MembershipDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
+    queryset = Membership.objects.all()
+    serializer_class = MembershipSerializer
+
+
+
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )

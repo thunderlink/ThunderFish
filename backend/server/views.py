@@ -309,8 +309,8 @@ class Kakao(generics.ListCreateAPIView):
 
         email = resp['kakao_account']['email']
         nickname = resp['properties']['nickname']
-        gender = resp['kakao_account']['gender']
-        name = None # resp['kakao_account'][
+        # gender = resp['kakao_account']['gender']
+        name = nickname # None # resp['kakao_account'][
 
         # try:
         user, created = User.objects.get_or_create(username=email,
@@ -324,13 +324,16 @@ class Kakao(generics.ListCreateAPIView):
 
     #except IntegrityError:
         print("Hi")
-        return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
+        # return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
         # except:
             # print("Except")
         if not user:
             return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
+        
         token, _ = Token.objects.get_or_create(user=user)
+        print(token, _)
         key = {'token': token.key}
+        print(user)
         profile = Profile.objects.get(pk=user.profile.id)  # get user's profile
         ret = {**ProfileSerializer(profile).data, **key}  # Merge two dictionaries
         return Response(ret, status=HTTP_200_OK)

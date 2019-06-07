@@ -143,7 +143,7 @@ export function* watchUserSetRequest() {
 export function* joinMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}${index}/membership/`, user, token)
+	const { status, data } = yield call(api.post, `${backendUrl}meetings/${index}/join/`, user, token)
 	console.log("end post")
 
 	if(status >= 400) {
@@ -158,6 +158,52 @@ export function* watchJoinMeetingRequest() {
 	while(true) {
 		const { index, user } = yield take(actions.meeting.JOIN_MEETING_REQUEST)
 		yield call(joinMeetingRequest, index, user)
+	}
+}
+
+/* accept put function */
+
+export function* acceptMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/accept/${user}/`
+		, {}, token)
+	console.log("end put")
+
+	if(status < 300) {
+	//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+	}
+	else{
+	//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+}
+export function* watchAccpetMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.ACCEPT_MEETING_REQUEST)
+		yield call(acceptMeetingRequest, index, user)
+	}
+}
+
+/* reject put function */
+
+export function* rejectMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/reject/${user}/`
+		, {}, token)
+	console.log("end put")
+
+	if(status < 300) {
+		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+	}
+	else{
+		//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+}
+export function* watchRejectMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.REJECT_MEETING_REQUEST)
+		yield call(rejectMeetingRequest, index, user)
 	}
 }
 
@@ -420,4 +466,6 @@ export default function* rootSaga() {
 	yield fork(watchPutUserRequest)
 
 	yield fork(watchJoinMeetingRequest)
+	yield fork(watchAccpetMeetingRequest)
+	yield fork(watchRejectMeetingRequest)
 }

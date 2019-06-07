@@ -39,6 +39,8 @@ export const JOIN_MEETING = "JOIN_MEETING"
 export const ACCEPT_MEETING_REQUEST = "ACCEPT_MEETING_REQUEST"
 export const ACCEPT_MEETING = "ACCEPT_MEETING"
 
+export const REJECT_MEETING_REQUEST = "REJECT_MEETING_REQUEST"
+
 export const MEETING_REQUEST_FAILURE = "MEETING_REQUEST_FAILURE"
 
 /******************** END OF CONSTANTS *********************/
@@ -94,18 +96,25 @@ export const getRecentMeetingRequest = (index) => {
 	}
 }
 
-export const joinMeetingRequest = (index, user, token) => {
+export const joinMeetingRequest = (index, user) => {
 	return {
 		type: "JOIN_MEETING_REQUEST",
 		index,
 		user,
-		token
 	}
 }
 
 export const acceptMeetingRequest = (index, user) => {
 	return {
 		type: "ACCEPT_MEETING_REQUEST",
+		index,
+		user
+	}
+}
+
+export const rejectMeetingRequest = (index, user) => {
+	return {
+		type: "REJECT_MEETING_REQUEST",
 		index,
 		user
 	}

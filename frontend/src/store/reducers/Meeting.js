@@ -13,6 +13,7 @@ const emptyMeeting = {
 	date: '',
 	deadline: '',
 	max_participant: 0,
+	participant_waiting : {},
 	region: '',
 	comments: []
 }

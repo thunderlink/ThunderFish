@@ -258,7 +258,7 @@ def Login(request):
         return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     key = {'token': token.key}
-    profile = Profile.objects.get(pk=user.profile.id) # get user's profile 
+    profile = Profile.objects.get(pk=user.profile.id) # get user's profile
     ret = {**ProfileSerializer(profile).data, **key} # Merge two dictionaries
     return Response(ret, status=HTTP_200_OK)
 
@@ -303,7 +303,7 @@ class Kakao(generics.ListCreateAPIView):
 
         resp = self.req(access_token)
         print(resp.json())
-        
+
         resp = resp.json()
 
         email = resp['kakao_account']['email']
@@ -311,20 +311,21 @@ class Kakao(generics.ListCreateAPIView):
         gender = resp['kakao_account']['gender']
         name = None # resp['kakao_account'][
 
-        try:
-            user, created = User.objects.get_or_create(username=email,
-                            password=None,email=email)
-            if created:  # 사용자 생성할 경우
-                Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
+        # try:
+        user, created = User.objects.get_or_create(username=email,
+                        password=None,email=email)
+        if created:  # 사용자 생성할 경우
+            print("Creaing user")
+            Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
 
-            user.is_active = True
-            user.save()
+        user.is_active = True
+        user.save()
 
-        #except IntegrityError:
-            print("Hi")
-            return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
-        except:
-            print("Except")
+    #except IntegrityError:
+        print("Hi")
+        return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
+        # except:
+            # print("Except")
         if not user:
             return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
         token, _ = Token.objects.get_or_create(user=user)

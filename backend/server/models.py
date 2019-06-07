@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 import re
-from django.db.models.functions import Sqrt
 from math import sqrt
 
 # Path to default image

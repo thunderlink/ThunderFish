@@ -143,7 +143,7 @@ export function* watchUserSetRequest() {
 export function* joinMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}${index}/membership/`, token)
+	const { status, data } = yield call(api.post, `${backendUrl}${index}/membership/`, user, token)
 	console.log("end post")
 
 	if(status >= 400) {

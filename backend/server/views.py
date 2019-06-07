@@ -136,6 +136,13 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         for tag_id in ret['tag_set']:
             tag_name.append(Tag.objects.get(id=tag_id).name)
         ret['tag_set'] = tag_name
+
+        participants = {}
+        for id in ret['participant']:
+            profile = Profile.objects.get(pk=id)
+            participants[str(id)] = {'id': id, 'name': profile.name}
+
+        ret['participant'] = participants
         return Response(ret, status=HTTP_200_OK)
 
     # DELETE works
@@ -285,8 +292,6 @@ import requests
 class Kakao(generics.ListCreateAPIView):
     permission_classes = (AllowAny,)
 
-
-
     def req(self, access_token):
         #https://developers.kakao.com/docs/restapi/user-management#%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%A0%95%EB%B3%B4-%EC%9A%94%EC%B2%AD
         #https://devlog.jwgo.kr/2017/11/09/how-to-call-rest-api/ 참고
@@ -309,27 +314,22 @@ class Kakao(generics.ListCreateAPIView):
 
         email = resp['kakao_account']['email']
         nickname = resp['properties']['nickname']
-        # gender = resp['kakao_account']['gender']
-        name = nickname # None # resp['kakao_account'][
+        name = nickname
 
-        # try:
-        user, created = User.objects.get_or_create(username=email,
-                        password=sha256(email.encode()).hexdigest(),email=email)
-        if created:  # 사용자 생성할 경우
-            print("Creaing user")
-            Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
+        try:
+            user, created = User.objects.get_or_create(username=email,
+                            password=sha256(email.encode()).hexdigest(),email=email)
+            if created:  # 사용자 생성할 경우
+                Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
 
-        user.is_active = True
-        user.save()
+            user.is_active = True
+            user.save()
+        except IntegrityError:
+            return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
 
-    #except IntegrityError:
-        print("Hi")
-        # return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
-        # except:
-            # print("Except")
         if not user:
             return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
-        
+
         token, _ = Token.objects.get_or_create(user=user)
         print(token, _)
         key = {'token': token.key}

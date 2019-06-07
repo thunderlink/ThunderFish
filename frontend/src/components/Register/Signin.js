@@ -16,6 +16,20 @@ class Signin extends Component {
 		password: ''
 	}
 
+	componentDidMount() {
+		window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a');
+		window.Kakao.Auth.createLoginButton({
+			container : '#kakaologin',
+			success : this.kakaoHandler,
+			/*fail : ,*/
+		})
+	}
+
+	kakaoHandler = (object) => {
+		console.log(object)
+		this.props.kakaologinRequest(object);
+	}
+
 	onSubmitHandler = (e) => {
 		e.preventDefault()
 		this.props.signinRequest(
@@ -71,14 +85,9 @@ class Signin extends Component {
 							<br/>
 							혹은
 							<br/>
-							<div>
-							  <img
-						  		src={kakao_account_login_btn}
-									alt="kakao_account_login_btn"
-									className="kakao_account_login_btn"
-									onClick={this.onClickKakao}
-								/>
-							</div>
+
+								<div id="kakaologin"></div>
+
 						</div>
 						<div className="description">
 							<br/>
@@ -103,6 +112,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		signinRequest: (username, password) => {
 			dispatch(actions.user.signinRequest(username, password))
+		},
+		kakaologinRequest: (object) => {
+			dispatch(actions.user.kakaologinRequest(object))
 		},
 	}
 }

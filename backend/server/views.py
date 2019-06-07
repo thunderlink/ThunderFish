@@ -279,3 +279,54 @@ class Register(generics.ListCreateAPIView):
         return Response(status=HTTP_201_CREATED)
 
     # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"
+
+import requests
+class Kakao(generics.ListCreateAPIView):
+    permission_classes = (AllowAny,)
+
+
+
+    def req(access_token):
+        #https://developers.kakao.com/docs/restapi/user-management#%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%A0%95%EB%B3%B4-%EC%9A%94%EC%B2%AD
+        #https://devlog.jwgo.kr/2017/11/09/how-to-call-rest-api/ 참고
+        url = 'https://kapi.kakao.com/v2/user/me'
+        headers = {'Authorization': 'Bearer {0}'.format(access_token),
+                   'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8',
+                }
+
+        #property_keys = ["kakao_account.email", "kakao_account.gender"];
+        return requests.get(url, headers=headers)
+
+
+    def post(self, request, *args, **kwargs):
+
+        access_token = request.access_token
+
+        resp = req(access_token)
+
+        email = resp.kakao_account['email']
+        nickname = resp.properties['nickname']
+        gender = resp.kakao_account['gender']
+        name =  None#resp.
+
+        try:
+            user, created = self.model.objects.get_or_create(username=email,
+                            password=None,email=email)
+            if created:  # 사용자 생성할 경우
+                Profile.objects.create(user_id=user.id, nickname=nickname, name=name)
+
+            user.is_active = True
+            user.save()
+
+        except IntegrityError:
+            return Response({"Kakao login error"}, status=HTTP_400_BAD_REQUEST)
+
+        if not user:
+            return Response({"error", "Invalid Credentials"}, status=HTTP_404_NOT_FOUND)
+        token, _ = Token.objects.get_or_create(user=user)
+        key = {'token': token.key}
+        profile = Profile.objects.get(pk=user.profile.id)  # get user's profile
+        ret = {**ProfileSerializer(profile).data, **key}  # Merge two dictionaries
+        return Response(ret, status=HTTP_200_OK)
+
+    # http -v POST http://127.0.0.1:8000/signup/ email="cd@example.com" password="123" nickname="cxz" name="zxc zxc"

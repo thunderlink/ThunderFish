@@ -19,7 +19,22 @@ class Signup extends Component {
 		nickname: ''
 	}
 
-	onSubmitHandler = (e) => {
+	componentDidMount() {
+        window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a');
+        window.Kakao.Auth.createLoginButton({
+            container : '#kakaologin',
+            success : this.kakaoHandler,
+            /*fail : ,*/
+        })
+    }
+
+    kakaoHandler = (object) => {
+	    console.log(object)
+	    this.props.kakaologinRequest(object);
+    }
+
+
+    onSubmitHandler = (e) => {
 		e.preventDefault()
 		this.props.signupRequest({
 			email: this.state.email,
@@ -116,14 +131,7 @@ class Signup extends Component {
 							<br/>
 							혹은
 							<br/>
-							<div>
-								<img
-									src={kakao_account_login_btn}
-									alt="kakao_account_login_btn"
-									className="kakao_account_login_btn"
-									onClick={this.onClickKakao}
-								/>
-							</div>
+                            <div id="kakaologin"></div>
 						</div>
 					</fieldset>
 				</form>
@@ -144,6 +152,10 @@ const mapDispatchToProps = dispatch => {
 		signupRequest: (user) => {
 			dispatch(actions.user.signupRequest(user))
 		},
+        kakaologinRequest: (object) => {
+		    dispatch(actions.user.kakaologinRequest(object))
+        }
+        ,
 	}
 }
 

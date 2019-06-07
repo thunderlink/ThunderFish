@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('signin/', views.Login), # POST username and password to receive token and user info
     path('signup/', views.Register.as_view()), # Sign Up through POST
+    path('kakao/', views.Kakao.as_view()), # Kakao Sign Up or Sign In through POST
     path('user/', views.GetProfile.as_view()), # Get profile
     path('user/<int:pk>/', views.ProfileDetail.as_view()), # My page
     path('user/<int:pk>/meetings/', views.UserMeetingList.as_view()),

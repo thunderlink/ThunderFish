@@ -4,6 +4,33 @@ const backend = 'http://18.216.47.154:8000/'
 const signupUrl = `${backend}signup/`
 const signinUrl = `${backend}signin/`
 const userUrl = `${backend}user/`
+const kakaoUrl = `${backend}kakao/`
+
+api.kakaologin = (object) => {
+
+	let headers = {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	}
+	let body = JSON.stringify(object)
+	//console.log(object)
+	return fetch(kakaoUrl, {headers, method: "POST", body})
+		.then(res => {
+			if(res.status === 200) {
+				return res.json().then(data => {
+					return {
+						status: res.status,
+						data: data
+					}
+				})
+			}
+			else {
+				return {
+					status: res.status
+				}
+			}
+		})
+}
 
 api.signup = (user) => {
 	let headers = {

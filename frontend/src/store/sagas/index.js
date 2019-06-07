@@ -13,6 +13,33 @@ const backendUrl = 'http://18.216.47.154:8000/'
  **************************************/
 
 /* Sign Up functions */
+
+export function* kakaologinRequest(object) {
+	const { status, data } = yield call(api.kakaologin, object)
+
+	if(status === 200) {
+		yield put({
+			type: actions.user.SIGNIN_SUCCESSFUL,
+			token: data.token,
+			nickname: data.nickname,
+			id: data.id
+		})
+	}
+	else if(status === 403 || status === 401) {
+		yield put({type: actions.user.SIGNIN_AUTH_ERR})
+	}
+	else {
+		yield put({type: actions.user.SIGNIN_FAILED})
+	}
+}
+
+export function* watchkakaologinRequest() {
+	while(true){
+		const { object } = yield take(actions.user.KAKAO_LOGIN_REQUEST)
+		yield call(kakaologinRequest, object)
+	}
+}
+
 export function* signupRequest(user) {
 	const { status } = yield call(api.signup, user)
 	if(status === 400) {
@@ -340,6 +367,9 @@ export function* watchPutUserRequest() {
 }
 
 export default function* rootSaga() {
+
+	yield fork(watchkakaologinRequest)
+
 	yield fork(watchSignupRequest)
 	yield fork(watchSigninRequest)
 	yield fork(watchUserSetRequest)

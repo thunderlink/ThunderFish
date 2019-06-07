@@ -16,6 +16,15 @@ export const USER_SET_SUCCESSFUL = "USER_SET_SUCCESSFUL"
 export const USER_SET_NONE = "USER_SET_NONE"
 export const USER_SET_FAILED = "USER_SET_FAILED"
 
+export const KAKAO_LOGIN_REQUEST = "KAKAO_LOGIN_REQUEST"
+
+export const kakaologinRequest = (object) => {
+	return {
+		type: 'KAKAO_LOGIN_REQUEST',
+		object: object
+	}
+}
+
 export const signupRequest = (user) => {
 	return {
 		type: 'SIGNUP_REQUEST',

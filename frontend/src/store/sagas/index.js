@@ -18,6 +18,7 @@ export function* kakaologinRequest(object) {
 	const { status, data } = yield call(api.kakaologin, object)
 
 	if(status === 200) {
+		console.log(data)
 		yield put({
 			type: actions.user.SIGNIN_SUCCESSFUL,
 			token: data.token,

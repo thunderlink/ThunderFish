@@ -8,8 +8,6 @@ import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
 
-import kakao_account_login_btn from 'icons/kakao_account_login_btn.png'
-
 class Signin extends Component {
 	state = {
 		username: '',
@@ -17,11 +15,10 @@ class Signin extends Component {
 	}
 
 	componentDidMount() {
-		window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a');
 		window.Kakao.Auth.createLoginButton({
 			container : '#kakaologin',
 			success : this.kakaoHandler,
-			/*fail : ,*/
+			//fail : ,
 		})
 	}
 
@@ -58,6 +55,13 @@ class Signin extends Component {
 								alt="thunderfish small logo"
 							/>
 						</Link>
+						{
+							(this.props.signinStatus==='FAILED') ? (
+								<p> 잘못된 이메일 또는 패스워드입니다. </p>
+							) : (
+								<div/>
+							)
+						}
 						<div className="reg_form">
 							<div>
 								<h2> Email </h2>
@@ -85,9 +89,8 @@ class Signin extends Component {
 							<br/>
 							혹은
 							<br/>
-
-								<div id="kakaologin"></div>
-
+							<div id="kakaologin">
+							</div>
 						</div>
 						<div className="description">
 							<br/>
@@ -104,6 +107,7 @@ class Signin extends Component {
 
 const mapStateToProps = state => {
 	return {
+		signinStatus: state.user.signinStatus,
 		isAuthenticated: state.user.isAuthenticated
 	}
 }

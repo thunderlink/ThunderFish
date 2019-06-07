@@ -9,7 +9,6 @@ import SignupSuccess from './SignupSuccess'
 import small_logo from 'logos/small_logo.png'
 
 import './Register.css'
-import kakao_account_login_btn from '../../icons/kakao_account_login_btn.png'
 
 class Signup extends Component {
 	state = {
@@ -20,21 +19,20 @@ class Signup extends Component {
 	}
 
 	componentDidMount() {
-        window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a');
-        window.Kakao.Auth.createLoginButton({
-            container : '#kakaologin',
-            success : this.kakaoHandler,
-            /*fail : ,*/
-        })
-    }
+		window.Kakao.Auth.createLoginButton({
+			container : '#kakaologin',
+			success : this.kakaoHandler,
+			//fail : ,
+		})
+	}
 
-    kakaoHandler = (object) => {
-	    console.log(object)
-	    this.props.kakaologinRequest(object);
-    }
+	kakaoHandler = (object) => {
+		console.log(object)
+		this.props.kakaologinRequest(object);
+	}
 
 
-    onSubmitHandler = (e) => {
+	onSubmitHandler = (e) => {
 		e.preventDefault()
 		this.props.signupRequest({
 			email: this.state.email,
@@ -42,7 +40,6 @@ class Signup extends Component {
 			name: this.state.name,
 			nickname: this.state.nickname
 		})
-
 	}
 
 	render() {
@@ -52,9 +49,6 @@ class Signup extends Component {
 			) : (this.props.signupStatus === 'SUCCESS') ? (
 				<SignupSuccess />
 			) : (
-
-/**/
-
 				<form className="register"
 					onSubmit={this.onSubmitHandler}
 				>
@@ -131,7 +125,7 @@ class Signup extends Component {
 							<br/>
 							혹은
 							<br/>
-                            <div id="kakaologin"></div>
+              <div id="kakaologin"></div>
 						</div>
 					</fieldset>
 				</form>

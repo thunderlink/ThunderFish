@@ -96,7 +96,7 @@ class Sidebar extends Component {
 									<div
 										className="sidebar-item-black-list"
 										style={{
-											'max-height': (this.state.openedContent === index+1) ? '1000px' : '0',
+											'maxHeight': (this.state.openedContent === index+1) ? '1000px' : '0',
 											transition: 'max-height 0.3s',
 										}}
 									> 
@@ -104,7 +104,7 @@ class Sidebar extends Component {
 											name.small.map(item => (
 												<Link 
 													className="sidebar-item-black-small"
-													to={`/search/${item}/`}
+													to={`/search/${item.replace("/", " ")}/`}
 												>
 												<h1 className="list-text"> {item} </h1>
 											</Link>

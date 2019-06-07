@@ -7,7 +7,7 @@ matrix:
       install:
         - pip install -r requirements.txt
       script:
-        - python manage.py __tests__
+        - python manage.py tests
 
     - language: node_js
       node_js:

@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .permissions import IsOwner
 from django.db.utils import IntegrityError
+from hashlib import sha256
 
 
 from rest_framework.status import (
@@ -313,7 +314,7 @@ class Kakao(generics.ListCreateAPIView):
 
         # try:
         user, created = User.objects.get_or_create(username=email,
-                        password=None,email=email)
+                        password=sha256(email.encode()).hexdigest(),email=email)
         if created:  # 사용자 생성할 경우
             print("Creaing user")
             Profile.objects.create(user_id=user.id, nickname=nickname, name=name)

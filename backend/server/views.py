@@ -15,7 +15,7 @@ from hashlib import sha256
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_403_FORBIDDEN,
-    HTTP_404_NOT_FOUND, 
+    HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_201_CREATED,
 )
@@ -137,12 +137,28 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
             tag_name.append(Tag.objects.get(id=tag_id).name)
         ret['tag_set'] = tag_name
 
+        ## Serialize participant's profile id and name
         participants = {}
         for id in ret['participant']:
             profile = Profile.objects.get(pk=id)
             participants[str(id)] = {'id': id, 'name': profile.name}
 
         ret['participant'] = participants
+
+        ## Membership
+        waiting = {}
+        approved = {}
+        for id in ret['membership_set']:
+            membership = Membership.objects.get(pk=id)
+            profile = membership.profile
+            if membership.status == 0:
+                waiting[str(id)] = {'id': profile.id, 'name': profile.name, 'membership_id': id}
+            elif membership.status == 1:
+                approved[str(id)] = {'id': profile.id, 'name': profile.name, 'membership_id': id}
+
+        ret['participant_waiting'] = waiting
+        ret['participant_approved'] = approved
+
         return Response(ret, status=HTTP_200_OK)
 
     # DELETE works
@@ -175,7 +191,7 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
 
-class MembershipList(generics.ListCreateAPIView):
+class JoinMeeting(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Membership.objects.all()
     serializer_class = MembershipSerializer
@@ -185,20 +201,31 @@ class MembershipList(generics.ListCreateAPIView):
         profile_id = Token.objects.get(key=token).user.profile.id
         request.data['profile'] = profile_id # Set host as request profile's id
         request.data['meeting'] = kwargs['pk']
-        request.data['status'] = "0" # Initially, status is waiting
+        request.data['status'] = 0 # Initially, status is waiting
 
         return self.create(request, *args, **kwargs)
 
-    # Post Works
-    # http -v POST http://127.0.0.1:8000/meetings/ name="testing meeting" "Authorization: Token 59d34519edd8475b86dad8ad0ce0d92e75019c8e" max_participant="5" content="Test Meeting Content" date="2018-01-01T00:00:00+09:00" deadline="2019-05-15T17:47:18.999698Z" tag_set:='[3, 4]'
-
-
-class MembershipDetail(generics.RetrieveUpdateDestroyAPIView):
+class AcceptMeeting(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
     queryset = Membership.objects.all()
     serializer_class = MembershipSerializer
 
+    def put(self, request, *args, **kwargs):
+        membership = Membership.objects.get(pk=kwargs['pk_membership'])
+        print(membership)
+        request.data['profile'] = membership.profile.id
+        request.data['meeting'] = kwargs['pk']
+        request.data['status'] = 1
+        return self.update(request, *args, **kwargs)
 
+class RejectMeeting(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
+    queryset = Membership.objects.all()
+    serializer_class = MembershipSerializer
+
+    def put(self, request, *args, **kwargs):
+
+        return self.update(request, *args, **kwargs)
 
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):

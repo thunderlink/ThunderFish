@@ -8,8 +8,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class MeetingSerializer(serializers.ModelSerializer):
     nickname = serializers.ReadOnlyField(source='host.nickname')
-    participant_waiting = serializers.ReadOnlyField(source='participant.through_fields.filter(status == 0)')
-    participant_approved = serializers.ReadOnlyField(source='participant.through_fields.filter(status == 1)')
+    # participant_waiting = serializers.ReadOnlyField(source='participant.through_fields.filter(status=0)')
+    # participant_approved = serializers.ReadOnlyField(source='participant.through_fields.filter(status=1)')
 
     class Meta:
         model = Meeting

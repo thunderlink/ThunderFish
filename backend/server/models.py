@@ -122,7 +122,7 @@ class Notification(models.Model):
 
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     checked = models.BooleanField(default=False)
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, null=True)
     notification = models.IntegerField(choices=NOTIFICATION_CHOICES)
 
     def __str__(self):
@@ -138,10 +138,10 @@ class Membership(models.Model):
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS_CHOICES)
-    message = models.CharField(max_length = 500)
+    message = models.CharField(max_length = 500, null=True, blank=True)
 
     def __str__(self):
-        return self.message
+        return str(self.meeting.id) + '@' + str(self.profile.id)
 
     class Meta:
         unique_together = (
@@ -154,10 +154,13 @@ class Membership(models.Model):
     def save(self, *args, **kwargs):
         if(self.pk==None):
             notification = Notification(meeting=self.meeting, profile=self.meeting.host, notification = Notification.NOTIFICATION_NEW_APPLY)
+            notification.save()
         else:
-            if(status == STATUS_CHOICES.STATUS_APPROVED):
+            if(self.status == self.STATUS_CHOICES[1]):
                 notification = Notification(meeting=self.meeting, profile=self.profile, notification = Notification.NOTIFICATION_APPLY_APPROVED)
-            elif(status == STATUS_CHOICES.STATUS_REJECTED):
+                notification.save()
+                print("Notify")
+            elif(self.status == self.STATUS_CHOICES[2]):
                 notification = Notification(meeting = self.meeting, profile = self.profile, notification = Notification.NOTIFICATION_APPLY_REJECTED)
-        notification.save()
+                notification.save()
         super().save(*args, **kwargs)

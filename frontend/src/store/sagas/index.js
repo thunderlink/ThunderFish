@@ -1,4 +1,5 @@
 import { take, put, call, fork } from 'redux-saga/effects'
+import axios from 'axios'
 
 import api from 'services/api'
 import * as actions from 'store/actions'
@@ -156,10 +157,19 @@ export function* watchGetMeetingRequest() {
 
 /* Meeting post functions */
 export function* postMeetingRequest(meeting) {
-
-	console.log("do post")
 	console.log(meeting)
+
 	const token = yield localStorage.getItem("token")
+
+	const fd = new FormData();
+	Object.keys(meeting).map((key) => {
+		fd.append(key, meeting.key)
+	})
+	fd.append('header', {Authorization: `Token ${token}`})
+	console.log(fd);
+
+	console.log(axios.post(`${backendUrl}meetings/`, fd))
+
 	const { status, data } = yield call(api.post, `${backendUrl}meetings/`, meeting, token)
 	console.log("end post")
 	console.log(data)

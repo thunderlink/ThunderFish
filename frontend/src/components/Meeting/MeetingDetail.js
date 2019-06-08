@@ -112,7 +112,8 @@ class MeetingDetail extends Component {
 						className="map"
 					>
 						<KakaoMap	
-							name={this.props.meeting.region}	
+							name={this.props.meeting.region}
+							option="view"
 						/>
 					</div>
 					<ul className="description-list">

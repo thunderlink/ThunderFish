@@ -90,6 +90,11 @@
 	resize: vertical;
 }
 
+.meeting-form .input-fields .input-item .map-wrapper {
+	width: 100%;
+	height: 360px;
+}
+
 .meeting-form .input-fields button {
 	width: 100%;
 	height: 48px;

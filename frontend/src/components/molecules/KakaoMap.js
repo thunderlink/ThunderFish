@@ -6,7 +6,12 @@ import './KakaoMap.css'
 
 class KakaoMap extends Component {
 	componentDidMount() {
-		this.createMap();
+		switch(this.props.option) {
+			case "view" :
+				this.createMap()
+			case "select" : 
+				this.createClickableMap()
+		}
 	}
 
 	createMap = () => {
@@ -33,6 +38,22 @@ class KakaoMap extends Component {
 		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
 		marker.setMap(map)
 		infowindow.open(map, marker)
+	}
+
+	createClickableMap = () => {
+		var markers = [];
+		var container = document.getElementById('kakao_map');
+
+		var options = {
+			center: new daum.maps.LatLng(33.450701, 126.570667)
+		}
+
+		var map = new daum.maps.Map(container, options)
+		var zoomControl = new daum.maps.ZoomControl()
+
+		//var ps = new daum.maps.services.Places();
+		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
 	}
 
 	render() {

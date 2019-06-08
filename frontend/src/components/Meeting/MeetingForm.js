@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import MeetingDetail from './MeetingDetail'
+import KakaoMap from 'components/molecules/KakaoMap'
 
 import * as actions from 'store/actions/'
 
@@ -11,7 +12,8 @@ import './MeetingForm.css'
 class MeetingForm extends Component {
 
 	state = {
-		photo: '',
+		file: '',
+		preview: '',
 		name: '',
 		date: '',
 		max_participant: 0,
@@ -31,7 +33,8 @@ class MeetingForm extends Component {
 				tags = tags + this.props.meeting.tag_set[key] + " "
 			})
 			this.state = {
-				photo: this.props.meeting.photo,
+				file: '',
+				preview: this.props.meeting.photo,
 				name: this.props.meeting.name,
 				date: this.props.meeting.date,
 				max_participant: this.props.meeting.max_participant,
@@ -41,13 +44,13 @@ class MeetingForm extends Component {
 				tag: tags,
 				open_chat: this.props.meeting.open_chat,
 			}
-			this.state.photo = ''
+			this.state.preview = ''
 		}
 	}
 
 	meetingSerializer = () => {
 		return {
-			photo: this.state.photo,
+			photo: this.state.file,
 			name: this.state.name,
 			date: this.state.date,
 			max_participant: this.state.max_participant,
@@ -63,8 +66,25 @@ class MeetingForm extends Component {
 		const parsedTag = this.state.tag.split(" ");
 		return Object.assign(this.meetingSerializer(), {
 			nickname: this.props.nickname,
-			tag_set: parsedTag
+			tag_set: parsedTag,
+			photo: this.state.preview,
 		})
+	}
+
+	handleImageChange = (e) => {
+		e.preventDefault();
+
+		let reader = new FileReader()
+		let file = e.target.files[0]
+		console.log(file)
+		reader.onloadend = () => {
+			this.setState({
+				file: file,
+				preview: reader.result
+			});
+		}
+
+		reader.readAsDataURL(file)
 	}
 
 	onSubmitHandler = (e) => {
@@ -86,8 +106,7 @@ class MeetingForm extends Component {
 						<div className="input-item">
 							<p> 사진 </p>
 							<input
-								type="file" id="photo" value={this.state.photo}
-								onChange={(e)=>this.setState({photo: e.target.value})}
+								type="file" id="photo" onChange={this.handleImageChange}
 							/>
 						</div>
 						<div className="input-item">
@@ -123,10 +142,17 @@ class MeetingForm extends Component {
 						</div>
 						<div className="input-item">
 							<p> 위치 </p>
+							<div className="map-wrapper">
+								<KakaoMap
+									option="select"
+								/>
+							</div>
+							{/*
 							<input
 								type="text" id="location" value={this.state.region}
 								onChange={(e)=>this.setState({region : e.target.value})}
 							/>
+							*/}
 						</div>
 						<div className="input-item">
 							<p> 내용 </p>

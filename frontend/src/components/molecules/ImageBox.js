@@ -8,7 +8,7 @@ class ImageBox extends Component {
 			<div className="image_box">
 				<div className="photo_cutter">
 					{
-						(!(this.props.src==undefined)) ? (
+						(!(this.props.src===undefined || this.props.src==="" || this.props.src===null)) ? (
 							<img
 								src={this.props.src}
 								alt={this.props.alt}

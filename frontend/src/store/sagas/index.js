@@ -70,7 +70,7 @@ export function* signinRequest(username, password) {
 	const { status, data } = yield call(api.signin, user)
 	if(status === 200) {
 		yield put({
-			type: actions.user.SIGNIN_SUCCESSFUL, 
+			type: actions.user.SIGNIN_SUCCESSFUL,
 			token: data.token,
 			nickname: data.nickname,
 			id: data.id
@@ -105,8 +105,8 @@ export function* userSetRequest() {
 		}
 		else {
 			yield put({
-				type: actions.user.USER_SET_SUCCESSFUL, 
-				id: id, 
+				type: actions.user.USER_SET_SUCCESSFUL,
+				id: id,
 				nickname: nickname
 			})
 		}
@@ -136,6 +136,80 @@ export function* watchUserSetRequest() {
  *  Join Meeting
  *  Cancel join meeting
  **************************************/
+
+/* Join meeting */
+
+/* Meeting post functions */
+export function* joinMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.post, `${backendUrl}meetings/${index}/join/`, user, token)
+	console.log("end post")
+
+	if(status >= 400) {
+		//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+	else{
+		//	yield put({type: actions.meeting.POST_MEETING, meeting : data})
+	}
+}
+
+export function* watchJoinMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.JOIN_MEETING_REQUEST)
+		yield call(joinMeetingRequest, index, user)
+	}
+}
+
+/* accept put function */
+
+export function* acceptMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/accept/${user}/`
+		, {}, token)
+	console.log("end put")
+
+	if(status < 300) {
+	//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+	}
+	else{
+	//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+}
+export function* watchAccpetMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.ACCEPT_MEETING_REQUEST)
+		yield call(acceptMeetingRequest, index, user)
+	}
+}
+
+/* reject put function */
+
+export function* rejectMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/reject/${user}/`
+		, {}, token)
+	console.log("end put")
+
+	if(status < 300) {
+		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+	}
+	else{
+		//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	}
+}
+export function* watchRejectMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.REJECT_MEETING_REQUEST)
+		yield call(rejectMeetingRequest, index, user)
+	}
+}
+
+
+
+
 /* Meeting get functions */
 export function* getMeetingRequest(index) {
 	const { status, data } = yield call(api.get, `${backendUrl}meetings/${index}/`)
@@ -143,7 +217,7 @@ export function* getMeetingRequest(index) {
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 	else{
-		yield put({type: actions.meeting.GET_MEETING, meeting : data})		
+		yield put({type: actions.meeting.GET_MEETING, meeting : data})
 	}
 
 }
@@ -167,7 +241,7 @@ export function* postMeetingRequest(meeting) {
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 	}
 	else{
-		yield put({type: actions.meeting.POST_MEETING, meeting : data})		
+		yield put({type: actions.meeting.POST_MEETING, meeting : data})
 	}
 }
 
@@ -266,7 +340,7 @@ export function* watchGetRecentMeetingRequest() {
 export function* postCommentRequest(id, text) {
 
 	const token = yield localStorage.getItem("token")
-	
+
 	const { status } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: id, comment_text: text}, token)
 	if(status < 300) {
 		yield put({type: actions.comment.POST_COMMENT})
@@ -390,4 +464,8 @@ export default function* rootSaga() {
 
 	yield fork(watchGetUserRequest)
 	yield fork(watchPutUserRequest)
+
+	yield fork(watchJoinMeetingRequest)
+	yield fork(watchAccpetMeetingRequest)
+	yield fork(watchRejectMeetingRequest)
 }

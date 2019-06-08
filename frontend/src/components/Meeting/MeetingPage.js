@@ -61,10 +61,49 @@ class MeetingPage extends Component {
 					<hr/>
 				</div>
 				<div className="meeting-content">
-					<Route
-						render={(props) => (<MeetingDetail {...props} meeting={this.props.meetingElement}/>)}
-					/>
-					<div className="comments">
+					<div>
+						<Route
+							render={(props) => (<MeetingDetail {...props} meeting={this.props.meetingElement}/>)}
+						/>
+
+						{(1/*this.props.meetingElement.host === this.props.id */) ? (
+
+
+							<div className="host-buttons">
+								<ul className="participant-list" /*participant list*/>
+									{
+										console.log(this.props.meetingElement)}
+									{
+										Object.keys(this.props.meetingElement.participant_waiting).map(key => (
+
+											<li>
+												<button
+													onClick={() =>this.props.acceptRequest(this.props.meetingElement.id,
+														this.props.meetingElement.participant_waiting[key].membership_id)}
+												>
+													{` Accept : #${this.props.meetingElement.participant_waiting[key].name} `}
+												</button>
+
+												<button
+													onClick={() =>this.props.rejectRequest(this.props.meetingElement.id,
+														this.props.meetingElement.participant_waiting[key].membership_id)}
+												>
+													{` Reject : #${this.props.meetingElement.participant_waiting[key].name} `}
+												</button>
+
+												<Link
+													to={`/user/${this.props.meetingElement.participant_waiting[key].id}`}
+												>
+													{`link to : #${this.props.meetingElement.participant_waiting[key].name} `}
+												</Link>
+											</li>
+										))}
+								</ul>
+
+							</div>  ) : <div> </div>}
+						</div>
+
+						<div className="comments">
 						<h1> 댓글 </h1>
 						<CommentList
 							comments={this.props.meetingElement.comments}
@@ -98,7 +137,15 @@ const mapDispatchToProps = dispatch => {
 		},
 		postCommentRequest: (id, text) => {
 			dispatch(actions.comment.postCommentRequest(id, text))
-		}
+		},
+
+		acceptRequest: (index, user) => {
+			dispatch(actions.meeting.acceptMeetingRequest(index, user))
+		},
+
+		rejectRequest: (index, user) => {
+			dispatch(actions.meeting.acceptMeetingRequest(index, user))
+		},
 	}
 }
 

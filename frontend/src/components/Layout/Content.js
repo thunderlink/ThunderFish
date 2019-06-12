@@ -6,7 +6,6 @@ import { createStore, applyMiddleware } from "redux"
 
 import Main from "components/Main/Main"
 import NotFound from "components/NotFound"
-import Footer from "components/molecules/Footer"
 import Signin from "components/Register/Signin"
 import Signup from "components/Register/Signup"
 import UserPage from "components/UserPage/UserPage"
@@ -15,8 +14,8 @@ import MeetingPage from "components/Meeting/MeetingPage"
 import SearchPage from "components/Search/SearchPage"
 import MeetingAddPage from "components/Meeting/MeetingAddPage"
 import MeetingEditPage from "components/Meeting/MeetingEditPage"
-
-import Header from "./Header"
+import Footer from "components/Layout/Footer"
+import Header from "components/Layout/Header"
 
 import './Content.css'
 
@@ -40,6 +39,7 @@ class Content extends Component {
 						<Route component={NotFound} />
 					</Switch>
 				</main>
+				<Footer />
 			</div>
 		)
 	}

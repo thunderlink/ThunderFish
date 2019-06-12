@@ -5,18 +5,56 @@ import React, { Component } from 'react'
 import './KakaoMap.css'
 
 class KakaoMap extends Component {
+
+	state = {
+		keyword: '',
+		address: '',
+
+		map: null,
+		ps: null,
+		infowindow: null,
+		highlightedInfowindow: null,
+		pagination: null,
+		searchResult: [],
+		geocoder: null,
+
+		markers: [],
+		clickedMarker: null,
+		
+		mapLoaded: false,
+		viewLatitude: '',
+		viewLongitude: '',
+	}
+
+	constructor(props) {
+		super(props);
+		this.state.mapLoaded = false
+	}
+
 	componentDidMount() {
 		switch(this.props.option) {
 			case "view" :
 				this.createMap()
+				break;
 			case "select" : 
 				this.createClickableMap()
+				break;
 		}
 	}
 
+	onSubmitHandler = (e) => {
+		e.preventDefault()
+		this.state.ps.keywordSearch(this.state.keyword, this.placeSearchCB)
+	}
+
 	createMap = () => {
-		var coord = new daum.maps.LatLng(33.450701, 126.570667)
-		var container = document.getElementById('kakao_map');
+		if(this.state.mapLoaded)
+			return;
+
+		console.log("making just map")
+
+		var coord = new daum.maps.LatLng(this.props.latitude, this.props.longitude)
+		var container = document.getElementById(`kakao-map-${this.props.option}`);
 
 		var options = {
 			center: coord
@@ -26,41 +64,254 @@ class KakaoMap extends Component {
 		var zoomControl = new daum.maps.ZoomControl()
 
 		var marker = new daum.maps.Marker({
-			position: coord
+			position: coord,
+			zIndex:10,
 		});
 
-		var infoContent = `<div>${this.props.name}</div>`
+		var infoContent = `<div>${this.props.region}</div>`
 		var infowindow = new daum.maps.InfoWindow({
 			position: coord,
-			content: infoContent
+			content: infoContent,
 		})
 
 		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
 		marker.setMap(map)
 		infowindow.open(map, marker)
+		this.setState({
+			viewLatitude: this.props.latitude,
+			viewLongitude: this.props.longitude
+		})
+		this.setState({mapLoaded: true})
 	}
 
 	createClickableMap = () => {
-		var markers = [];
-		var container = document.getElementById('kakao_map');
+		if(this.state.mapLoaded)
+			return;
 
-		var options = {
-			center: new daum.maps.LatLng(33.450701, 126.570667)
+		console.log("making map")
+		var mapContainer = document.getElementById(`kakao-map-${this.props.option}`)
+		var mapOption = {
+      center: new daum.maps.LatLng(37.460011, 126.951262),
+      level: 8
 		}
-
-		var map = new daum.maps.Map(container, options)
 		var zoomControl = new daum.maps.ZoomControl()
 
-		//var ps = new daum.maps.services.Places();
-		var infowindow = new daum.maps.InfoWindow({zIndex:1});
+		var map = new daum.maps.Map(mapContainer, mapOption)
 		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
+
+		var staticInfowindow = new daum.maps.InfoWindow({zIndex:1})
+		staticInfowindow.setContent(`<div style="padding:5px;font-size:12px;font-weight:600;">선택되었습니다.</div>`)
+
+		daum.maps.event.addListener(map, 'click', (e) => {
+			console.log(e)
+			if(this.state.clickedMarker !== null) {
+				this.state.clickedMarker.setMap(null)
+			}
+
+			var marker = new daum.maps.Marker()
+
+			marker.setPosition(e.latLng)
+			marker.setMap(map)
+			this.setState({
+				clickedMarker: marker
+			})
+			this.state.highlightedInfowindow.open(this.state.map, marker);
+
+			this.state.geocoder.coord2Address(
+				e.latLng.getLng(), 
+				e.latLng.getLat(),
+				(result, status) => {
+					if(status === daum.maps.services.Status.OK) {
+						console.log(result)
+						this.setState({
+							address: result[0].address.address_name,
+						})
+						this.props.onChangePlace({
+							latitude: `${e.latLng.getLat()}`,
+							longitude: `${e.latLng.getLng()}`,
+							region: ''
+						}) 
+					}
+				}
+			)
+		})
+
+		this.setState({
+			map: map,
+			ps: new daum.maps.services.Places(),
+			infowindow: new daum.maps.InfoWindow({zIndex:2}),
+			highlightedInfowindow: staticInfowindow, 
+			geocoder: new daum.maps.services.Geocoder(),
+			mapLoaded: true
+		})
+	}
+
+	placeSearchCB = (data, status, pagination) => {
+		console.log(data)
+		console.log(status)
+		console.log(pagination)
+		this.removeMarker()
+		this.setState({pagination: pagination})
+		if(status === daum.maps.services.Status.OK) {
+			var bounds = new daum.maps.LatLngBounds()
+			data.map((item) => {
+        this.displayMarker(item);    
+				bounds.extend(new daum.maps.LatLng(item.y, item.x));
+			})
+
+			this.state.map.setBounds(bounds);
+
+			this.setState({searchResult: data})
+		}
+		else {
+		}
+	}
+
+	displayMarker = (place) => {
+		var marker = new daum.maps.Marker({
+			map: this.state.map,
+			position: new daum.maps.LatLng(place.y, place.x) 
+		})
+
+		this.setState({markers: [...this.state.markers, marker]})
+
+		daum.maps.event.addListener(marker, 'mouseover', () => {
+			this.state.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`)
+			this.state.infowindow.open(this.state.map, marker);
+		})
+
+		daum.maps.event.addListener(marker, 'mouseout', () => {
+			this.state.infowindow.close()
+		})
+
+		daum.maps.event.addListener(marker, 'click', () => {
+			this.state.highlightedInfowindow.open(this.state.map, marker)
+			
+			this.state.geocoder.coord2Address(
+				place.x, 
+				place.y,
+				(result, status) => {
+					if(status === daum.maps.services.Status.OK) {
+						this.setState({
+							address: result[0].address.address_name,
+						})
+						this.props.onChangePlace({
+							region: place.place_name, 
+							longitude: place.x,
+							latitude: place.y,
+						}) 
+					}
+				}
+			)
+		})
+	}
+
+	removeMarker = () => {
+		this.state.markers.map(marker => {
+			marker.setMap(null)
+		})
+		this.setState({markers: []})
+	}
+
+	onClickNext = (e) => {
+		e.preventDefault()
+		this.removeMarker()
+		this.state.pagination.nextPage()
+	}
+
+	onClickPrev = (e) => {
+		e.preventDefault()
+		this.removeMarker()
+		this.state.pagination.prevPage()
+	}
+
+	onClickItem = (place) => (e) => {
+		e.preventDefault()
+		this.state.map.setCenter(new daum.maps.LatLng(place.y, place.x))
+		this.state.map.setLevel(3)
 	}
 
 	render() {
-		return (
-			<div id="kakao_map"
-				className="kakao_content"
-			/>
+		return (this.props.option==="view") ? (
+			<div className="kakao-map__view">
+				<div id={`kakao-map-${this.props.option}`}
+					className="kakao-content"
+				/>
+			</div>
+		) : (
+			<div className="kakao-map__select">
+				<div id={`kakao-map-${this.props.option}`}
+					className="kakao-content"
+				/>
+				<div className="search-field">
+					<form className="keyword-form" onSubmit={this.onSubmitHandler}>
+						<input 
+							className="keyword-input" type="text" 
+							value={this.state.keyword} 
+							onChange={(e) => this.setState({keyword: e.target.value})}
+						/>
+						<button className="keyword-submit" type="submit"> 장소 검색 </button>
+					</form>
+					<ul className="search-list">
+						{
+							this.state.searchResult.map(item => (
+								<li className="search-item"
+									key={`${item.id}_${item.place_name}`}
+								>
+									<div className="place-detail">
+										<p
+											style={{fontWeight: '600', color: '#000000'}}
+											className="place-name"
+										> 
+											{item.place_name} 
+										</p>
+										<p
+											style={{color: "#495057"}}
+											className="place-address"
+										> 
+											{item.address_name} 
+										</p>
+									</div>
+									<button onClick={this.onClickItem(item)}> 보기 </button>
+								</li>
+							))
+						}
+					</ul>
+					{
+						(this.state.pagination === null) ? (
+							<div />
+						) : (
+							<div className="page-button">
+								{
+									(this.state.pagination.hasPrevPage) ? (
+										<button onClick={this.onClickPrev}> {'<'} </button>
+									) : (<div/>)
+								}
+								<p> {this.state.pagination.current} </p>
+								{
+									(this.state.pagination.hasNextPage) ? (
+										<button onClick={this.onClickNext}> {'>'} </button>
+									) : (<div/>)
+								}
+							</div>
+						)
+					}
+				</div>
+				<div className="results">
+					<p className="results-address"> 
+						<strong> 주소 </strong> 
+						{(this.state.address==='') ? "지도를 클릭해주세요." : this.state.address} 
+					</p>
+					<p className="results-place">
+						<strong> 장소 </strong>
+						<input 
+							value={this.props.region} 
+							onChange={(e) => this.props.onChangePlace({region: e.target.value})}
+							placeholder="지도에서 위치를 선택하거나, 직접 입력하세요."
+						/>
+					</p>
+				</div>
+			</div>
 		)
 	}
 }

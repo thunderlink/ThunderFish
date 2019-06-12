@@ -69,7 +69,10 @@ class Sidebar extends Component {
 					{
 						Category.map((name, index) => {
 							return(
-								<div className="sidebar-item-black">
+								<div 
+									className="sidebar-item-black"
+									key={`${index}_${name}`}
+								>
 									<div 
 										className="sidebar-item-black-big"
 										onClick={(e)=>{
@@ -102,7 +105,8 @@ class Sidebar extends Component {
 									> 
 										{
 											name.small.map(item => (
-												<Link 
+												<Link
+													key={`${index}_${name}_${item}`}
 													className="sidebar-item-black-small"
 													to={`/search/${item.replace("/", " ")}/`}
 												>

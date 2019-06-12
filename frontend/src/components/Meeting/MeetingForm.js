@@ -19,6 +19,8 @@ class MeetingForm extends Component {
 		max_participant: 0,
 		deadline: '',
 		region: '',
+		latitude: '',
+		longitude: '',
 		content: '',
 		tag: '',
 		open_chat: '',
@@ -56,6 +58,8 @@ class MeetingForm extends Component {
 			max_participant: this.state.max_participant,
 			deadline: this.state.deadline,
 			region: this.state.region,
+			latitude: this.state.latitude,
+			longitude: this.state.longitude,
 			content: this.state.content,
 			tag: this.state.tag,
 			open_chat: this.state.open_chat
@@ -95,6 +99,11 @@ class MeetingForm extends Component {
 			this.props.putMeetingRequest(this.props.meeting.id, this.meetingSerializer())
 	}
 
+	onChangePlace = (newState) => {
+		console.log(newState)
+		this.setState(newState)
+	}
+
 	render() {
 		return (
 			<div className="meeting-form">
@@ -104,80 +113,88 @@ class MeetingForm extends Component {
 					</div>
 					<form onSubmit={this.onSubmitHandler}>
 						<div className="input-item">
-							<p> 사진 </p>
+							<p className="input-item__title"> 사진 </p>
 							<input
+								className="input-item__input"
 								type="file" id="photo" onChange={this.handleImageChange}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 번개 이름 </p>
+							<p className="input-item__title"> 번개 이름 </p>
 							<input 
+								className="input-item__input"
 								type="text" id="meetingName" value={this.state.name}
 								placeholder="번개의 이름을 입력하세요."
 								onChange={(e)=>this.setState({name : e.target.value})}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 날짜 </p>
+							<p className="input-item__title"> 날짜 </p>
 							<input 
+								className="input-item__input"
 								type="datetime-local" id="meetingDate" value={this.state.date}
 								placeholder="날짜를 선택하세요.."
 								onChange={(e)=>this.setState({date : e.target.value})}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 신청 마감일 </p>
+							<p className="input-item__title"> 신청 마감일 </p>
 							<input
+								className="input-item__input"
 								type="datetime-local" id="dueDate" value={this.state.deadline}
 								onChange={(e)=>this.setState({deadline : e.target.value})}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 최대 인원 </p>
+							<p className="input-item__title"> 최대 인원 </p>
 							<input
+								className="input-item__input"
 								type="number" id="maxParticipant" 
 								value={this.state.max_participant}
 								onChange={(e)=>this.setState({max_participant: e.target.value})}
 							/>
 						</div>
+					</form>
 						<div className="input-item">
-							<p> 위치 </p>
+							<p className="input-item__title"> 위치 </p>
 							<div className="map-wrapper">
 								<KakaoMap
 									option="select"
+									onChangePlace={this.onChangePlace}
+									latitude={this.state.latitude}
+									longitude={this.state.longitude}
+									region={this.state.region}
 								/>
 							</div>
-							{/*
-							<input
-								type="text" id="location" value={this.state.region}
-								onChange={(e)=>this.setState({region : e.target.value})}
-							/>
-							*/}
 						</div>
+					<form onSubmit={this.onSubmitHandler}>
 						<div className="input-item">
-							<p> 내용 </p>
+							<p className="input-item__title"> 내용 </p>
 							<textarea
+								className="input-item__textarea" 
 								type="text" id="detail" value={this.state.content}
 								onChange={(e)=>this.setState({content : e.target.value})}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 태그 </p>
+							<p className="input-item__title"> 태그 </p>
 							<input
+								className="input-item__input"
 								type="text" id="tag" value={this.state.tag}
 								placeholder="태그는 띄어쓰기로 구분해주세요."
 								onChange={(e)=>this.setState({tag : e.target.value})}
 							/>
 						</div>
 						<div className="input-item">
-							<p> 채팅방 링크 </p>
+							<p className="input-item__title"> 채팅방 링크 </p>
 							<input
+								className="input-item__input"
 								type="text" id="open_chat" value={this.state.open_chat}
 								onChange={(e)=>this.setState({open_chat : e.target.value})}
 								placeholder="To be added..."
 							/>
 						</div>
-						<button type="submit"> 
+						<button className="submit-button" type="submit"> 
 							{(this.props.functionType==="PUT") ? 
 									"번개 수정하기" : "번개 만들기"
 							}

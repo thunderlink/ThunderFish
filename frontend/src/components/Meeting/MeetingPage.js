@@ -26,21 +26,10 @@ class MeetingPage extends Component {
 		super(props)
 		this.props.waitRequest()
 		this.props.getMeetingRequest(this.props.match.params.id)
-		this.routeChange = this.routeChange.bind(this)
 	}
 
 	componentWillUnmount() {
 		this.props.waitRequest()
-	}
-
-
-	routeChange = () => {
-		this.props.history.push(`/meeting/${this.props.meetingElement.id}/edit`)
-	}
-
-	onPutHandler = (e) => {
-		e.preventDefault()
-		this.props.putMeetingRequest(/* TODO :: meeting*/)
 	}
 
 	onDeleteHandler = (e) => {
@@ -49,31 +38,102 @@ class MeetingPage extends Component {
 		this.props.history.push('/')
 	}
 
+	onAcceptHandler = (mem_id) => (e) => {
+		e.preventDefault()
+		this.props.acceptRequest(this.props.meetingElement.id, mem_id)
+	}
+
+	onRejectHandler = (mem_id) => (e) => {
+		e.preventDefault()
+		this.props.rejectRequest(this.props.meetingElement.id, mem_id)
+	}
+
 	render() {
 		return (!this.props.loadDone) ? (
 			<Loading />
 		) : (this.props.loadFailed) ? (
-			<NotFound />
+			<NotFound /> 
 		) : (
 			<div className="meeting-page">
+				{ console.log(this.props.meetingElement)}
 				<div className="meeting-title">
 					<h1> {this.props.meetingElement.name} </h1>
 					<hr/>
 				</div>
 				<div className="meeting-content">
-					<Route
-						render={(props) => (<MeetingDetail {...props} meeting={this.props.meetingElement}/>)}
-					/>
-					<div className="comments">
-						<h1> 댓글 </h1>
-						<CommentList
-							comments={this.props.meetingElement.comments}
-							meetingId={this.props.meetingElement.id}
+					<div className="meeting-info">
+						<Route
+							render={(props) => (<MeetingDetail {...props} meeting={this.props.meetingElement}/>)}
 						/>
+						{(this.props.meetingElement.host === this.props.id) ? (
+							<ul className="participant-list">
+								<div className="participant-title">
+									<h2> 승인 대기중 </h2>
+									<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
+								</div>
+								{
+									Object.keys(this.props.meetingElement.participant_waiting).map(key => (
+										<li className="participant-item" key={key}>
+											<Link
+												className="participant-name"
+												to={`/user/${this.props.meetingElement.participant_waiting[key].id}`}
+											>
+												{
+													this.props.meetingElement.participant_waiting[key].name
+												}
+											</Link>
+											<button
+												className="accept"
+												onClick={this.onAcceptHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
+											>
+												수락하기
+											</button>
+											<button
+												className="reject"
+												onClick={this.onRejectHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
+											>
+												거절하기
+											</button>
+										</li>
+									))}
+							</ul>
+						) : (
+							<div/>
+						)}
+					</div>
+					<div className="meeting-guests">
+						<ul className="participant-list">
+							<div className="participant-title">
+								<h2> 참여중 </h2>
+								<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
+							</div>
+							{
+								Object.keys(this.props.meetingElement.participant_approved).map(key => (
+									<li className="participant-item" key={key}>
+										<Link
+											className="participant-name"
+											to={`/user/${this.props.meetingElement.participant_approved[key].id}`}
+										>
+											{
+												this.props.meetingElement.participant_approved[key].name
+											}
+										</Link>
+									</li>
+								))
+							}
+						</ul>
+						<div className="comments">
+							<h1> 댓글 </h1>
+							<CommentList
+								comments={this.props.meetingElement.comments}
+								meetingId={this.props.meetingElement.id}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
-		)}
+		)
+	}
 }
 
 const mapStateToProps = state => {
@@ -98,7 +158,15 @@ const mapDispatchToProps = dispatch => {
 		},
 		postCommentRequest: (id, text) => {
 			dispatch(actions.comment.postCommentRequest(id, text))
-		}
+		},
+
+		acceptRequest: (index, user) => {
+			dispatch(actions.meeting.acceptMeetingRequest(index, user))
+		},
+
+		rejectRequest: (index, user) => {
+			dispatch(actions.meeting.acceptMeetingRequest(index, user))
+		},
 	}
 }
 

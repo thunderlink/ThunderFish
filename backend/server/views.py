@@ -172,7 +172,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
 
     def put(self, request, *args, **kwargs):
-        comment = Comment.objects.get(pk=kwargs['pk'])
+            comment = Comment.objects.get(pk=kwargs['pk'])
         ## Check if the request was sent by the writer
         token = request.headers['Authorization'].split()[1]
         id = Token.objects.get(pk=token).user.profile

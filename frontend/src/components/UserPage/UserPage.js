@@ -47,9 +47,6 @@ class UserPage extends Component {
 							<h1> 참가중인 번개 </h1>
 							<hr />
 							<MeetingList meetings={this.props.user.meeting_set} />
-							<h1> 승인 대기중인 번개 </h1>
-							<hr />
-							<MeetingList meetings={this.props.user.membership_set} />
 						</div>
 					</div>
 				</div>

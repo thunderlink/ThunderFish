@@ -20,7 +20,7 @@ class CommentElement extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault()
-		this.props.putCommentRequest(this.props.commentDetail.id, this.state.editText)
+		this.props.putCommentRequest(this.props.meetingId, this.props.commentDetail.id, this.state.editText)
 	}
 
 	onEditHandler = (e) => {
@@ -32,12 +32,13 @@ class CommentElement extends Component {
 
 	onDeleteHandler = (e) => {
 		e.preventDefault()
-		this.props.deleteComment(this.props.commentDetail.id)
+		this.props.deleteComment(this.props.meetingId, this.props.commentDetail.id)
 	}
 
 	render() {
 		return (
 			<div className="comment-element">
+				{console.log(this.props.commentDetail)}
 				<div className="writer">
 					<p> {this.props.commentDetail.nickname} </p>
 				</div>
@@ -96,11 +97,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		deleteComment: (id) => {
-			dispatch(actions.comment.deleteCommentRequest(id))
+		deleteComment: (pid, id) => {
+			dispatch(actions.comment.deleteCommentRequest(pid, id))
 		},
-		putCommentRequest: (id, text) => {
-			dispatch(actions.comment.putCommentRequest(id, text))
+		putCommentRequest: (pid, id, text) => {
+			dispatch(actions.comment.putCommentRequest(pid, id, text))
 		},
 	}
 }

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import './KakaoMap.css'
 
-class KakaoMap extends Component {
+export default class KakaoViewMap extends Component {
 
 	state = {
 		keyword: '',
@@ -22,8 +22,6 @@ class KakaoMap extends Component {
 		clickedMarker: null,
 		
 		mapLoaded: false,
-		viewLatitude: '',
-		viewLongitude: '',
 	}
 
 	constructor(props) {
@@ -32,64 +30,15 @@ class KakaoMap extends Component {
 	}
 
 	componentDidMount() {
-		switch(this.props.option) {
-			case "view" :
-				this.createMap()
-				break;
-			case "select" : 
-				this.createClickableMap()
-				break;
-		}
+		this.createSelectMap()
 	}
-
-	onSubmitHandler = (e) => {
-		e.preventDefault()
-		this.state.ps.keywordSearch(this.state.keyword, this.placeSearchCB)
-	}
-
-	createMap = () => {
-		if(this.state.mapLoaded)
-			return;
-
-		console.log("making just map")
-
-		var coord = new daum.maps.LatLng(this.props.latitude, this.props.longitude)
-		var container = document.getElementById(`kakao-map-${this.props.option}`);
-
-		var options = {
-			center: coord
-		}
-
-		var map = new daum.maps.Map(container, options)
-		var zoomControl = new daum.maps.ZoomControl()
-
-		var marker = new daum.maps.Marker({
-			position: coord,
-			zIndex:10,
-		});
-
-		var infoContent = `<div>${this.props.region}</div>`
-		var infowindow = new daum.maps.InfoWindow({
-			position: coord,
-			content: infoContent,
-		})
-
-		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT)
-		marker.setMap(map)
-		infowindow.open(map, marker)
-		this.setState({
-			viewLatitude: this.props.latitude,
-			viewLongitude: this.props.longitude
-		})
-		this.setState({mapLoaded: true})
-	}
-
-	createClickableMap = () => {
+	
+	createSelectMap = () => {
 		if(this.state.mapLoaded)
 			return;
 
 		console.log("making map")
-		var mapContainer = document.getElementById(`kakao-map-${this.props.option}`)
+		var mapContainer = document.getElementById(`kakao-map-select`)
 		var mapOption = {
       center: new daum.maps.LatLng(37.460011, 126.951262),
       level: 8
@@ -141,7 +90,9 @@ class KakaoMap extends Component {
 			ps: new daum.maps.services.Places(),
 			infowindow: new daum.maps.InfoWindow({zIndex:2}),
 			highlightedInfowindow: staticInfowindow, 
-			geocoder: new daum.maps.services.Geocoder(),
+			geocoder: new daum.maps.services.Geocoder()
+		})
+		this.setState({
 			mapLoaded: true
 		})
 	}
@@ -231,16 +182,15 @@ class KakaoMap extends Component {
 		this.state.map.setLevel(3)
 	}
 
+	onSubmitHandler = (e) => {
+		e.preventDefault()
+		this.state.ps.keywordSearch(this.state.keyword, this.placeSearchCB)
+	}
+
 	render() {
-		return (this.props.option==="view") ? (
-			<div className="kakao-map__view">
-				<div id={`kakao-map-${this.props.option}`}
-					className="kakao-content"
-				/>
-			</div>
-		) : (
+		return (
 			<div className="kakao-map__select">
-				<div id={`kakao-map-${this.props.option}`}
+				<div id={`kakao-map-select`}
 					className="kakao-content"
 				/>
 				<div className="search-field">
@@ -315,5 +265,3 @@ class KakaoMap extends Component {
 		)
 	}
 }
-
-export default KakaoMap

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import MeetingDetail from './MeetingDetail'
-import KakaoMap from 'components/molecules/KakaoMap'
+import { KakaoSelectMap } from 'components/molecules/KakaoMap'
 
 import * as actions from 'store/actions/'
 
@@ -158,8 +158,7 @@ class MeetingForm extends Component {
 						<div className="input-item">
 							<p className="input-item__title"> 위치 </p>
 							<div className="map-wrapper">
-								<KakaoMap
-									option="select"
+								<KakaoSelectMap
 									onChangePlace={this.onChangePlace}
 									latitude={this.state.latitude}
 									longitude={this.state.longitude}

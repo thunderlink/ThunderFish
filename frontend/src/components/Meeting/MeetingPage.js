@@ -5,7 +5,6 @@ import Moment from 'react-moment'
 
 import Loading from 'components/Loading'
 import ImageBox from 'components/molecules/ImageBox'
-import KakaoMap from 'components/molecules/KakaoMap'
 import CommentList from 'components/molecules/Comment/CommentList'
 import MeetingDetail from './MeetingDetail'
 import NotFound from 'components/NotFound'
@@ -69,7 +68,7 @@ class MeetingPage extends Component {
 							<ul className="participant-list">
 								<div className="participant-title">
 									<h2> 승인 대기중 </h2>
-									<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
+									<p> {'사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다.'} </p>
 								</div>
 								{
 									Object.keys(this.props.meetingElement.participant_waiting).map(key => (

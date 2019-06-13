@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
 import ImageBox from 'components/molecules/ImageBox'
-import KakaoMap from 'components/molecules/KakaoMap'
+import { KakaoViewMap } from 'components/molecules/KakaoMap'
 
 import * as actions from 'store/actions'
 
@@ -118,11 +118,10 @@ class MeetingDetail extends Component {
 					<div
 						className="map"
 					>
-						<KakaoMap
+						<KakaoViewMap
 							region={this.props.meeting.region}
 							latitude={this.props.meeting.latitude}
 							longitude={this.props.meeting.longitude}
-							option="view"
 						/>
 					</div>
 					<ul className="description-list">

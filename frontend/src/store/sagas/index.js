@@ -509,7 +509,7 @@ export function* getNotification() {
 
 export function* readNotificationRequest(pid, id) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/`, {id: id}, token)
+	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/${id}/`, {}, token)
 
 	if(status < 300) {
 		yield call(getNotificationRequest, pid)

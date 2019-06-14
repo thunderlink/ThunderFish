@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07c339ae-f091-4d8f-9398-db5e88767a8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/actions/Notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/actions/Notification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/sagas/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/sagas/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +20,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/store/sagas/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="511" column="58" selection-start-line="511" selection-start-column="58" selection-end-line="511" selection-end-column="58" />
+            <state relative-caret-position="145">
+              <caret line="512" lean-forward="true" selection-start-line="512" selection-end-line="512" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
               </folding>
@@ -30,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="19" column="46" lean-forward="true" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
+            <state relative-caret-position="348">
+              <caret line="53" column="3" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="3" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -51,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="33" column="23" lean-forward="true" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
+            <state relative-caret-position="209">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -205,11 +204,11 @@
         <option value="$PROJECT_DIR$/frontend/src/components/Layout/Header.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.css" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/frontend/src/store/sagas/index.js" />
         <option value="$PROJECT_DIR$/frontend/src/store/actions/Notification.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.css" />
         <option value="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.js" />
+        <option value="$PROJECT_DIR$/frontend/src/store/sagas/index.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js" />
       </list>
     </option>
   </component>
@@ -378,12 +377,12 @@
       <workItem from="1559884456739" duration="1995000" />
       <workItem from="1559886708409" duration="105000" />
       <workItem from="1559887047177" duration="654000" />
-      <workItem from="1560484491035" duration="18885000" />
+      <workItem from="1560484491035" duration="19312000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115879000" />
+    <option name="totallyTimeSpent" value="116306000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -398,7 +397,7 @@
     <frame x="-6" y="-6" width="1293" height="693" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49871466" visible="true" weight="0.24403815" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49871466" visible="true" weight="0.24403815" />
       <window_info id="Structure" order="1" sideWeight="0.5012854" side_tool="true" weight="0.23290938" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -414,7 +413,7 @@
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.3291815" />
-      <window_info anchor="bottom" id="Terminal" order="13" visible="true" weight="0.099644125" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="13" visible="true" weight="0.19039147" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -818,26 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/store/sagas/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="511" column="58" selection-start-line="511" selection-start-column="58" selection-end-line="511" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="19" column="46" lean-forward="true" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -847,8 +826,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="33" column="23" lean-forward="true" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
+        <state relative-caret-position="209">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/store/sagas/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="512" lean-forward="true" selection-start-line="512" selection-end-line="512" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/molecules/Notification/NotificationElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="53" column="3" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="3" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

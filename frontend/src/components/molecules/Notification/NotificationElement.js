@@ -42,10 +42,16 @@ class NotificationElement extends Component {
             ) : (
                 <div className="notification_read">
                     <div className="notification_type">
-                        status(this.props.notification)
+                        {this.sexy(this.props.notification)}
                     </div>
+                    <p> Checked Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
 
-                    <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
+                    <Link to={`/meeting/${this.props.meeting}`}
+                          className="read"
+                          onClick={() => {
+                              this.props.getNotification(this.props.pid);
+                          }}
+                    > Click to Read </Link>
                 </div>
             )
         )

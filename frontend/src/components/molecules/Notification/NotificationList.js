@@ -47,6 +47,8 @@ class NotificationList extends Component {
                                 pid={this.props.pid}
                                 notification={item.notification}
                                 read={item.read}
+                                readNotification={this.props.readNotification}
+                                getNotification={this.props.getNotification}
                             />)
                             )}
                             </div>

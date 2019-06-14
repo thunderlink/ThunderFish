@@ -480,7 +480,7 @@ export function* watchPutUserRequest() {
 
 export function* getNotificationRequest(id) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.get, `${backendUrl}user/${id}/notification/`, token)
+	const { status, data } = yield call(api.get, `${backendUrl}/user/${id}/notification/`, token)
 	if(status === 200) {
 		yield put({type: actions.notification.GET_NOTIFICATION, notification_list: data})
 	}
@@ -509,7 +509,7 @@ export function* getNotification() {
 
 export function* readNotificationRequest(pid, id) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.put, `${backendUrl}user/${pid}/notification/`, {id: id}, token)
+	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/`, {id: id}, token)
 
 	if(status < 300) {
 		yield call(getNotificationRequest, pid)

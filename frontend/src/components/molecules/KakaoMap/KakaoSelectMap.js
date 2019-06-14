@@ -37,7 +37,6 @@ export default class KakaoViewMap extends Component {
 		if(this.state.mapLoaded)
 			return;
 
-		console.log("making map")
 		var mapContainer = document.getElementById(`kakao-map-select`)
 		var mapOption = {
       center: new daum.maps.LatLng(37.460011, 126.951262),

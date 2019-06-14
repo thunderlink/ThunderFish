@@ -79,7 +79,6 @@ class MeetingForm extends Component {
 
 		let reader = new FileReader()
 		let file = e.target.files[0]
-		console.log(file)
 		reader.onloadend = () => {
 			this.setState({
 				file: file,
@@ -141,11 +140,20 @@ class MeetingForm extends Component {
 					<div className="input-item">
 						<p className="input-item__title"> 날짜 </p>
 						<input
-							type="date"
+							className="input-item__input"
+							type="datetime-local" id="date" 
+							value={this.state.date}
+							onChange={(e)=>this.setState({date: e.target.value})}
 						/>
 					</div>
 					<div className="input-item">
 						<p className="input-item__title"> 신청 마감일 </p>
+						<input
+							className="input-item__input"
+							type="datetime-local" id="deadline" 
+							value={this.state.deadline}
+							onChange={(e)=>this.setState({deadline: e.target.value})}
+						/>					
 					</div>
 					<form>
 						<div className="input-item">

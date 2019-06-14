@@ -11,6 +11,7 @@ urlpatterns = [
     path('user/<int:pk>/', ProfileDetail.as_view()), # My page
     path('user/<int:pk>/meetings/', UserMeetingList.as_view()), # Not Used
     path('user/<int:pk>/notification/', UserNotificationList.as_view()),
+    path('user/<int:user>/notification/<int:pk>/', UserNotificationDetail.as_view()),
     path('meetings/', MeetingList.as_view()),
     path('meetings/new/<int:id>/', RecentMeetingList.as_view()),
     path('meetings/<int:pk>/', MeetingDetail.as_view()),

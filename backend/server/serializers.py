@@ -47,7 +47,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('prof','pk', 'checked', 'meeting', 'notification')
+        fields = ('prof', 'id', 'checked', 'meeting', 'notification')
 
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:

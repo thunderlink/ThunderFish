@@ -137,6 +137,9 @@ class Notification(models.Model):
     def __str__(self):
         return str(self.profile)
 
+    class Meta:
+        ordering = ['checked', '-id']
+
 class Membership(models.Model):
     STATUS_WAITING = 0
     STATUS_APPROVED = 1

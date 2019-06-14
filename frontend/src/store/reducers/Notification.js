@@ -1,7 +1,7 @@
 import '../actions/Notification'
 
 export const initialState = {
-    notification_list : []
+    notification_list : null
 }
 
 export default function notification(state=initialState, action) {

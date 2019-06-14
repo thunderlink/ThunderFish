@@ -5,21 +5,48 @@ class NotificationElement extends Component {
 
     onClickHandler = (meetingid, id) => {
         this.props.readNotification(id/*notification id*/, this.props.pid)
+        this.props.getNotification(this.props.pid)
         this.props.history.push(`/meeting/${meetingid}`);
     }
 
+    status = (notification) => {
+        switch (notification) {
+            case '0' :
+                return <p>New Apply</p>
+            case '1' :
+                return <p>New Comment</p>
+            case '2' :
+                return <p>Apply Reject</p>
+            case '3' :
+                return <p>Apply Approved</p>
+        }
+    }
 
     render() {
         return(
-            <div className="notification_element">
-                <div className="notification_type">
+            (!this.props.read) ? (
+                <div className="notification_unread">
+                    <div className="notification_type">
                     </div>
+                    status(this.props.notification)
                     <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
                     <button
                         className="read"
                         onClick={this.onClickHandler(this.props.meeting, this.props.id)}
                     > Click to Read </button>
-            </div>
+                </div>
+            ) : (
+                <div className="notification_read">
+                    <div className="notification_type">
+                    </div>
+                    status(this.props.notification)
+                    <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
+                    <button
+                        className="read"
+                        onClick={this.onClickHandler(this.props.meeting, this.props.id)}
+                    > Click to Read </button>
+                </div>
+            )
         )
     }
 }

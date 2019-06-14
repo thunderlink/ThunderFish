@@ -4,7 +4,7 @@ import axios from 'axios'
 import api from 'services/api'
 import * as actions from 'store/actions'
 
-const backendUrl = 'http://18.216.47.154:8000/'
+const backendUrl = 'http://18.216.47.154:8000'
 
 /**************************************
  * Register Functions.
@@ -144,7 +144,7 @@ export function* watchUserSetRequest() {
 export function* joinMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}meetings/${index}/join/`, user, token)
+	const { status, data } = yield call(api.post, `${backendUrl}/meetings/${index}/join/`, user, token)
 	console.log("end post")
 
 	if(status < 300) {
@@ -169,7 +169,7 @@ export function* watchJoinMeetingRequest() {
 export function* acceptMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/accept/${user}/`, {}, token)
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/accept/${user}/`, {}, token)
 
 	if(status < 300) {
 		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
@@ -192,7 +192,7 @@ export function* watchAccpetMeetingRequest() {
 
 export function* rejectMeetingRequest(index, user) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/reject/${user}/`, {}, token)
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/reject/${user}/`, {}, token)
 
 	if(status < 300) {
 		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
@@ -213,10 +213,10 @@ export function* watchRejectMeetingRequest() {
 
 /* Meeting get functions */
 export function* getMeetingRequest(index) {
-	console.log("getMeeting")
-	const { status, data } = yield call(api.get, `${backendUrl}meetings/${index}/`)
+	const { status, data } = yield call(api.get, `${backendUrl}/meetings/${index}/`)
+	
 	if(status < 300) {
-		yield put({type: actions.meeting.GET_MEETING, meeting : data})
+		yield put({type: actions.meeting.GET_MEETING, meeting : {...data, photo: `${backendUrl}${data.pic_url}`}})
 	}
 	else{
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING"})
@@ -238,16 +238,27 @@ export function* watchGetMeetingRequest() {
 	fd.append('header', {Authorization: `Token ${token}`})
 	console.log(fd);
 
-	console.log(axios.post(`${backendUrl}meetings/`, fd))
+	console.log(axios.post(`${backendUrl}/meetings/`, fd))
 */
 
 /* Meeting post functions */
 export function* postMeetingRequest(meeting) {
-	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}meetings/`, meeting, token)
 
-	if(status < 300) {
-		yield put({type: actions.meeting.POST_MEETING, meeting : data})
+	const token = yield localStorage.getItem("token")
+	let res = yield call(api.post, `${backendUrl}/image/`, meeting.photo, token)
+	console.log(res)
+
+	if(res.status >= 300){
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_MEETING"})
+		return
+	}
+	
+	const photoId = res.data.id
+	res = yield call(api.post, `${backendUrl}/meetings/`, {...meeting, photo: photoId}, token)
+	console.log(res)
+
+	if(res.status < 300){
+		yield put({type: actions.meeting.POST_MEETING, meeting: res.data})
 	}
 	else {
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_MEETING"})
@@ -265,7 +276,7 @@ export function* watchPostMeetingRequest() {
 export function* putMeetingRequest(index, meeting) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/`, meeting, token)
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/`, meeting, token)
 
 	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting: data})
@@ -284,7 +295,7 @@ export function* watchPutMeetingRequest() {
 /* Meeting delete functions */
 export function* deleteMeetingRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}meetings/${index}/`, token)
+	const { status } = yield call(api.delete, `${backendUrl}/meetings/${index}/`, token)
 	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
@@ -301,7 +312,7 @@ export function* watchDeleteMeetingRequest() {
 
 /* Meeting list get functions */
 export function* getMeetingListRequest(query) {
-	const { status, data } = yield call(api.get, `${backendUrl}search/${query}`)
+	const { status, data } = yield call(api.get, `${backendUrl}/search/${query}`)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
@@ -319,7 +330,7 @@ export function* watchGetMeetingListRequest() {
 /* Recent Meeting get functions */
 export function* getRecentMeetingRequest(index) {
 	console.log(index);
-	const { status, data } = yield call(api.get, `${backendUrl}meetings/new/${index}/`)
+	const { status, data } = yield call(api.get, `${backendUrl}/meetings/new/${index}/`)
 	console.log(data)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_RECENT_MEETING, meetings: data, index: index})
@@ -347,7 +358,7 @@ export function* postCommentRequest(pid, text) {
 
 	const token = yield localStorage.getItem("token")
 
-	const { status } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: pid, comment_text: text}, token)
+	const { status } = yield call(api.post, `${backendUrl}/comment/`, {parent_meeting: pid, comment_text: text}, token)
 	if(status < 300) {
 		yield put({type: actions.comment.POST_COMMENT})
 		yield call(getMeetingRequest, pid)
@@ -368,7 +379,7 @@ export function* watchPostCommentRequest() {
 /* Comment put functions */
 export function* putCommentRequest(pid, id, text) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
+	const { status } = yield call(api.put, `${backendUrl}/comment/${id}/`, {comment_text: text}, token)
 
 	if(status < 300) {
 		yield put({type: actions.comment.PUT_COMMENT})
@@ -389,7 +400,7 @@ export function* watchPutCommentRequest() {
 /* Comment delete functions */
 export function* deleteCommentRequest(pid, id) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}comment/${id}/`, token)
+	const { status } = yield call(api.delete, `${backendUrl}/comment/${id}/`, token)
 	if(status < 300) {
 		yield put({type: actions.comment.DELETE_COMMENT})
 		yield call(getMeetingRequest, pid)
@@ -437,7 +448,7 @@ export function* watchGetUserRequest() {
 /* User put functions */
 export function* putUserRequest(index, profile) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}user/${index}/`, profile, token)
+	const { status, data } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
 	if(status === 200) {
 		yield put({type: actions.user.PUT_PROFILE, profile: profile})
 	}

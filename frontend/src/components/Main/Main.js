@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import Loading from 'components/Loading'
 import MeetingList from 'components/molecules/Meeting/MeetingList'
+import Welcome from'./Welcome'
 
 import * as actions from 'store/actions'
 
@@ -22,7 +23,12 @@ class Main extends Component {
 		return (
 			<div className="main-page">
 				<div className="main-page-content">
-					<div className="welcome">
+					<div className="welcome-wrapper">
+						<Welcome 
+							isAuthenticated={this.props.isAuthenticated}
+							user={this.props.user}
+							id={this.props.id}
+						/>
 					</div>
 					<div className="recent-meetings">
 						<h1> 최근 생성된 번개</h1>
@@ -37,6 +43,9 @@ class Main extends Component {
 
 const mapStateToProps = state => {
 	return {
+		isAuthenticated: state.user.isAuthenticated,
+		id: state.user.id,
+		user: state.user.nickname,
 		meetingList: state.meeting.meetingList
 	}
 }

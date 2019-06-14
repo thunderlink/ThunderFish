@@ -14,11 +14,13 @@
 	justify-content: flex-start;
 }
 
-.main-page .main-page-content .welcome {
+.main-page .main-page-content .welcome-wrapper {
 	flex-basis: 50%;
+	margin: 0 8px;
 }
 
 .main-page .main-page-content .recent-meetings {
 	flex-basis: 50%;
+	margin: 0 8px;
 }
 

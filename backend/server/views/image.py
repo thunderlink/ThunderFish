@@ -9,12 +9,17 @@ from rest_framework.views import APIView
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.permissions import AllowAny
 
+DEFAULT_IMAGE = "../../media/default-meeting.png"
+
 class ImageUploadView(APIView):
     permission_classes = (AllowAny, )
     parser_class = (FileUploadParser, )
 
     def post(self, request, *args, **kwargs):
-        file_serializer = FileSerializer(data=request.data)
+        if request.data['profile'] == "":
+            file_serializer = FileSerializer(data={'profile' : DEFAULT_IMAGE})
+        else:
+            file_serializer = FileSerializer(data=request.data)
 
         if file_serializer.is_valid():
             file_serializer.save()

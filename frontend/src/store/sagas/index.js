@@ -453,6 +453,45 @@ export function* watchPutUserRequest() {
 	}
 }
 
+/*************
+* NOTIFICATION
+ * GET
+ * PUT
+***********/
+
+export function* getNotificationRequest(id) {
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.get, `${backendUrl}user/${id}/notification/`, token)
+	if(status === 200) {
+		yield put({type: actions.user.GET_NOTIFICATION, notification_list: data})
+	}
+	else{
+
+	}
+}
+
+export function* watchGetNotificationRequest() {
+	while(true) {
+		const { id } = yield take(actions.notification.GET_NOTIFICATION_REQUEST)
+		yield call(getNotificationRequest, id)
+	}
+}
+
+export function* readNotificationRequest(pid, id) {
+	const token = yield localStorage.getItem("token")
+	const { status } = yield call(api.put, `${backendUrl}user/${pid}/notification/`, {id: id}, token)
+
+	if(status < 300) {
+		yield call(getNotificationRequest, pid)
+	}
+}
+export function* watchReadNotificationRequest() {
+	while(true) {
+		const {pid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
+		yield call(readNotificationRequest, pid, id)
+	}
+}
+
 export default function* rootSaga() {
 
 	yield fork(watchkakaologinRequest)
@@ -480,4 +519,7 @@ export default function* rootSaga() {
 	yield fork(watchJoinMeetingRequest)
 	yield fork(watchAccpetMeetingRequest)
 	yield fork(watchRejectMeetingRequest)
+
+	yield fork(watchReadNotificationRequest)
+	yield fork(watchGetNotificationRequest)
 }

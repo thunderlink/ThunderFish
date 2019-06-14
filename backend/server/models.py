@@ -14,7 +14,7 @@ User._meta.local_fields[7].__dict__['_unique'] = True
 class Image(models.Model):
     profile = models.ImageField(blank=True, null=False, default=DEFAULT_IMAGE)
     title = models.CharField(max_length=100, blank=True)
-    url = models.CharField(max_length=1000, blank=True, null=True)
+    # url = models.CharField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

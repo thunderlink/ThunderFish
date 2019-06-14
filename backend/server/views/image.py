@@ -19,13 +19,24 @@ class ImageUploadView(APIView):
         if file_serializer.is_valid():
             file_serializer.save()
             img = Image.objects.get(pk=file_serializer.data['id'])
-            img.url = file_serializer.data['profile']
-            img.save()
-            return Response(file_serializer.data, status=HTTP_201_CREATED)
+            return Response(ImageSerializer(img).data, status=HTTP_201_CREATED)
         else:
             return Response(file_serializer.data, status=HTTP_400_BAD_REQUEST)
+
 
 class ImageViewSet(generics.RetrieveAPIView):
     permission_classes = (AllowAny, )
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+
+    def put(self, request, *args, **kwargs):
+        file_serializer = FileSerializer(data=request.data)
+
+        if file_serializer.is_valid():
+            id = kwargs['pk']
+            img = Image.objects.get(pk=id)
+            img.profile = file_serializer.validated_data['profile']
+            img.save()
+            return Response(ImageSerializer(img).data, status=HTTP_201_CREATED)
+        else:
+            return Response({"Bad Request"}, status=HTTP_400_BAD_REQUEST)

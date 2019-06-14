@@ -27,8 +27,9 @@ class NotificationElement extends Component {
             (!this.props.read) ? (
                 <div className="notification_unread">
                     <div className="notification_type">
+                        status(this.props.notification)
                     </div>
-                    status(this.props.notification)
+
                     <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
                     <button
                         className="read"
@@ -38,13 +39,10 @@ class NotificationElement extends Component {
             ) : (
                 <div className="notification_read">
                     <div className="notification_type">
+                        status(this.props.notification)
                     </div>
-                    status(this.props.notification)
+
                     <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
-                    <button
-                        className="read"
-                        onClick={this.onClickHandler(this.props.meeting, this.props.id)}
-                    > Click to Read </button>
                 </div>
             )
         )

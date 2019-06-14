@@ -30,3 +30,7 @@ class SearchLocation(generics.ListCreateAPIView):
         lat, long, dist = float(data['latitude']), float(data['longitude']), int(kwargs['dist'])
         self.queryset = Meeting.distance_search(dist, lat, long)
         return self.list(request, *args, **kwargs)
+
+class SearchTag(generics.ListCreateAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)

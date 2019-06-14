@@ -26,6 +26,13 @@ class NotificationList extends Component {
                     Notifications
                 </Link>
 
+                <Link
+                    className="notification-link"
+                    to={`/`}
+                >
+                    Go Back to Main Page
+                </Link>
+
 
                 {
                     (this.props.pid === -1) ? (
@@ -42,11 +49,11 @@ class NotificationList extends Component {
                                 {console.log(this.props.notification_list)}
                                 {Object.keys(this.props.notification_list).map(item => (
                             <NotificationElement
-                                meeting={item.meeting}
-                                id={item.pk}
+                                meeting={this.props.notification_list[item].meeting}
+                                id={this.props.notification_list[item].pk}
                                 pid={this.props.pid}
-                                notification={item.notification}
-                                read={item.read}
+                                notification={this.props.notification_list[item].notification}
+                                read={this.props.notification_list[item].read}
                                 readNotification={this.props.readNotification}
                                 getNotification={this.props.getNotification}
                             />)

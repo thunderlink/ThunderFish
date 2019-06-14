@@ -9,7 +9,7 @@ export const getnotificationRequest = (id) => {
     }
 }
 
-export const readnotificatinoRequest = (id, pid) => {
+export const readnotificationRequest = (id, pid) => {
     return {
         type: 'READ_NOTIFICATION_REQUEST',
         id: id,

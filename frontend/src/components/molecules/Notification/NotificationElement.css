@@ -1,24 +1,21 @@
-.notification-unread {
+.notification_unread {
     background: #999999;
     border: 1px solid #dddddd;
-    border-radius: 8px;
-    margin-bottom: 16px;
+    outline-style: groove;
 }
 
-.notification-read {
+.notification_read {
     background: #495057;
-    padding: 8px 16px;
     border-bottom: 1px solid #dddddd;
     display: flex;
 }
 
-.notification-type {
-    padding: 8px 16px;
+.notification_type {
     border-bottom: 1px solid #dddddd;
     display: flex;
 }
 
-.notification-unread.read {
+.notification_unread.read {
     margin-left: 8px;
 
     background: #ffffff;

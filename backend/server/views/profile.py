@@ -1,4 +1,4 @@
-from ..models import Profile, Meeting
+from ..models import Profile, Meeting, Membership
 from ..serializers import ProfileSerializer, MeetingSerializer
 from rest_framework.response import Response
 from rest_framework import permissions, generics
@@ -37,10 +37,17 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
             meet = Meeting.objects.get(pk=id)
             ret['meeting_hosted'].append(MeetingSerializer(meet).data)
         participated = ret['meeting_set'][0:]
-        ret['meeting_set'] = []
+        ret['meeting_waiting_set'] = []
+        ret['meeting_approved_set'] = []
+        ret['meeting_rejected_set'] = []
         for id in participated:
             meet = Meeting.objects.get(pk=id)
-            ret['meeting_set'].append(MeetingSerializer(meet).data)
+            if meet.membership_set.status == Membership.STATUS_WAITING:
+                ret['meeting_waiting_set'].append(MeetingSerializer(meet).data)
+            elif meet.membership_set.status == Membership.STATUS_APPROVED:
+                ret['meeting_approved_set'].append(MeetingSerializer(meet).data)
+            elif meet.membership_set.status == Membership.STATUS_REJECTED:
+                ret['meeting_rejected_set'].append(MeetingSerializer(meet).data)
         return Response(ret, status=HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):

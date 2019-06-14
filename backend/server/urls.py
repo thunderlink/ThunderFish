@@ -13,6 +13,7 @@ urlpatterns = [
     path('meetings/new/<int:id>/', RecentMeetingList.as_view()),
     path('meetings/<int:pk>/', MeetingDetail.as_view()),
     path('meetings/<int:pk>/join/', JoinMeeting.as_view()),
+    path('meetings/<int:meeting>/join/<int:pk>/', JoinMeetingDetail.as_view()),
     path('meetings/<int:meeting>/accept/<int:pk>/', AcceptMeeting.as_view()),
     path('meetings/<int:meeting>/reject/<int:pk>/', RejectMeeting.as_view()),
     # path('meetings/<int:pk>/join/', views) #POST, PUT, DELETE

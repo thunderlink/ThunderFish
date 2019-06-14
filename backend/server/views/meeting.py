@@ -138,6 +138,11 @@ class JoinMeeting(generics.ListCreateAPIView):
 
         return self.create(request, *args, **kwargs)
 
+class JoinMeetingDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
+    queryset = Membership.objects.all()
+    serializer_class = MembershipSerializer
+
 
 class AcceptMeeting(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)

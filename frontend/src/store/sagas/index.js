@@ -245,7 +245,14 @@ export function* watchGetMeetingRequest() {
 export function* postMeetingRequest(meeting) {
 
 	const token = yield localStorage.getItem("token")
-	let res = yield call(api.post, `${backendUrl}/image/`, meeting.photo, token)
+	const fd = new FormData();
+	fd.append('profile', meeting.photo)
+	let res = yield axios.post(`${backendUrl}/image/`, fd)
+		.then((res) => {
+			console.log(res)
+			return {status: res.status, data: res.data}
+		})
+	//let res = yield call(api.post, `${backendUrl}/image/`, {profile: meeting.photo}, token)
 	console.log(res)
 
 	if(res.status >= 300){

@@ -8,6 +8,7 @@ class NotificationElement extends Component {
             {console.log(this.props.meeting)}
             {console.log(this.props.notification)}
             {console.log(this.props.id)}
+        {console.log(this.props.pid)}
 
         switch (notification) {
             case 0 :

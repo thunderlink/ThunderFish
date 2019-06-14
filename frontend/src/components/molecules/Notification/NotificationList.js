@@ -50,10 +50,10 @@ class NotificationList extends Component {
                                 {Object.keys(this.props.notification_list).map(item => (
                             <NotificationElement
                                 meeting={this.props.notification_list[item].meeting}
-                                id={this.props.notification_list[item].pk}
+                                id={this.props.notification_list[item].id}
                                 pid={this.props.pid}
                                 notification={this.props.notification_list[item].notification}
-                                read={this.props.notification_list[item].read}
+                                read={this.props.notification_list[item].checked}
                                 readNotification={this.props.readNotification}
                                 getNotification={this.props.getNotification}
                             />)

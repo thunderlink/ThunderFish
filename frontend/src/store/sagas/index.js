@@ -464,7 +464,7 @@ export function* getNotificationRequest(id) {
 	const token = yield localStorage.getItem("token")
 	const { status, data } = yield call(api.get, `${backendUrl}user/${id}/notification/`, token)
 	if(status === 200) {
-		yield put({type: actions.user.GET_NOTIFICATION, notification_list: data})
+		yield put({type: actions.notification.GET_NOTIFICATION, notification_list: data})
 	}
 	else{
 
@@ -535,6 +535,6 @@ export default function* rootSaga() {
 	yield fork(watchReadNotificationRequest)
 	yield fork(watchGetNotificationRequest)
 
-	yield fork(getNotification)
+	//yield fork(getNotification)
 
 }

@@ -7,7 +7,10 @@ matrix:
       install:
         - pip install -r requirements.txt
       script:
-        - python manage.py __tests__
+        - cat server/tests.py
+        - python manage.py makemigrations
+        - python manage.py migrate
+        - python manage.py test
 
     - language: node_js
       node_js:
@@ -16,4 +19,4 @@ matrix:
         - cd frontend
       before_script:
       script:
-        - npm __tests__ -- --coverage && npm __tests__
+        # - npm __tests__ -- --coverage && npm __tests__

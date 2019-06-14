@@ -51,7 +51,7 @@ class MeetingForm extends Component {
 
 	meetingSerializer = () => {
 		return {
-			//photo: this.state.file,
+			photo: this.state.file,
 			name: this.state.name,
 			date: this.state.date,
 			max_participant: this.state.max_participant,

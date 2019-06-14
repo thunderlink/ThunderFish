@@ -20,7 +20,9 @@ export default class KakaoViewMap extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state.mapLoaded = false
+		this.state = {
+			mapLoaded: false,
+		}
 	}
 
 	componentDidMount() {
@@ -28,24 +30,31 @@ export default class KakaoViewMap extends Component {
 	}
 
 	static getDerivedStateFromProps(props, state) {
-		if(props.latitude !== state.currentLatitude ||
-			props.longitude !== state.currentLongitude) {
-			state.map.setCenter(new daum.maps.LatLng(props.latitude, props.longitude))
-			state.marker.setPosition(new daum.maps.LatLng(props.latitude, props.longitude))
+		if(state.mapLoaded) {
+			if(props.latitude !== state.currentLatitude ||
+				props.longitude !== state.currentLongitude) {
+				state.map.setCenter(new daum.maps.LatLng(props.latitude, props.longitude))
+				state.marker.setPosition(new daum.maps.LatLng(props.latitude, props.longitude))
+	
+				return {
+					currentLatitude: props.latitude,
+					currentLongitude: props.longitude
+				}
+			}
+			if(props.region !== state.currentRegion) {
+				state.infowindow.setContent(`<div>${props.region}</div>`)
+				state.infowindow.open(state.map, state.marker)
 
-			return {
-				currentLatitude: props.latitude,
-				currentLongitude: props.longitude
+				return {
+					currentRegion: props.region
+				}
 			}
 		}
-		if(props.region !== state.currentRegion) {
-			state.infowindow.setContent(`<div>${props.region}</div>`)
-			state.infowindow.open(state.map, state.marker)
-			return {
-				currentRegion: props.region
-			}
+		else {
+			return null
 		}
 	}
+
 	createViewMap = () => {
 		if(this.state.mapLoaded)
 			return;

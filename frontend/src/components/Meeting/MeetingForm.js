@@ -19,8 +19,8 @@ class MeetingForm extends Component {
 		max_participant: 0,
 		deadline: '',
 		region: '',
-		latitude: '',
-		longitude: '',
+		latitude: 37.46001,
+		longitude: 126.95126,
 		content: '',
 		tag: '',
 		open_chat: '',
@@ -28,7 +28,6 @@ class MeetingForm extends Component {
 
 	constructor(props){
 		super(props)
-		console.log(this.props.meeting)
 		if(this.props.functionType==="PUT") {
 			let tags = ''
 			Object.keys(this.props.meeting.tag_set).map(key => {
@@ -104,6 +103,16 @@ class MeetingForm extends Component {
 		this.setState(newState)
 	}
 
+	onChangeDate = (date) => {
+		console.log(date)
+		this.setState({date: date})
+	}	
+	
+	onChangeDeadline = (date) => {
+		console.log(date)
+		this.setState({deadline: date})
+	}
+
 	render() {
 		return (
 			<div className="meeting-form">
@@ -128,23 +137,17 @@ class MeetingForm extends Component {
 								onChange={(e)=>this.setState({name : e.target.value})}
 							/>
 						</div>
-						<div className="input-item">
-							<p className="input-item__title"> 날짜 </p>
-							<input 
-								className="input-item__input"
-								type="datetime-local" id="meetingDate" value={this.state.date}
-								placeholder="날짜를 선택하세요.."
-								onChange={(e)=>this.setState({date : e.target.value})}
-							/>
-						</div>
-						<div className="input-item">
-							<p className="input-item__title"> 신청 마감일 </p>
-							<input
-								className="input-item__input"
-								type="datetime-local" id="dueDate" value={this.state.deadline}
-								onChange={(e)=>this.setState({deadline : e.target.value})}
-							/>
-						</div>
+					</form>
+					<div className="input-item">
+						<p className="input-item__title"> 날짜 </p>
+						<input
+							type="date"
+						/>
+					</div>
+					<div className="input-item">
+						<p className="input-item__title"> 신청 마감일 </p>
+					</div>
+					<form>
 						<div className="input-item">
 							<p className="input-item__title"> 최대 인원 </p>
 							<input

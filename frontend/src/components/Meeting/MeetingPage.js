@@ -107,18 +107,22 @@ class MeetingPage extends Component {
 								<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
 							</div>
 							{
-								Object.keys(this.props.meetingElement.participant_approved).map(key => (
-									<li className="participant-item" key={key}>
-										<Link
-											className="participant-name"
-											to={`/user/${this.props.meetingElement.participant_approved[key].id}`}
-										>
-											{
-												this.props.meetingElement.participant_approved[key].name
-											}
-										</Link>
-									</li>
-								))
+								(this.props.meetingElement !== undefined || this.props.meetingElement !== null) ? (
+									Object.keys(this.props.meetingElement.participant_approved).map(key => (
+										<li className="participant-item" key={key}>
+											<Link
+												className="participant-name"
+												to={`/user/${this.props.meetingElement.participant_approved[key].id}`}
+											>
+												{
+													this.props.meetingElement.participant_approved[key].name
+												}
+											</Link>
+										</li>
+									))
+								) : (
+									<div/>
+								)
 							}
 						</ul>
 						<div className="comments">

@@ -1,7 +1,8 @@
 from django.urls import path
 # from . import views
 from .views import *
-
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('signin/', Login), # POST username and password to receive token and user info
     path('signup/', Register.as_view()), # Sign Up through POST
@@ -24,4 +25,4 @@ urlpatterns = [
     # path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
     path('image/', ImageUploadView.as_view()), # post images here
     path('image/<int:pk>/', ImageViewSet.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

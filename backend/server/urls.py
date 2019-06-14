@@ -21,6 +21,7 @@ urlpatterns = [
     path('meetings/<int:meeting>/reject/<int:pk>/', RejectMeeting.as_view()),
     path('search/<str:keyword>/', SearchResult.as_view()), #GET
     path('searchdist/<int:dist>/', SearchLocation.as_view()), # GET, search by location, distance
+    path('searchtag/<str:keyword>', SearchTag.as_view()), # Search by Tag
     path('comment/', CommentList.as_view()), # POST, should be here
     path('comment/<int:pk>/', CommentDetail.as_view()), # PUT, DELETE
     # path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE

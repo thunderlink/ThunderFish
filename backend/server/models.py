@@ -14,7 +14,7 @@ User._meta.local_fields[7].__dict__['_unique'] = True
 class Image(models.Model):
     profile = models.ImageField(blank=True, null=False, default=DEFAULT_IMAGE)
     title = models.CharField(max_length=100, blank=True)
-    # url = models.CharField(max_length=1000, blank=True, null=True)
+    url = models.CharField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -25,7 +25,7 @@ class Profile(models.Model):
     GENDER_PRIVATE = 2
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_PRIVATE, 'Private')]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
     nickname = models.CharField(max_length=20)
     photo = models.ForeignKey(Image, related_name="profile_photo", on_delete=models.CASCADE, default=DEFAULT_PROFILE_IMG)
     # email = models.EmailField(max_length=30)
@@ -47,7 +47,7 @@ class Meeting(models.Model):
     STATUS_CHOICES = [(STATUS_RECRUITING, 'Recruiting'), (STATUS_COMPLETE, 'Complete'), (STATUS_CANCELED, 'Canceled')]
 
     name = models.CharField(max_length=50)
-    host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.CASCADE)
+    host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.DO_NOTHING)
     date = models.DateTimeField('meeting date')
     posted_date = models.DateTimeField('posted date', auto_now_add=True)
 

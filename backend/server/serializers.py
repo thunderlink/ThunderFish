@@ -16,14 +16,15 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'profile', 'title')
 
 class ProfileSerializer(serializers.ModelSerializer):
-    pic_url = serializers.ReadOnlyField(source='photo.profile.url')
+    pic_url = serializers.ReadOnlyField(source='photo.url')
+
     class Meta:
         model = Profile
         fields = ('id', 'user', 'nickname', 'photo', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set', 'pic_url')
 
 class MeetingSerializer(serializers.ModelSerializer):
     nickname = serializers.ReadOnlyField(source='host.nickname')
-    pic_url = serializers.ReadOnlyField(source='photo.profile.url')
+    pic_url = serializers.ReadOnlyField(source='photo.url')
     # participant_waiting = serializers.ReadOnlyField(source='participant.through_fields.filter(status=0)')
     # participant_approved = serializers.ReadOnlyField(source='participant.through_fields.filter(status=1)')
 

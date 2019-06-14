@@ -15,10 +15,12 @@ class ImageUploadView(APIView):
 
     def post(self, request, *args, **kwargs):
         file_serializer = FileSerializer(data=request.data)
-        print(file_serializer)
 
         if file_serializer.is_valid():
             file_serializer.save()
+            img = Image.objects.get(pk=file_serializer.data['id'])
+            img.url = file_serializer.data['profile']
+            img.save()
             return Response(file_serializer.data, status=HTTP_201_CREATED)
         else:
             return Response(file_serializer.data, status=HTTP_400_BAD_REQUEST)
@@ -27,5 +29,3 @@ class ImageViewSet(generics.RetrieveAPIView):
     permission_classes = (AllowAny, )
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-
-# Create your views here.

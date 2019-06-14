@@ -7,13 +7,14 @@ from math import sqrt
 DEFAULT_IMAGE = '../media/app_logo.png'
 DEFAULT_PROFILE_IMG = 1
 DEFAULT_MEETING_IMG = 2
-
+MEDIA_URL = '/media/'
 # Unique email for each user
 User._meta.local_fields[7].__dict__['_unique'] = True
 
 class Image(models.Model):
     profile = models.ImageField(blank=True, null=False, default=DEFAULT_IMAGE)
     title = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

@@ -63,7 +63,6 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         for comment in comment_set:
             data = CommentSerializer(comment).data
             data.pop('parent_meeting', None)
-            data.pop('writer', None)
             serialized_comment[str(comment.id)] = data
         # comment id,nickname is necessary!!!
         ret['comments'] = serialized_comment

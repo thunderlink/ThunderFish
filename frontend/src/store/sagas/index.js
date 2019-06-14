@@ -1,4 +1,4 @@
-import { take, put, call, fork } from 'redux-saga/effects'
+import { take, put, call, fork, delay, select } from 'redux-saga/effects'
 import axios from 'axios'
 
 import api from 'services/api'
@@ -110,6 +110,7 @@ export function* userSetRequest() {
 				id: id,
 				nickname: nickname
 			})
+			yield call(getNotificationRequest, id)
 		}
 	}
 }
@@ -477,6 +478,17 @@ export function* watchGetNotificationRequest() {
 	}
 }
 
+export const getUserID = (state) => state.user.id
+export function* getNotification() {
+	while(true) {
+		let id = yield select(getUserID);
+		yield call(getNotificationRequest, id);
+		yield delay(200000);
+	}
+
+}
+
+
 export function* readNotificationRequest(pid, id) {
 	const token = yield localStorage.getItem("token")
 	const { status } = yield call(api.put, `${backendUrl}user/${pid}/notification/`, {id: id}, token)
@@ -522,4 +534,7 @@ export default function* rootSaga() {
 
 	yield fork(watchReadNotificationRequest)
 	yield fork(watchGetNotificationRequest)
+
+	yield fork(getNotification)
+
 }

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Meeting, Tag, Comment, Notification, Membership, User
+from .models import Profile, Meeting, Tag, Comment, Notification, Membership, User, Image
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,3 +47,17 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # Validate the data given for registering
         return data
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+class ImageSerializer(serializers.HyperlinkedModelSerializer):
+    profile = serializers.ImageField(
+        max_length=None, use_url=True
+    )
+
+    class Meta:
+        model = Image
+        fields = ('id', 'profile', 'title')

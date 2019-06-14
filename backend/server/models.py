@@ -4,11 +4,19 @@ import re
 from math import sqrt
 
 # Path to default image
-# DEFAULT_IMAGE = '../../images/app_logo.png'
-pic_folder = './migrations/pic_folder'
+DEFAULT_IMAGE = '../media/app_logo.png'
+DEFAULT_PROFILE_IMG = 1
+DEFAULT_MEETING_IMG = 2
 
 # Unique email for each user
 User._meta.local_fields[7].__dict__['_unique'] = True
+
+class Image(models.Model):
+    profile = models.ImageField(blank=True, null=False, default=DEFAULT_IMAGE)
+    title = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return str(self.id)
 
 class Profile(models.Model):
     GENDER_MALE = 0
@@ -18,7 +26,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
+    photo = models.ForeignKey(Image, related_name="profile_photo", on_delete=models.CASCADE, default=DEFAULT_PROFILE_IMG)
     # email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
     gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_PRIVATE)
@@ -47,7 +55,7 @@ class Meeting(models.Model):
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
     region = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
+    photo = models.ForeignKey(Image, related_name="meeting_photo", on_delete=models.CASCADE, default=DEFAULT_MEETING_IMG)
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?

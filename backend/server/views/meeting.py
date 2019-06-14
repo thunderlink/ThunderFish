@@ -20,7 +20,7 @@ class MeetingList(generics.ListCreateAPIView):
         request.data['comment_set'] = [] # Initially, no comments
         request.data['membership_set'] = [] # Initially, no membership
         request.data['status'] = "0" # Initially, status is recruiting
-        tag_list = request.data['tag'].split()
+        tag_list = request.data['tag_set'].split()
         tag_set = []
         for tag in tag_list:
             tag_obj = Tag.objects.filter(name=tag)

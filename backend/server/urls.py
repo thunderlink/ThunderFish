@@ -20,5 +20,7 @@ urlpatterns = [
     path('searchdist/<int:dist>/', SearchLocation.as_view()), # GET, search by location, distance
     path('comment/', CommentList.as_view()), # POST, should be here
     path('comment/<int:pk>/', CommentDetail.as_view()), # PUT, DELETE
-    path('notification/<int:pk>/', NotificationDetail.as_view()) #GET, DELETE
+    path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
+    path('image/', ImageUploadView.as_view()), # post images here
+    path('image/<int:pk>/', ImageViewSet.as_view()),
 ]

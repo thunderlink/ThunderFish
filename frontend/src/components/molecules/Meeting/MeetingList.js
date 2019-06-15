@@ -24,7 +24,7 @@ class MeetingList extends Component {
 							date={item.date}
 							host={item.nickname}
 							region={item.region}
-							photo={item.photo}
+							photo={item.pic_url}
 						/>
 					</Link>
 					))

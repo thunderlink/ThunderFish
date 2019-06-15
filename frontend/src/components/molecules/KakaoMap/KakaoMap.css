@@ -115,6 +115,8 @@
 	margin: 0;
 
 	box-sizing: border-box;
+	
+	font-size: 13px;
 
 	border-bottom: 1px solid #dddddd;
 }
@@ -125,6 +127,7 @@
 
 	display: flex;
 	align-items: center;
+	font-size: 13px;
 
 	box-sizing: border-box;
 }
@@ -140,6 +143,6 @@
 
 	border: none;
 
-	font-size: 16px;
+	font-size: 13px;
 	font-family: Poppins, Roboto, "Helvetica Neue", Arial, sans-serif;
 }

@@ -80,8 +80,14 @@
 	border: none;
 }
 
+.meeting-form .input-fields .input-item .input-item__date {
+	margin: 0 0 0 8px;
+	width: 100%;
+	border: none;
+}
+
 .meeting-form .input-fields .input-item .input-item__textarea {
-	margin: 0;
+	margin: 0 0 0 8px;
 	width: 100%;
 	height: 48px;
 

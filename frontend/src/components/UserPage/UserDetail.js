@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
 import ImageBox from 'components/molecules/ImageBox'
 
 import report from 'icons/report-button.png'
@@ -20,7 +19,7 @@ class UserDetail extends Component {
 						<div className="image-wrapper">
 							<ImageBox
 								default={default_profile}
-								src={this.props.user.photo}
+								src={this.props.user.pic_url}
 								alt="profile image" 
 							/>	
 						</div>

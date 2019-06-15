@@ -60,7 +60,7 @@
 	overflow: hidden;
 }
 
-.meeting-form .input-fields .input-item p {
+.meeting-form .input-fields .input-item .input-item__title {
 	flex-basis: 96px;
 	flex-shrink: 0;
 	margin: 0;
@@ -74,13 +74,13 @@
 	background: #e9ecef;
 }
 
-.meeting-form .input-fields .input-item input {
+.meeting-form .input-fields .input-item .input-item__input {
 	margin: 0 0 0 8px;
 	width: 100%;
 	border: none;
 }
 
-.meeting-form .input-fields .input-item textarea {
+.meeting-form .input-fields .input-item .input-item__textarea {
 	margin: 0;
 	width: 100%;
 	height: 48px;
@@ -90,7 +90,12 @@
 	resize: vertical;
 }
 
-.meeting-form .input-fields button {
+.meeting-form .input-fields .input-item .map-wrapper {
+	width: 100%;
+	height: auto;
+}
+
+.meeting-form .input-fields .submit-button {
 	width: 100%;
 	height: 48px;
 

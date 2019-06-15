@@ -1,6 +1,5 @@
 .meeting-detail {
-	flex-basis: 50%;
-	margin: 0 8px;
+	width: 100%;
 }
 
 .meeting-detail .description {
@@ -34,6 +33,11 @@
 
 .meeting-detail .description .description-body .host-info a {
 	font-size: 8px;
+}
+
+.meeting-detail .description .description-body .meeting-info {
+	width: 100%;
+	margin: 0;
 }
 
 .meeting-detail .description .description-body .meeting-info .tag-list {

@@ -6,14 +6,22 @@
 	margin-bottom: 16px;
 }
 
-.comment-element .writer p {
+.comment-element .writer {
 	padding: 8px 16px;
+	border-bottom: 1px solid #dddddd;
+	display: flex;
+}
+
+.comment-element .writer p {
+	padding: 0;
 	margin: 0;
 
-	border-bottom: 1px solid #dddddd;
-	
 	font-size: 20px;
 	font-weight: 600;
+}
+
+.comment-element .writer a {
+	font-size: 8px;
 }
 
 .comment-element .content {

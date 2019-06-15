@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import * as actions from 'store/actions'
 
@@ -20,7 +21,7 @@ class CommentElement extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault()
-		this.props.putCommentRequest(this.props.commentDetail.id, this.state.editText)
+		this.props.putCommentRequest(this.props.meetingId, this.props.commentDetail.id, this.state.editText)
 	}
 
 	onEditHandler = (e) => {
@@ -32,14 +33,16 @@ class CommentElement extends Component {
 
 	onDeleteHandler = (e) => {
 		e.preventDefault()
-		this.props.deleteComment(this.props.commentDetail.id)
+		this.props.deleteComment(this.props.meetingId, this.props.commentDetail.id)
 	}
 
 	render() {
 		return (
 			<div className="comment-element">
+				{console.log(this.props.commentDetail)}
 				<div className="writer">
 					<p> {this.props.commentDetail.nickname} </p>
+					<Link to={`/user/${this.props.commentDetail.writer}/`}> 정보 </Link>
 				</div>
 				<form onSubmit={this.onSubmitHandler}>
 					{
@@ -65,14 +68,20 @@ class CommentElement extends Component {
 									<div className="text">
 										<p> {this.props.commentDetail.comment_text}</p>
 									</div>
-									<div className="button-set">
-										<button onClick={this.onEditHandler}>
-											수정
-										</button>
-										<button onClick={this.onDeleteHandler}>
-											삭제
-										</button>
-									</div>			
+									{
+										(this.props.id === this.props.commentDetail.writer) ? (
+											<div className="button-set">
+												<button onClick={this.onEditHandler}>
+													수정
+												</button>
+												<button onClick={this.onDeleteHandler}>
+													삭제
+												</button>
+											</div>
+										) : (
+											null
+										)
+									}
 								</div>
 							)) : (
 							<div className="content">
@@ -96,11 +105,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		deleteComment: (id) => {
-			dispatch(actions.comment.deleteCommentRequest(id))
+		deleteComment: (pid, id) => {
+			dispatch(actions.comment.deleteCommentRequest(pid, id))
 		},
-		putCommentRequest: (id, text) => {
-			dispatch(actions.comment.putCommentRequest(id, text))
+		putCommentRequest: (pid, id, text) => {
+			dispatch(actions.comment.putCommentRequest(pid, id, text))
 		},
 	}
 }

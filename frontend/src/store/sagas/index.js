@@ -1,9 +1,10 @@
-import { take, put, call, fork } from 'redux-saga/effects'
+import { take, put, call, fork, delay, select } from 'redux-saga/effects'
+import axios from 'axios'
 
 import api from 'services/api'
 import * as actions from 'store/actions'
 
-const backendUrl = 'http://18.216.47.154:8000/'
+const backendUrl = 'http://18.216.47.154:8000'
 
 /**************************************
  * Register Functions.
@@ -18,6 +19,7 @@ export function* kakaologinRequest(object) {
 	const { status, data } = yield call(api.kakaologin, object)
 
 	if(status === 200) {
+		console.log(data)
 		yield put({
 			type: actions.user.SIGNIN_SUCCESSFUL,
 			token: data.token,
@@ -69,7 +71,7 @@ export function* signinRequest(username, password) {
 	const { status, data } = yield call(api.signin, user)
 	if(status === 200) {
 		yield put({
-			type: actions.user.SIGNIN_SUCCESSFUL, 
+			type: actions.user.SIGNIN_SUCCESSFUL,
 			token: data.token,
 			nickname: data.nickname,
 			id: data.id
@@ -104,10 +106,11 @@ export function* userSetRequest() {
 		}
 		else {
 			yield put({
-				type: actions.user.USER_SET_SUCCESSFUL, 
-				id: id, 
+				type: actions.user.USER_SET_SUCCESSFUL,
+				id: id,
 				nickname: nickname
 			})
+			yield call(getNotificationRequest, id)
 		}
 	}
 }
@@ -135,17 +138,92 @@ export function* watchUserSetRequest() {
  *  Join Meeting
  *  Cancel join meeting
  **************************************/
-/* Meeting get functions */
-export function* getMeetingRequest(index) {
-	const { status, data } = yield call(api.get, `${backendUrl}meetings/${index}/`)
-	if(status >= 400) {
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+
+/* Join meeting */
+
+/* Meeting post functions */
+export function* joinMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.post, `${backendUrl}/meetings/${index}/join/`, user, token)
+	console.log("end post")
+
+	if(status < 300) {
+		//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+		yield call(getMeetingRequest, index)
 	}
 	else{
-		yield put({type: actions.meeting.GET_MEETING, meeting : data})		
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"JOIN_MEETING"})
 	}
-
 }
+
+export function* watchJoinMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.JOIN_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(joinMeetingRequest, index, user)
+	}
+}
+
+/* accept put function */
+
+export function* acceptMeetingRequest(index, user) {
+
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/accept/${user}/`, {}, token)
+
+	if(status < 300) {
+		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+		yield call(getMeetingRequest, index)
+	}
+	else{
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"ACCEPT_MEETING"})
+	}
+}
+
+export function* watchAccpetMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.ACCEPT_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(acceptMeetingRequest, index, user)
+	}
+}
+
+/* reject put function */
+
+export function* rejectMeetingRequest(index, user) {
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/reject/${user}/`, {}, token)
+
+	if(status < 300) {
+		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
+		yield call(getMeetingRequest, index)
+	}
+	else{
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"REJECT_MEETING"})
+	}
+}
+
+export function* watchRejectMeetingRequest() {
+	while(true) {
+		const { index, user } = yield take(actions.meeting.REJECT_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(rejectMeetingRequest, index, user)
+	}
+}
+
+/* Meeting get functions */
+export function* getMeetingRequest(index) {
+	const { status, data } = yield call(api.get, `${backendUrl}/meetings/${index}/`)
+	
+	if(status < 300) {
+		yield put({type: actions.meeting.GET_MEETING, meeting : {...data, photo: `${backendUrl}${data.pic_url}`}})
+	}
+	else{
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING"})
+	}
+}
+
 export function* watchGetMeetingRequest() {
 	while(true) {
 		const { index } = yield take(actions.meeting.GET_MEETING_REQUEST)
@@ -153,20 +231,45 @@ export function* watchGetMeetingRequest() {
 	}
 }
 
+/*
+	const fd = new FormData();
+	Object.keys(meeting).map((key) => {
+		fd.append(key, meeting.key)
+	})
+	fd.append('header', {Authorization: `Token ${token}`})
+	console.log(fd);
+
+	console.log(axios.post(`${backendUrl}/meetings/`, fd))
+*/
+
 /* Meeting post functions */
 export function* postMeetingRequest(meeting) {
 
-	console.log("do post")
-	console.log(meeting)
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}meetings/`, meeting, token)
-	console.log("end post")
-	console.log(data)
-	if(status >= 400) {
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+	const fd = new FormData();
+	fd.append('profile', meeting.photo)
+	let res = yield axios.post(`${backendUrl}/image/`, fd)
+		.then((res) => {
+			console.log(res)
+			return {status: res.status, data: res.data}
+		})
+	//let res = yield call(api.post, `${backendUrl}/image/`, {profile: meeting.photo}, token)
+	console.log(res)
+
+	if(res.status >= 300){
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_MEETING"})
+		return
 	}
-	else{
-		yield put({type: actions.meeting.POST_MEETING, meeting : data})		
+	
+	const photoId = res.data.id
+	res = yield call(api.post, `${backendUrl}/meetings/`, {...meeting, photo: photoId}, token)
+	console.log(res)
+
+	if(res.status < 300){
+		yield put({type: actions.meeting.POST_MEETING, meeting: res.data})
+	}
+	else {
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_MEETING"})
 	}
 }
 
@@ -180,17 +283,14 @@ export function* watchPostMeetingRequest() {
 /* Meeting put functions */
 export function* putMeetingRequest(index, meeting) {
 
-	console.log("do put")
-	console.log(meeting)
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}meetings/${index}/`, meeting, token)
-	console.log("end put")
-	console.log(data)
+	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/`, meeting, token)
+
 	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting: data})
 	}
 	else{
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"PUT_MEETING"})
 	}
 }
 export function* watchPutMeetingRequest() {
@@ -203,12 +303,12 @@ export function* watchPutMeetingRequest() {
 /* Meeting delete functions */
 export function* deleteMeetingRequest(index) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}meetings/${index}/`, token)
+	const { status } = yield call(api.delete, `${backendUrl}/meetings/${index}/`, token)
 	if(status < 300) {
 		yield put({type: actions.meeting.DELETE_MEETING, index : index})
 	}
 	else{
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"DELETE_MEETING"})
 	}
 }
 export function* watchDeleteMeetingRequest() {
@@ -220,12 +320,12 @@ export function* watchDeleteMeetingRequest() {
 
 /* Meeting list get functions */
 export function* getMeetingListRequest(query) {
-	const { status, data } = yield call(api.get, `${backendUrl}search/${query}`)
+	const { status, data } = yield call(api.get, `${backendUrl}/search/${query}`)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
 	else{
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING_LIST"})
 	}
 }
 export function* watchGetMeetingListRequest() {
@@ -238,13 +338,13 @@ export function* watchGetMeetingListRequest() {
 /* Recent Meeting get functions */
 export function* getRecentMeetingRequest(index) {
 	console.log(index);
-	const { status, data } = yield call(api.get, `${backendUrl}meetings/new/${index}/`)
+	const { status, data } = yield call(api.get, `${backendUrl}/meetings/new/${index}/`)
 	console.log(data)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_RECENT_MEETING, meetings: data, index: index})
 	}
 	else {
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_RECENT_MEETING"})
 	}
 }
 
@@ -262,61 +362,67 @@ export function* watchGetRecentMeetingRequest() {
  *	DELETE comment
  **************************************/
 /* Comment post functions */
-export function* postCommentRequest(id, text) {
+export function* postCommentRequest(pid, text) {
 
 	const token = yield localStorage.getItem("token")
-	
-	const { status } = yield call(api.post, `${backendUrl}comment/`, {parent_meeting: id, comment_text: text}, token)
+
+	const { status } = yield call(api.post, `${backendUrl}/comment/`, {parent_meeting: pid, comment_text: text}, token)
 	if(status < 300) {
 		yield put({type: actions.comment.POST_COMMENT})
+		yield call(getMeetingRequest, pid)
 	}
 	else{
-		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_COMMENT"})
 	}
 
 }
 export function* watchPostCommentRequest() {
 	while(true) {
-		const { id, text } = yield take(actions.comment.POST_COMMENT_REQUEST)
-		yield call(postCommentRequest, id, text)
+		const { pid, text } = yield take(actions.comment.POST_COMMENT_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(postCommentRequest, pid, text)
 	}
 }
 
 /* Comment put functions */
-export function* putCommentRequest(id, text) {
+export function* putCommentRequest(pid, id, text) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.put, `${backendUrl}comment/${id}/`, {comment_text: text}, token)
+	const { status } = yield call(api.put, `${backendUrl}/comment/${id}/`, {comment_text: text}, token)
 
 	if(status < 300) {
 		yield put({type: actions.comment.PUT_COMMENT})
+		yield call(getMeetingRequest, pid)
 	}
 	else{
-		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"PUT_COMMENT"})
 	}
 }
 export function* watchPutCommentRequest() {
 	while(true) {
-		const { id, text } = yield take(actions.comment.PUT_COMMENT_REQUEST)
-		yield call(putCommentRequest, id, text)
+		const { pid, id, text } = yield take(actions.comment.PUT_COMMENT_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(putCommentRequest, pid, id, text)
 	}
 }
 
 /* Comment delete functions */
-export function* deleteCommentRequest(index) {
+export function* deleteCommentRequest(pid, id) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.delete, `${backendUrl}comment/${index}/`, token)
+	const { status } = yield call(api.delete, `${backendUrl}/comment/${id}/`, token)
 	if(status < 300) {
 		yield put({type: actions.comment.DELETE_COMMENT})
+		yield call(getMeetingRequest, pid)
 	}
 	else{
-		yield put({type: actions.comment.COMMENT_REQUEST_FAILURE})
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"DELETE_COMMENT"})
 	}
 }
 
 export function* watchDeleteCommentRequest() {
 	while(true) {
-		const { id } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
-		yield call(deleteCommentRequest, id)
+		const { pid, id } = yield take(actions.comment.DELETE_COMMENT_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(deleteCommentRequest, pid, id)
 	}
 }
 
@@ -350,7 +456,7 @@ export function* watchGetUserRequest() {
 /* User put functions */
 export function* putUserRequest(index, profile) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}user/${index}/`, profile, token)
+	const { status, data } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
 	if(status === 200) {
 		yield put({type: actions.user.PUT_PROFILE, profile: profile})
 	}
@@ -363,6 +469,56 @@ export function* watchPutUserRequest() {
 	while(true) {
 		const { index, profile } = yield take(actions.user.PUT_USER_REQUEST)
 		yield call(putUserRequest, index, profile)
+	}
+}
+
+/*************
+* NOTIFICATION
+ * GET
+ * PUT
+***********/
+
+export function* getNotificationRequest(id) {
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.get, `${backendUrl}/user/${id}/notification/`, token)
+	if(status === 200) {
+		yield put({type: actions.notification.GET_NOTIFICATION, notification_list: data})
+	}
+	else{
+
+	}
+}
+
+export function* watchGetNotificationRequest() {
+	while(true) {
+		const { id } = yield take(actions.notification.GET_NOTIFICATION_REQUEST)
+		yield call(getNotificationRequest, id)
+	}
+}
+
+export const getUserID = (state) => state.user.id
+export function* getNotification() {
+	while(true) {
+		let id = yield select(getUserID);
+		yield call(getNotificationRequest, id);
+		yield delay(200000);
+	}
+
+}
+
+
+export function* readNotificationRequest(pid, id) {
+	const token = yield localStorage.getItem("token")
+	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/${id}/`, {}, token)
+
+	if(status < 300) {
+		yield call(getNotificationRequest, pid)
+	}
+}
+export function* watchReadNotificationRequest() {
+	while(true) {
+		const {pid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
+		yield call(readNotificationRequest, pid, id)
 	}
 }
 
@@ -389,4 +545,14 @@ export default function* rootSaga() {
 
 	yield fork(watchGetUserRequest)
 	yield fork(watchPutUserRequest)
+
+	yield fork(watchJoinMeetingRequest)
+	yield fork(watchAccpetMeetingRequest)
+	yield fork(watchRejectMeetingRequest)
+
+	yield fork(watchReadNotificationRequest)
+	yield fork(watchGetNotificationRequest)
+
+	//yield fork(getNotification)
+
 }

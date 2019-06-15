@@ -7,25 +7,27 @@ export const DELETE_COMMENT= "DELETE_COMMENT"
 
 export const COMMENT_REQUEST_FAILURE= "COMMENT_REQUEST_FAILURE"
 
-export const postCommentRequest = (id, text) => {
+export const postCommentRequest = (pid, text) => {
 	return {
 		type: "POST_COMMENT_REQUEST",
-		id,
+		pid,
 		text
 	}
 }
 
-export const putCommentRequest = (id, text) => {
+export const putCommentRequest = (pid, id, text) => {
 	return {
-    type: "PUT_COMMENT_REQUEST",
+		type: "PUT_COMMENT_REQUEST",
+		pid,
 		id,
 		text
   }
 }
 
-export const deleteCommentRequest = (id) => {
-  return {
+export const deleteCommentRequest = (pid, id) => {
+	return {
 		type: "DELETE_COMMENT_REQUEST",
+		pid,
 		id
 	}
 }

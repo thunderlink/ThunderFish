@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import * as actions from 'store/actions'
 
 import menu_button from 'icons/menu-button.png'
 import search_button from 'icons/search-button.png'
+import notification_button from 'icons/notification-button.png'
 
 import './Header.css'
 
@@ -60,6 +62,15 @@ class Header extends Component {
 							/>
 						</div>
 					</form>
+				</div>
+				<div className="notification">
+					<Link
+						to={`/notification`}
+						className="menu-button-wrapper">
+						<img
+							src={notification_button}
+						/>
+					</Link>
 				</div>
 				<div className="spacer" />
 				<div className="image-cutter">

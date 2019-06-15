@@ -1,17 +1,12 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import UserDetail from './UserDetail'
 import MeetingList from 'components/molecules/Meeting/MeetingList'
-import ImageBox from 'components/molecules/ImageBox'
 import Loading from 'components/Loading'
 import NotFound from 'components/NotFound'
 
 import * as actions from 'store/actions'
-
-import report from 'icons/report-button.png'
-import edit from 'icons/edit-button.png'
 
 import "./UserPage.css"
 
@@ -52,9 +47,6 @@ class UserPage extends Component {
 							<h1> 참가중인 번개 </h1>
 							<hr />
 							<MeetingList meetings={this.props.user.meeting_set} />
-							<h1> 승인 대기중인 번개 </h1>
-							<hr />
-							<MeetingList meetings={this.props.user.membership_set} />
 						</div>
 					</div>
 				</div>

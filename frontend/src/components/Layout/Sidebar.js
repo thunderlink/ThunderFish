@@ -69,7 +69,10 @@ class Sidebar extends Component {
 					{
 						Category.map((name, index) => {
 							return(
-								<div className="sidebar-item-black">
+								<div 
+									className="sidebar-item-black"
+									key={`${index}_${name}`}
+								>
 									<div 
 										className="sidebar-item-black-big"
 										onClick={(e)=>{
@@ -96,15 +99,16 @@ class Sidebar extends Component {
 									<div
 										className="sidebar-item-black-list"
 										style={{
-											'max-height': (this.state.openedContent === index+1) ? '1000px' : '0',
+											'maxHeight': (this.state.openedContent === index+1) ? '1000px' : '0',
 											transition: 'max-height 0.3s',
 										}}
 									> 
 										{
 											name.small.map(item => (
-												<Link 
+												<Link
+													key={`${index}_${name}_${item}`}
 													className="sidebar-item-black-small"
-													to={`/search/${item}/`}
+													to={`/search/${item.replace("/", " ")}/`}
 												>
 												<h1 className="list-text"> {item} </h1>
 											</Link>

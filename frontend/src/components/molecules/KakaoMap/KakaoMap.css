@@ -1,0 +1,145 @@
+.kakao-map__view, .kakao-map__select {
+	height: 100%;
+	width: 100%;
+}
+
+.kakao-map__view .kakao-content {
+	width: 100%;
+	height: 100%;
+}
+
+.kakao-map__select .kakao-content {
+	width: 100%;
+	height: 304px;
+}
+
+.kakao-map__select .search-field .keyword-form {
+	width: 100%;
+	display: flex;
+	
+	border-bottom: 1px solid #dddddd;
+
+	flex-direction: row;
+	align-items: center;
+}
+
+.kakao-map__select .search-field .keyword-form .keyword-input {
+	width: 100%;
+	height: 24px;
+	box-sizing: border-box;
+
+	border: none;
+}
+
+.kakao-map__select .search-field .keyword-form .keyword-submit {
+	flex-shrink: 0;
+	height: 24px;
+
+	background: #fed008;
+	border: none;
+}
+
+.kakao-map__select .search-field .search-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.kakao-map__select .search-field .search-list .search-item {
+	width: 100%;
+
+	border-bottom: 1px solid #dddddd;
+	box-sizing: border-box;
+	background: #fffff4;
+
+	display: flex;
+	align-items: center;
+}
+
+.kakao-map__select .search-field .search-list .search-item .place-detail p { 
+	padding: 0 0 0 8px;
+	margin: 1px 0;
+
+	font-size: 12px;
+	font-weight: 400;
+
+	background: #fffff4;
+	text-align: left;
+}
+
+.kakao-map__select .search-field .search-list .search-item .place-detail {
+	width: 100%;
+	flex-grow: 1;
+}   
+
+.kakao-map__select .search-field .search-list .search-item button {
+	flex-shrink: 0;
+	padding: 2px 8px;
+	margin-right: 8px;
+
+	background: #ffc40d;
+	border: none;
+	border-radius: 4px;
+
+	font-weight: 600;
+}
+
+.kakao-map__select .search-field .page-button {
+	width: 100%;
+	
+	padding: 8px 0;
+
+	border-bottom: 1px solid #dddddd;
+	background: #fffff4;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.kakao-map__select .search-field .page-button p {
+	margin: 0 4px;
+	font-weight: 400;
+}
+
+.kakao-map__select .search-field .page-button button {
+	font-weight: 900;
+	background: none;
+	border: none;
+	color: #495057;
+}
+
+.kakao-map__select .results .results-address {
+	padding: 4px 0 4px 8px;
+	margin: 0;
+
+	box-sizing: border-box;
+
+	border-bottom: 1px solid #dddddd;
+}
+
+.kakao-map__select .results .results-place {
+	padding: 4px 0 4px 8px;
+	margin: 0;
+
+	display: flex;
+	align-items: center;
+
+	box-sizing: border-box;
+}
+
+.kakao-map__select .results .results-place strong {
+	flex-shrink: 0;
+}
+
+.kakao-map__select .results .results-place input {
+	flex-grow: 1;
+
+	margin: 0 0 0 4px;
+
+	border: none;
+
+	font-size: 16px;
+	font-family: Poppins, Roboto, "Helvetica Neue", Arial, sans-serif;
+}

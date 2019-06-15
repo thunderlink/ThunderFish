@@ -51,9 +51,109 @@
 	display: flex;
 }
 
-.meeting-page .meeting-content .comments {
+.meeting-page .meeting-content .meeting-info {
 	flex-basis: 50%;
+	width: 100%;
 	margin: 0 8px;
 }
 
+.meeting-page .meeting-content .participant-list {
+	width: 100%;	
+	padding: 0;
+	margin: 0;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+
+	list-style: none;
+
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-title {
+	width: 100%;
+	box-sizing: border-box;
+
+	padding: 8px 16px;
+
+	border-bottom: 1px solid #dddddd;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-title h2 {
+	margin: 0;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-title p {
+	margin: 0;
+	color: #888888;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-item {
+	width: 100%;
+	box-sizing: border-box;
+
+	margin: 0;
+	padding: 8px 16px;
+	
+	font-size: 20px;
+	font-weight: 600;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-item .participant-name {
+	flex-grow: 1;
+	width: 100%;
+
+	margin-left: 8px;
+
+	text-decoration: none;
+	color: #000000;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-item button {
+	flex-shrink: 0;
+	margin: 0px 4px;
+	padding: 2px 8px;
+
+	border: 1px solid #dddddd;
+	color: #ffffff;
+	font-weight: 600;
+	font-size: 16px;
+
+	border-radius: 4px;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-item .accept {
+	background: #2d89ef;
+}
+
+.meeting-page .meeting-content .participant-list 
+.participant-item .reject {
+	background: #ee1111;
+}
+
+.meeting-page .meeting-content .meeting-guests {
+	flex-basis: 50%;
+
+	width: 100%;
+	margin: 0 8px;
+}
+
+.meeting-page .meeting-content .meeting-guests .comments {
+	width: 100%;
+}
 

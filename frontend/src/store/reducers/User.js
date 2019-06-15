@@ -4,6 +4,7 @@ const initialState = {
 	id: -1,
 	nickname: '', //holds the name of user.
 	isAuthenticated: false, //check if signed-in or not.
+	signinStatus: 'NONE',
 	signupStatus: 'NONE', //check if signup has successed or not.
 
 	/* Detail for user view */
@@ -45,6 +46,7 @@ export default function user(state=initialState, action) {
 			localStorage.setItem("token", action.token);
 			return Object.assign({}, state, {
 				id: action.id,
+				signinStatus: 'SUCCESS',
 				nickname: action.nickname,
 				isAuthenticated: true
 			})
@@ -54,6 +56,7 @@ export default function user(state=initialState, action) {
 			return Object.assign({}, state, {
 				token: null,
 				id: -1,
+				signinStatus: 'FAILED',
 				nickname: null,
 				isAuthenticated: false
 			})
@@ -63,6 +66,7 @@ export default function user(state=initialState, action) {
 			return Object.assign({}, state, {
 				token: null,
 				id: -1,
+				signinStatus: 'NONE',
 				nickname: null,
 				isAuthenticated: false,
 			})

@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 
 import 'moment/locale/ko';
 
+window.Kakao.init('ea8f8a5f5fb97923874c722dce3e481a')
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
 import ImageBox from 'components/molecules/ImageBox'
-import KakaoMap from 'components/molecules/KakaoMap'
+import { KakaoViewMap } from 'components/molecules/KakaoMap'
 
 import * as actions from 'store/actions'
 
@@ -25,19 +25,27 @@ class MeetingDetail extends Component {
 		this.props.history.push(`/meeting/${this.props.meeting.id}/edit`)
 	}
 
+	onJoinHandler = (e) => {
+		e.preventDefault()
+		this.props.joinMeetingRequest(this.props.meeting.id)
+	}
+
 	render() {
-		return (
+		return (this.props.meeting === undefined || this.props.meeting === null) ? (
+			<div/>
+		) : (
 			<div className="meeting-detail">
+				{console.log(this.props.meeting)}
 				<div className="description">
 					<div className="image-wrapper">
-						<ImageBox 
+						<ImageBox
 							src={this.props.meeting.photo}
 							default={default_meeting}
 						/>
-					</div>							
+					</div>
 					<div className="description-body">
 						<div className="host-info">
-							<p> 
+							<p>
 								<strong> {this.props.meeting.nickname} </strong>
 								호스트
 							</p>
@@ -53,14 +61,15 @@ class MeetingDetail extends Component {
 								{
 									Object.keys(this.props.meeting.tag_set).map(key => (
 										<li key={`tag_${key}`}>
-											<Link 
-												to={`/search/${this.props.meeting.tag_set[key]}`} 
+											<Link
+												to={`/search/${this.props.meeting.tag_set[key]}`}
 											>
 												{`#${this.props.meeting.tag_set[key]} `}
 											</Link>
 										</li>
-								))}					
-							</ul>				
+									))
+								}
+							</ul>
 							{(this.props.meeting.host === this.props.id) ? (
 								<div className="host-buttons">
 									<button onClick={this.onEditHandler} > 수정 </button>
@@ -68,7 +77,7 @@ class MeetingDetail extends Component {
 								</div>
 							) : (
 								<div className="guest-buttons">
-									<button> 참가하기 </button>
+									<button onClick={this.onJoinHandler}> 참가하기 </button>
 									<button> 신고하기 </button>
 								</div>
 							)}
@@ -76,11 +85,9 @@ class MeetingDetail extends Component {
 					</div>
 					<ul className="description-list">
 						<li>
-							<p> 
+							<p>
 								<strong> 현재 상태 </strong>
-								{(this.props.meeting.status === 0) 
-										? '모집중' : '마감'
-								}
+								{(this.props.meeting.status === 0) ? '모집중' : '마감'}
 							</p>
 						</li>
 						<li>
@@ -108,11 +115,13 @@ class MeetingDetail extends Component {
 					</ul>
 				</div>
 				<div className="meeting-place">
-					<div 
+					<div
 						className="map"
 					>
-						<KakaoMap	
-							name={this.props.meeting.region}	
+						<KakaoViewMap
+							region={this.props.meeting.region}
+							latitude={this.props.meeting.latitude}
+							longitude={this.props.meeting.longitude}
 						/>
 					</div>
 					<ul className="description-list">
@@ -126,7 +135,7 @@ class MeetingDetail extends Component {
 				</div>
 			</div>
 		)
-	}
+  }
 }
 
 const mapStateToProps = state => {
@@ -140,6 +149,10 @@ const mapDispatchToProps = dispatch => {
 		deleteMeetingRequest: (index) => {
 			dispatch(actions.meeting.deleteMeetingRequest(index))
 		},
+
+		joinMeetingRequest: (index, user) => {
+			dispatch(actions.meeting.joinMeetingRequest(index))
+		}
 	}
 }
 

@@ -13,6 +13,7 @@ const emptyMeeting = {
 	date: '',
 	deadline: '',
 	max_participant: 0,
+	participant_waiting : {},
 	region: '',
 	comments: []
 }
@@ -20,14 +21,14 @@ const emptyMeeting = {
 export const initialState = {
 	meetingList: [],	
 	meetingElement: emptyMeeting,
-	searchText: "",	
+	searchText: '',	
 	searchOption: {},
 
 	loadDone: false,
 	loadFailed: false,
 	postDone: false,
 	postFailed: false,
-	requestError: 0,
+	requestError: '',
 }
 
 export default function meeting(state=initialState, action) {
@@ -102,6 +103,7 @@ export default function meeting(state=initialState, action) {
 				postDone: true,
 				loadFailed: true,
 				postFailed: true,
+				requestError: action.code,
 			}
 
 		case "JOIN_MEETING":

@@ -183,8 +183,8 @@ api.post = (url, data, token) => {
 api.post = (url, data, token) => {
 	let headers = {
 		Accept: 'application/json',
-		'Content-Type': 'application/json',
-		'Authorization': `Token ${token}`
+		'Authorization': `Token ${token}`,
+		'Content-Type': 'application/json'
 	}
 	let body = JSON.stringify(data)
 
@@ -193,9 +193,8 @@ api.post = (url, data, token) => {
 
 api.put = (url, data, token) => {
 	let headers = {
-		Accept: 'application/json',
-		'Content-Type': 'application/json',
-		'Authorization': `Token ${token}`
+		'Authorization': `Token ${token}`,
+		'Content-Type': 'application/json'	
 	}
 	let body = JSON.stringify(data)
 

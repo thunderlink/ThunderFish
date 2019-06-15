@@ -1,4 +1,4 @@
-import { take, put, call, fork } from 'redux-saga/effects'
+import { take, put, call, fork, delay, select } from 'redux-saga/effects'
 import axios from 'axios'
 
 import api from 'services/api'
@@ -110,6 +110,7 @@ export function* userSetRequest() {
 				id: id,
 				nickname: nickname
 			})
+			yield call(getNotificationRequest, id)
 		}
 	}
 }
@@ -479,6 +480,56 @@ export function* watchPutUserRequest() {
 	}
 }
 
+/*************
+* NOTIFICATION
+ * GET
+ * PUT
+***********/
+
+export function* getNotificationRequest(id) {
+	const token = yield localStorage.getItem("token")
+	const { status, data } = yield call(api.get, `${backendUrl}/user/${id}/notification/`, token)
+	if(status === 200) {
+		yield put({type: actions.notification.GET_NOTIFICATION, notification_list: data})
+	}
+	else{
+
+	}
+}
+
+export function* watchGetNotificationRequest() {
+	while(true) {
+		const { id } = yield take(actions.notification.GET_NOTIFICATION_REQUEST)
+		yield call(getNotificationRequest, id)
+	}
+}
+
+export const getUserID = (state) => state.user.id
+export function* getNotification() {
+	while(true) {
+		let id = yield select(getUserID);
+		yield call(getNotificationRequest, id);
+		yield delay(200000);
+	}
+
+}
+
+
+export function* readNotificationRequest(pid, id) {
+	const token = yield localStorage.getItem("token")
+	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/${id}/`, {}, token)
+
+	if(status < 300) {
+		yield call(getNotificationRequest, pid)
+	}
+}
+export function* watchReadNotificationRequest() {
+	while(true) {
+		const {pid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
+		yield call(readNotificationRequest, pid, id)
+	}
+}
+
 export default function* rootSaga() {
 
 	yield fork(watchkakaologinRequest)
@@ -506,4 +557,10 @@ export default function* rootSaga() {
 	yield fork(watchJoinMeetingRequest)
 	yield fork(watchAccpetMeetingRequest)
 	yield fork(watchRejectMeetingRequest)
+
+	yield fork(watchReadNotificationRequest)
+	yield fork(watchGetNotificationRequest)
+
+	//yield fork(getNotification)
+
 }

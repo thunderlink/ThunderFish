@@ -216,7 +216,7 @@ export function* getMeetingRequest(index) {
 	const { status, data } = yield call(api.get, `${backendUrl}/meetings/${index}/`)
 	
 	if(status < 300) {
-		yield put({type: actions.meeting.GET_MEETING, meeting : {...data, photo: `${backendUrl}${data.pic_url}`}})
+		yield put({type: actions.meeting.GET_MEETING, meeting : data})
 	}
 	else{
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING"})
@@ -245,18 +245,23 @@ export function* watchGetMeetingRequest() {
 export function* postMeetingRequest(meeting) {
 
 	const token = yield localStorage.getItem("token")
-	const fd = new FormData();
-	fd.append('profile', meeting.photo)
-	let res = yield axios.post(`${backendUrl}/image/`, fd)
-		.then((res) => {
-			console.log(res)
-			return {status: res.status, data: res.data}
-		})
-	//let res = yield call(api.post, `${backendUrl}/image/`, {profile: meeting.photo}, token)
+	let res = {data: {id: 1}, status: 201}
+
+	if(meeting.photo !== null) {
+		const fd = new FormData();
+		fd.append('profile', meeting.photo)
+		res = yield axios.post(`${backendUrl}/image/`, fd)
+			.then((res) => {
+				if(res.status < 300)
+					return {status: res.status, data: res.data}
+				else
+					return {status: res.status}
+			})
+		console.log("uploaded photo")
+	}
 	console.log(res)
 
 	if(res.status >= 300){
-		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_MEETING"})
 		return
 	}
 	
@@ -283,7 +288,10 @@ export function* watchPostMeetingRequest() {
 export function* putMeetingRequest(index, meeting) {
 
 	const token = yield localStorage.getItem("token")
+	delete meeting.photo
+
 	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/`, meeting, token)
+	console.log(data)
 
 	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting: data})
@@ -338,7 +346,7 @@ export function* watchGetMeetingListRequest() {
 export function* getRecentMeetingRequest(index) {
 	console.log(index);
 	const { status, data } = yield call(api.get, `${backendUrl}/meetings/new/${index}/`)
-	console.log(data)
+
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_RECENT_MEETING, meetings: data, index: index})
 	}

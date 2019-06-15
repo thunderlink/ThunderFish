@@ -64,41 +64,49 @@ class MeetingPage extends Component {
 						<Route
 							render={(props) => (<MeetingDetail {...props} meeting={this.props.meetingElement}/>)}
 						/>
-						{(this.props.meetingElement.host === this.props.id) ? (
-							<ul className="participant-list">
-								<div className="participant-title">
-									<h2> 승인 대기중 </h2>
-									<p> {'사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다.'} </p>
-								</div>
-								{
-									Object.keys(this.props.meetingElement.participant_waiting).map(key => (
-										<li className="participant-item" key={key}>
-											<Link
-												className="participant-name"
-												to={`/user/${this.props.meetingElement.participant_waiting[key].id}`}
-											>
-												{
-													this.props.meetingElement.participant_waiting[key].name
-												}
-											</Link>
-											<button
-												className="accept"
-												onClick={this.onAcceptHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
-											>
-												수락하기
-											</button>
-											<button
-												className="reject"
-												onClick={this.onRejectHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
-											>
-												거절하기
-											</button>
-										</li>
-									))}
-							</ul>
-						) : (
-							<div/>
-						)}
+						{
+							/*
+							(this.props.meetingElement.host === this.props.id) ? (	
+								<ul className="participant-list">
+									<div className="participant-title">
+										<h2> 승인 대기중 </h2>
+										<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
+									</div>
+									{
+										(this.props.meetingElement !== undefined && 
+											this.props.meetingElement !== null) ? (
+												Object.keys(this.props.meetingElement.participant_waiting).map(key => (
+													<li className="participant-item" key={key}>
+														<Link
+															className="participant-name"
+															to={`/user/${this.props.meetingElement.participant_waiting[key].id}`}
+														>
+															{
+																this.props.meetingElement.participant_waiting[key].name
+															}
+														</Link>
+														<button
+															className="accept"
+															onClick={this.onAcceptHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
+														>
+															수락하기
+														</button>
+														<button
+															className="reject"
+															onClick={this.onRejectHandler(this.props.meetingElement.participant_waiting[key].membership_id)}
+														>
+															거절하기
+														</button>
+													</li>
+												))) : (
+													<div />
+												)
+									}
+									</ul>
+								) : (
+									<div/>
+								) */
+						}
 					</div>
 					<div className="meeting-guests">
 						<ul className="participant-list">
@@ -107,7 +115,8 @@ class MeetingPage extends Component {
 								<p> 사용자 이름 클릭시 해당 유저의 정보를 볼 수 있습니다. </p>
 							</div>
 							{
-								(this.props.meetingElement !== undefined || this.props.meetingElement !== null) ? (
+								/*
+								(this.props.meetingElement !== undefined && this.props.meetingElement !== null) ? (
 									Object.keys(this.props.meetingElement.participant_approved).map(key => (
 										<li className="participant-item" key={key}>
 											<Link
@@ -123,6 +132,7 @@ class MeetingPage extends Component {
 								) : (
 									<div/>
 								)
+								*/
 							}
 						</ul>
 						<div className="comments">

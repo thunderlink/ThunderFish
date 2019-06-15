@@ -39,7 +39,7 @@ class MeetingDetail extends Component {
 				<div className="description">
 					<div className="image-wrapper">
 						<ImageBox
-							src={this.props.meeting.photo}
+							src={this.props.meeting.pic_url}
 							default={default_meeting}
 						/>
 					</div>

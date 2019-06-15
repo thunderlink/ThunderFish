@@ -12,7 +12,7 @@ import './MeetingForm.css'
 class MeetingForm extends Component {
 
 	state = {
-		file: '',
+		file: null,
 		preview: '',
 		name: '',
 		date: '',
@@ -32,9 +32,10 @@ class MeetingForm extends Component {
 			let tags = ''
 			Object.keys(this.props.meeting.tag_set).map(key => {
 				tags = tags + this.props.meeting.tag_set[key] + " "
+				console.log(this.props.meeting.tag_set[key])
 			})
 			this.state = {
-				file: '',
+				file: null,
 				preview: this.props.meeting.photo,
 				name: this.props.meeting.name,
 				date: this.props.meeting.date,
@@ -45,7 +46,7 @@ class MeetingForm extends Component {
 				tag: tags,
 				open_chat: this.props.meeting.open_chat,
 			}
-			this.state.preview = ''
+			this.state.preview = this.props.meeting.pic_url
 		}
 	}
 

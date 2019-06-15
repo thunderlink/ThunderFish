@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 
 import my_meeting from 'icons/my-meeting.png'
 import add_meeting from 'icons/add-meeting.png'
+import sign_in from 'icons/sign-in.png'
+import sign_up from 'icons/sign-up.png'
 
 import './Welcome.css'
 
@@ -19,7 +21,7 @@ export default class Welcome extends Component{
 				{
 					(this.props.isAuthenticated) ? (
 						<div className="welcome-content">
-							<h1> {`ThunderFish에 돌아오신 것을 환영합니다!`} </h1>
+							<h1> {`ThunderFish™에 돌아오신 것을 환영합니다!`} </h1>
 							<p> <strong>{`${this.props.user}`}</strong>님, 새로운 번개를 생성하거나 참여해보세요. 
 							</p>
 							<div className="welcome-button-set">
@@ -35,6 +37,18 @@ export default class Welcome extends Component{
 						</div>
 					) : (
 						<div className="welcome-content">
+							<h1> {`ThunderFish™에 오신 것을 환영합니다!`} </h1>
+							<p> ThunderFish™에 가입하고 자유롭게 번개를 만들고 참여해보세요. </p>
+							<div className="welcome-button-set">
+								<Link to={`/signup/`} className="welcome-button">
+									<img className="welcome-icon" src = {sign_up}/>
+									회원가입
+								</Link>
+								<Link to={'/signin/'} className="welcome-button">
+									<img className="welcome-icon" src = {sign_in}/>
+									로그인
+								</Link>
+							</div>
 						</div>
 					)
 				}

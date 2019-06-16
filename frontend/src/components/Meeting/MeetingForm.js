@@ -35,7 +35,6 @@ class MeetingForm extends Component {
 			let tags = ''
 			Object.keys(this.props.meeting.tag_set).map(key => {
 				tags = tags + this.props.meeting.tag_set[key] + " "
-				console.log(this.props.meeting.tag_set[key])
 			})
 			this.state = {
 				file: null,
@@ -74,7 +73,7 @@ class MeetingForm extends Component {
 		return Object.assign(this.meetingSerializer(), {
 			nickname: this.props.nickname,
 			tag_set: parsedTag,
-			photo: this.state.preview,
+			pic_url: this.state.preview,
 		})
 	}
 
@@ -102,17 +101,14 @@ class MeetingForm extends Component {
 	}
 
 	onChangePlace = (newState) => {
-		console.log(newState)
 		this.setState(newState)
 	}
 
 	onChangeDate = (date) => {
-		console.log(date)
 		this.setState({date: date})
 	}	
 	
 	onChangeDeadline = (date) => {
-		console.log(date)
 		this.setState({deadline: date})
 	}
 

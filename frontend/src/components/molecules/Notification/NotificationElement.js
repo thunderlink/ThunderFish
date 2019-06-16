@@ -4,59 +4,40 @@ import { Link } from 'react-router-dom'
 
 class NotificationElement extends Component {
 
-    sexy(notification){
-            {console.log(this.props.meeting)}
-            {console.log(this.props.notification)}
-            {console.log(this.props.id)}
-        {console.log(this.props.pid)}
+	constructor(props) {
+		super(props)
+		if(props.read) {
+			this.style = {background: '#ffffff'}
+		}
+		else {
+			this.style = {background: '#ffffdd'}
+		}
+		
+	}
 
-        switch (notification) {
-            case 0 :
-                return (<p>New Apply</p>)
-            case 1 :
-                return (<p>New Comment</p>)
-            case 2 :
-                return (<p>Apply Reject</p>)
-            case 3 :
-                return (<p>Apply Approved</p>)
-        }
-    }
+	makeComponent = (not_id) => {
+		switch (not_id) {
+			case 0 :
+				return "에 새로운 참가 신청이 있습니다."
+			case 1 :
+				return "에 새로운 댓글이 있습니다."
+			case 2 :
+				return " 참여가 거절되었습니다."
+			case 3 :
+				return " 참여가 승인되었습니다."
+		}
+	}
 
-    render() {
-        return(
-
-            (!this.props.read) ? (
-                <div className="notification_unread">
-                    <div className="notification_type">
-                        {this.sexy(this.props.notification)}
-                    </div>
-
-                    <p> New Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
-                    <Link to={`/meeting/${this.props.meeting}`}
-                        className="read"
-                        onClick={() => {
-                            this.props.readNotification(this.props.id, this.props.pid)
-                            this.props.getNotification(this.props.pid);
-                        }}
-                    > Click to Read </Link>
-                </div>
-            ) : (
-                <div className="notification_read">
-                    <div className="notification_type">
-                        {this.sexy(this.props.notification)}
-                    </div>
-                    <p> Checked Notification on  <strong>Meeting #{this.props.meeting}</strong> </p>
-
-                    <Link to={`/meeting/${this.props.meeting}`}
-                          className="read"
-                          onClick={() => {
-                              this.props.getNotification(this.props.pid);
-                          }}
-                    > Click to Read </Link>
-                </div>
-            )
-        )
-    }
+	render() {
+		return(
+			<div className="notification-element" style={this.style}>
+				<p> 
+					<strong>{this.props.meeting}</strong>
+					{this.makeComponent(this.props.notification)} 
+				</p>
+			</div>
+		)
+	}
 }
 
 export default NotificationElement

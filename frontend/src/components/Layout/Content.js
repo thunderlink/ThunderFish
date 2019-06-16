@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
-import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 
 import Main from "components/Main/Main"

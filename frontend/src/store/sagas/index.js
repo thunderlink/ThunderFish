@@ -1,4 +1,4 @@
-import { take, put, call, fork, delay, select } from 'redux-saga/effects'
+import { take, put, call, fork } from 'redux-saga/effects'
 import axios from 'axios'
 
 import api from 'services/api'
@@ -145,11 +145,10 @@ export function* watchUserSetRequest() {
 export function* joinMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.post, `${backendUrl}/meetings/${index}/join/`, user, token)
+	const { status } = yield call(api.post, `${backendUrl}/meetings/${index}/join/`, user, token)
 	console.log("end post")
 
 	if(status < 300) {
-		//	yield put({type: actions.meeting.MEETING_REQUEST_FAILURE})
 		yield call(getMeetingRequest, index)
 	}
 	else{
@@ -170,10 +169,9 @@ export function* watchJoinMeetingRequest() {
 export function* acceptMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/accept/${user}/`, {}, token)
+	const { status } = yield call(api.put, `${backendUrl}/meetings/${index}/accept/${user}/`, {}, token)
 
 	if(status < 300) {
-		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
 		yield call(getMeetingRequest, index)
 	}
 	else{
@@ -193,10 +191,9 @@ export function* watchAccpetMeetingRequest() {
 
 export function* rejectMeetingRequest(index, user) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/reject/${user}/`, {}, token)
+	const { status } = yield call(api.put, `${backendUrl}/meetings/${index}/reject/${user}/`, {}, token)
 
 	if(status < 300) {
-		//	yield put({type: actions.meeting.PUT_MEETING, meeting: data})
 		yield call(getMeetingRequest, index)
 	}
 	else{
@@ -464,7 +461,7 @@ export function* watchGetUserRequest() {
 /* User put functions */
 export function* putUserRequest(index, profile) {
 	const token = yield localStorage.getItem("token")
-	const { status, data } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
+	const { status } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
 	if(status === 200) {
 		yield put({type: actions.user.PUT_PROFILE, profile: profile})
 	}
@@ -504,29 +501,18 @@ export function* watchGetNotificationRequest() {
 	}
 }
 
-export const getUserID = (state) => state.user.id
-export function* getNotification() {
-	while(true) {
-		let id = yield select(getUserID);
-		yield call(getNotificationRequest, id);
-		yield delay(200000);
-	}
-
-}
-
-
-export function* readNotificationRequest(pid, id) {
+export function* readNotificationRequest(uid, id) {
 	const token = yield localStorage.getItem("token")
-	const { status } = yield call(api.put, `${backendUrl}/user/${pid}/notification/${id}/`, {}, token)
+	const { status } = yield call(api.put, `${backendUrl}/user/${uid}/notification/${id}/`, {}, token)
 
 	if(status < 300) {
-		yield call(getNotificationRequest, pid)
+		yield call(getNotificationRequest, uid)
 	}
 }
 export function* watchReadNotificationRequest() {
 	while(true) {
-		const {pid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
-		yield call(readNotificationRequest, pid, id)
+		const {uid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
+		yield call(readNotificationRequest, uid, id)
 	}
 }
 

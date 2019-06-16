@@ -78,7 +78,6 @@ class MeetingDetail extends Component {
 							) : (
 								<div className="guest-buttons">
 									<button onClick={this.onJoinHandler}> 참가하기 </button>
-									<button> 신고하기 </button>
 								</div>
 							)}
 						</div>

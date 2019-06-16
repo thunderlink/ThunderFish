@@ -40,6 +40,13 @@
 	margin: 0;
 }
 
+.meeting-detail .description .description-body .meeting-info button{
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	padding: 4px 8px;
+}
+
 .meeting-detail .description .description-body .meeting-info .tag-list {
 	padding: 0;
 	list-style: none;

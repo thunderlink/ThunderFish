@@ -1,27 +1,10 @@
-.notification_unread {
-    background: #999999;
-    border: 1px solid #dddddd;
-    outline-style: groove;
+.notification-element {
+	text-align: left;
 }
 
-.notification_read {
-    background: #495057;
-    border-bottom: 1px solid #dddddd;
-    display: flex;
-}
-
-.notification_type {
-    border-bottom: 1px solid #dddddd;
-    display: flex;
-}
-
-.notification_unread.read {
-    margin-left: 8px;
-
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-
-    font-size: 12px;
-    font-weight: 600;
+.notification-element p {
+	font-size: 16px;
+	padding: 8px 16px;
+	border-bottom: 1px solid #dddddd;
+	margin: 0;
 }

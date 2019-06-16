@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from 'store/actions'
 
 import Loading from 'components/Loading'
-import MeetingList from 'components/molecules/Meeting/MeetingList'
+import MeetingList from 'components/molecules/MeetingList'
 
 import './SearchPage.css'
 

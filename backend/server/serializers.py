@@ -1,19 +1,36 @@
 from rest_framework import serializers
-from .models import Profile, Meeting, Tag, Comment, Notification, Membership, User
+from .models import Profile, Meeting, Tag, Comment, Notification, Membership, User, Image
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+class ImageSerializer(serializers.HyperlinkedModelSerializer):
+    profile = serializers.ImageField(
+        max_length=None, use_url=True
+    )
+
+    class Meta:
+        model = Image
+        fields = ('id', 'profile', 'title')
 
 class ProfileSerializer(serializers.ModelSerializer):
+    pic_url = serializers.ReadOnlyField(source='photo.url')
+
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'nickname', 'photo', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set')
+        fields = ('id', 'user', 'nickname', 'photo', 'name', 'gender', 'region', 'introduce', 'meeting_hosted', 'meeting_set', 'comment_set', 'notification_set', 'membership_set', 'pic_url')
 
 class MeetingSerializer(serializers.ModelSerializer):
     nickname = serializers.ReadOnlyField(source='host.nickname')
+    pic_url = serializers.ReadOnlyField(source='photo.url')
     # participant_waiting = serializers.ReadOnlyField(source='participant.through_fields.filter(status=0)')
     # participant_approved = serializers.ReadOnlyField(source='participant.through_fields.filter(status=1)')
 
     class Meta:
         model = Meeting
-        fields = ('id', 'name', 'host', 'nickname', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set', 'latitude', 'longitude')
+        fields = ('id', 'name', 'host', 'nickname', 'date', 'posted_date', 'participant', 'max_participant', 'deadline', 'region', 'photo', 'content', 'tag_set', 'status', 'open_chat', 'comment_set', 'membership_set', 'latitude', 'longitude', 'pic_url')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +48,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('prof','pk', 'checked', 'meeting', 'notification')
+        fields = ('prof', 'id', 'checked', 'meeting', 'notification')
 
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:

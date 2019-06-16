@@ -1,7 +1,8 @@
 from django.urls import path
 # from . import views
 from .views import *
-
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('signin/', Login), # POST username and password to receive token and user info
     path('signup/', Register.as_view()), # Sign Up through POST
@@ -10,6 +11,7 @@ urlpatterns = [
     path('user/<int:pk>/', ProfileDetail.as_view()), # My page
     path('user/<int:pk>/meetings/', UserMeetingList.as_view()), # Not Used
     path('user/<int:pk>/notification/', UserNotificationList.as_view()),
+    path('user/<int:user>/notification/<int:pk>/', UserNotificationDetail.as_view()),
     path('meetings/', MeetingList.as_view()),
     path('meetings/new/<int:id>/', RecentMeetingList.as_view()),
     path('meetings/<int:pk>/', MeetingDetail.as_view()),
@@ -19,7 +21,10 @@ urlpatterns = [
     path('meetings/<int:meeting>/reject/<int:pk>/', RejectMeeting.as_view()),
     path('search/<str:keyword>/', SearchResult.as_view()), #GET
     path('searchdist/<int:dist>/', SearchLocation.as_view()), # GET, search by location, distance
+    path('searchtag/<str:keyword>', SearchTag.as_view()), # Search by Tag
     path('comment/', CommentList.as_view()), # POST, should be here
     path('comment/<int:pk>/', CommentDetail.as_view()), # PUT, DELETE
-    path('notification/<int:pk>/', NotificationDetail.as_view()),
-]
+    # path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
+    path('image/', ImageUploadView.as_view()), # post images here
+    path('image/<int:pk>/', ImageViewSet.as_view()),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

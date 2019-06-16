@@ -89,3 +89,14 @@ class UserNotificationList(generics.ListCreateAPIView):
         user = Profile.objects.get(pk=kwargs['pk'])
         self.queryset = user.notification_set.all()
         return self.list(request, *args, **kwargs)
+
+class UserNotificationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notification
+    serializer_class = NotificationSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def put(self, request, *args, **kwargs):
+        notification = Notification.objects.get(pk=kwargs['pk'])
+        notification.checked = True
+        notification.save()
+        return Response({"OK"}, status=HTTP_200_OK)

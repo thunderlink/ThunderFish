@@ -1,11 +1,11 @@
-from ..models import Profile, Meeting, Tag, Membership
+from ..models import Profile, Meeting, Tag, Membership, Image
 from ..serializers import MeetingSerializer, CommentSerializer, MembershipSerializer
 from rest_framework.response import Response
 from rest_framework import permissions, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from ..permissions import MembershipAccess
-from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
 
 
 class MeetingList(generics.ListCreateAPIView):
@@ -63,7 +63,6 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         for comment in comment_set:
             data = CommentSerializer(comment).data
             data.pop('parent_meeting', None)
-            data.pop('writer', None)
             serialized_comment[str(comment.id)] = data
         # comment id,nickname is necessary!!!
         ret['comments'] = serialized_comment
@@ -101,17 +100,17 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         meeting = Meeting.objects.get(pk=kwargs['pk'])
         old_meeting = MeetingSerializer(meeting).data
 
-        if 'tag_set' in request.data:
-            tag_set = request.data['tag_set'][0:]
-            request.data['tag_set'] = []
+        if 'tag' in request.data:
+            tag_set = request.data['tag'].split()
+            request.data['tag'] = []
             for tagname in tag_set:
                 try:
                     tag = Tag.objects.get(name=tagname)
-                    request.data['tag_set'].append(tag.id)
+                    request.data['tag'].append(tag.id)
                 except Tag.DoesNotExist:
                     ## Add new tag
                     t = Tag.objects.create(name=tagname)
-                    request.data['tag_set'].append(t.id)
+                    request.data['tag'].append(t.id)
 
         # Refer to original data and
         # If the data is not in the request
@@ -119,10 +118,18 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         for key in old_meeting:
             if key not in request.data:
                 request.data[key] = old_meeting[key]
+        request.data['tag_set'] = request.data['tag']
 
         print(request.data)
         return self.update(request, *args, **kwargs)
 
+    def delete(self, request, *args, **kwargs):
+        meeting = Meeting.objects.get(pk=kwargs['pk'])
+        if meeting.photo.id != 2:
+            img = Image.objects.get(pk=meeting.photo.id)
+            img.delete()
+        meeting.delete()
+        return Response({"Deleted!"}, status=HTTP_204_NO_CONTENT)
 
 class JoinMeeting(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )

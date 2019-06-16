@@ -1,2 +1,4 @@
 */migrations/*
 migrations/
+media
+./media/

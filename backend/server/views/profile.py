@@ -20,7 +20,7 @@ class GetProfile(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, *args, **kwargs):
         token = request.headers['Authorization'].split()[1]
         profile = Token.objects.get(key=token).user.profile
-        ret = {'id': profile.id, 'nickname': profile.nickname}
+        ret = {'id': profile.id, 'nickname': profile.nickname, 'pic_url': profile.photo.url}
         return Response(ret, status=HTTP_200_OK)
 
 

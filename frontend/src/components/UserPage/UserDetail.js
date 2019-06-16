@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import ImageBox from 'components/molecules/ImageBox'
 
-import report from 'icons/report-button.png'
 import edit from 'icons/edit-button.png'
 import default_profile from 'icons/default-profile.png'
 

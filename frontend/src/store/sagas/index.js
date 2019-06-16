@@ -309,14 +309,18 @@ export function* watchDeleteMeetingRequest() {
 
 /* Meeting list get functions */
 export function* getMeetingListRequest(query) {
-	const { status, data } = yield call(api.get, `${backendUrl}/search/${query}`)
+	console.log(query)
+	/*
+	const { status, data } = yield call(api.get, `${backendUrl}/search/`)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
 	else{
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING_LIST"})
 	}
+	*/
 }
+
 export function* watchGetMeetingListRequest() {
 	while(true) {
 		const { query } = yield take(actions.meeting.GET_MEETING_LIST_REQUEST)
@@ -429,7 +433,7 @@ export function* getUserRequest(index) {
 		yield put({type: actions.user.GET_USER, data: data})
 	}
 	else{
-		yield put({type: actions.user.USER_REQUEST_FAILURE})
+		yield put({type: actions.user.USER_REQUEST_FAILURE, code: "GET_USER"})
 	}
 }
 
@@ -444,18 +448,52 @@ export function* watchGetUserRequest() {
 /* User put functions */
 export function* putUserRequest(index, profile) {
 	const token = yield localStorage.getItem("token")
+	let res = {data: {id: 1}, status: 201}
+
+	console.log(profile.photo)
+
+	if(profile.photo !== null) {
+		const fd = new FormData();
+		fd.append('profile', profile.photo)
+		res = yield axios.post(`${backendUrl}/image/`, fd)
+			.then((res) => {
+				if(res.status < 300)
+					return {status: res.status, data: res.data}
+				else
+					return {status: res.status}
+			})
+
+		if(res.status >= 300) {
+			yield put({type: actions.user.USER_REQUEST_FAILURE, code:"PUT_USER"})
+			return
+		}
+		profile = {...profile, photo: res.data.id}
+		delete profile.file
+		delete profile.originalPhoto
+	}
+	else {
+		profile = {...profile, photo: profile.originalPhoto}
+		delete profile.file
+		delete profile.originalPhoto
+	}
+
+	console.log(profile)
+
 	const { status } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
+
 	if(status === 200) {
-		yield put({type: actions.user.PUT_PROFILE, profile: profile})
+		yield call(getUserRequest, index)
+		yield put({type: actions.user.PUT_USER, profile: profile})
 	}
 	else{
-		yield put({type: actions.user.USER_REQUEST_FAILURE})
+		yield put({type: actions.user.USER_REQUEST_FAILURE, code: "PUT_USER"})
 	}
 }
 
 export function* watchPutUserRequest() {
 	while(true) {
 		const { index, profile } = yield take(actions.user.PUT_USER_REQUEST)
+		yield put({type: actions.user.WAIT_REQUEST})
 		yield call(putUserRequest, index, profile)
 	}
 }
@@ -529,7 +567,4 @@ export default function* rootSaga() {
 
 	yield fork(watchReadNotificationRequest)
 	yield fork(watchGetNotificationRequest)
-
-	//yield fork(getNotification)
-
 }

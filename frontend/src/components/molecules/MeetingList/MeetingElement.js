@@ -1,3 +1,5 @@
+/* global daum */
+
 import React, { Component } from 'react'
 import Moment from 'react-moment'
 
@@ -7,6 +9,27 @@ import default_meeting from 'icons/default-meeting.png'
 import './MeetingElement.css'
 
 class MeetingElement extends Component {
+	state = {
+		region: ''
+	}
+
+	constructor(props) {
+		super(props)
+		this.geocoder = new daum.maps.services.Geocoder()
+		this.geocoder.coord2Address(
+			this.props.latLng.longitude,
+			this.props.latLng.latitude, 
+			(result, status) => {
+				if(status === daum.maps.services.Status.OK)
+					this.setState({
+						region: `${result[0].address.region_1depth_name} 
+						${result[0].address.region_2depth_name} 
+						${result[0].address.region_3depth_name}`
+					})
+			}
+		)
+	}
+
 	render() {
 		return(
 			<div className="meeting_element">
@@ -27,7 +50,7 @@ class MeetingElement extends Component {
 					> 
 						{this.props.date} 
 					</Moment>
-					<p> {this.props.region} </p>
+					<p> {this.state.region} </p>
 				</div>
 			</div>
 		)

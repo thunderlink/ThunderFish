@@ -13,6 +13,7 @@ const initialState = {
 	loadDone: false,
 	loadFailed: false,
 	postDone: false,
+	postFailed: false,
 }
 
 export default function user(state=initialState, action) {
@@ -23,6 +24,7 @@ export default function user(state=initialState, action) {
 				loadDone: false,
 				postDone: false,
 				loadFailed: false,
+				postFailed: false,
 			}
 
 		case 'SIGNUP_SUCCESSFUL': 
@@ -73,23 +75,25 @@ export default function user(state=initialState, action) {
 			})
 
 		case 'USER_SET_SUCCESSFUL':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				token: action.token,
 				id: action.id,
 				pic_url: action.pic_url,
 				nickname: action.nickname,
 				isAuthenticated: true
-			})
+			}
 
 		case 'USER_SET_NONE':
 		case 'USER_SET_FAILED':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				token: null,
 				id: -1,
 				pic_url: '',
 				nickname: null,
 				isAuthenticated: false
-			})
+			}
 
 		case 'GET_USER':
 			return Object.assign({}, state, {
@@ -98,11 +102,29 @@ export default function user(state=initialState, action) {
 				loadFailed: false,
 			})
 
-		case 'USER_REQUEST_FAILURE':
+		case 'PUT_USER':
 			return {
 				...state,
-				loadDone: true,
-				loadFailed: true,
+				postDone: true,
+				postFailed: false,
+			}
+
+		case 'USER_REQUEST_FAILURE':
+			switch(action.code) {
+				case 'PUT_USER':
+					return {
+						...state,
+						postDone: true,
+						postFailed: true
+					}
+				case 'GET_USER':
+					return {
+						...state,
+						loadDone: true,
+						loadFailed: true
+					}
+				default:
+					return state;
 			}
 
 		default:

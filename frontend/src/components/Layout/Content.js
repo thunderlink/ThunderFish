@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom'
 import Main from "components/Main"
 import NotFound from "components/NotFound"
 import UserPage from "components/UserPage/UserPage"
-import UserEditPage from "components/UserPage/UserEditPage"
 import MeetingPage from "components/Meeting/MeetingPage"
 import SearchPage from "components/Search/SearchPage"
 import MeetingAddPage from "components/Meeting/MeetingAddPage"
@@ -24,7 +23,6 @@ class Content extends Component {
 					<Switch>
 						<Route exact path="/" component={Main} />
 						<Route exact path="/user/:id" component={UserPage} />
-						<Route exact path="/user/:id/edit" component={UserEditPage} />
 						<Route exact path="/meeting/add" component={MeetingAddPage}/>
 						<Route exact path="/meeting/:id" component={MeetingPage} />
 						<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />

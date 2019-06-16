@@ -175,6 +175,7 @@ class MeetingForm extends Component {
 									latitude={this.state.latitude}
 									longitude={this.state.longitude}
 									region={this.state.region}
+									enableRegion={true}
 								/>
 							</div>
 						</div>

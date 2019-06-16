@@ -189,7 +189,7 @@ export default class KakaoViewMap extends Component {
 				<div id={`kakao-map-select`}
 					className="kakao-content"
 				/>
-				<div className="search-field">
+				<div className="kakao-search-field">
 					<form className="keyword-form" onSubmit={this.onSubmitHandler}>
 						<input 
 							className="keyword-input" type="text" 
@@ -198,10 +198,10 @@ export default class KakaoViewMap extends Component {
 						/>
 						<button className="keyword-submit" type="submit"> 장소 검색 </button>
 					</form>
-					<ul className="search-list">
+					<ul className="kakao-search-list">
 						{
 							this.state.searchResult.map(item => (
-								<li className="search-item"
+								<li className="kakao-search-item"
 									key={`${item.id}_${item.place_name}`}
 								>
 									<div className="place-detail">
@@ -248,14 +248,18 @@ export default class KakaoViewMap extends Component {
 						<strong> 주소 </strong> 
 						{(this.state.address==='') ? "지도를 클릭해주세요." : this.state.address} 
 					</p>
-					<p className="results-place">
-						<strong> 장소 </strong>
-						<input 
-							value={this.props.region} 
-							onChange={(e) => this.props.onChangePlace({region: e.target.value})}
-							placeholder="지도에서 위치를 선택하거나, 직접 입력하세요."
-						/>
-					</p>
+					{
+						(this.props.enableRegion) ? (
+							<p className="results-place">
+								<strong> 장소 </strong>
+								<input 
+									value={this.props.region} 
+									onChange={(e) => this.props.onChangePlace({region: e.target.value})}
+									placeholder="지도에서 위치를 선택하거나, 직접 입력하세요."
+								/>
+							</p>
+						) : (null)
+					}
 				</div>
 			</div>
 		)

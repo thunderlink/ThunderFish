@@ -22,7 +22,7 @@ class MeetingList extends Component {
 							name={item.name}
 							date={item.date}
 							host={item.nickname}
-							region={item.region}
+							latLng={{latitude: item.latitude, longitude: item.longitude}}
 							photo={item.pic_url}
 						/>
 					</Link>

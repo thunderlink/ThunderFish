@@ -92,10 +92,11 @@ class Meeting(models.Model):
             calculated_distance = float(6371 * sqrt(delta_phi + delta_theta))
             if calculated_distance <= dist:
                 ret.append((Meeting.objects.filter(pk=meet.id), calculated_distance))
+        print(ret)
         ret_queryset = Meeting.objects.none()
         ret.sort(key = lambda item : item[1])
         for item in ret:
-            ret_queryset |= item
+            ret_queryset |= item[0]
         return ret_queryset
 
 

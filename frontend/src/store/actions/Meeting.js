@@ -37,10 +37,9 @@ export const JOIN_MEETING = "JOIN_MEETING"
  * PUT on the meeting, 'waiter' and 'participant'.
  */
 export const ACCEPT_MEETING_REQUEST = "ACCEPT_MEETING_REQUEST"
-export const ACCEPT_MEETING = "ACCEPT_MEETING"
-
 export const REJECT_MEETING_REQUEST = "REJECT_MEETING_REQUEST"
-
+export const ACCEPT_MEETING = "ACCEPT_MEETING"
+export const REJECT_MEETING = "REJECT_MEETING"
 export const MEETING_REQUEST_FAILURE = "MEETING_REQUEST_FAILURE"
 
 /******************** END OF CONSTANTS *********************/

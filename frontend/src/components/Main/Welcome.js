@@ -17,6 +17,7 @@ export default class Welcome extends Component{
 				<img
 					src={this.imgsrc}
 					className="welcome-pic"
+					alt="welcome"
 				/>
 				{
 					(this.props.isAuthenticated) ? (
@@ -26,11 +27,11 @@ export default class Welcome extends Component{
 							</p>
 							<div className="welcome-button-set">
 								<Link to={`/user/${this.props.id}`} className="welcome-button">
-									<img className="welcome-icon" src = {my_meeting}/>
+									<img className="welcome-icon" src = {my_meeting} alt="my meeting"/>
 									내 번개 보기
 								</Link>
 								<Link to={'/meeting/add/'} className="welcome-button">
-									<img className="welcome-icon" src = {add_meeting}/>
+									<img className="welcome-icon" src = {add_meeting} alt="add meeting"/>
 									새 번개 생성
 								</Link>
 							</div>
@@ -41,11 +42,11 @@ export default class Welcome extends Component{
 							<p> ThunderFish™에 가입하고 자유롭게 번개를 만들고 참여해보세요. </p>
 							<div className="welcome-button-set">
 								<Link to={`/signup/`} className="welcome-button">
-									<img className="welcome-icon" src = {sign_up}/>
+									<img className="welcome-icon" src = {sign_up} alt="sign up"/>
 									회원가입
 								</Link>
 								<Link to={'/signin/'} className="welcome-button">
-									<img className="welcome-icon" src = {sign_in}/>
+									<img className="welcome-icon" src = {sign_in} alt="sign in"/>
 									로그인
 								</Link>
 							</div>

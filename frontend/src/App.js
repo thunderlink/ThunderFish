@@ -14,7 +14,6 @@ import Signout from "components/Register/Signout"
 
 import MajorView from "components/Layout/MajorView"
 import './App.css'
-import NotificationList from "./components/molecules/Notification/NotificationList";
 
 const sagaMiddleware = createSagaMiddleware()
 let store = createStore(rootReducer,
@@ -31,7 +30,6 @@ function App() {
 						<Route exact path="/signin/" component={Signin} />
 						<Route exact path="/signup/" component={Signup} />
 						<Route exact path="/signout/" component={Signout} />
-						<Route exact path="/notification/" component={NotificationList} />
 						<Route component={MajorView} />
 					</Switch>
 				</BrowserRouter>

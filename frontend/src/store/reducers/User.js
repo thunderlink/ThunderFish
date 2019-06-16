@@ -3,6 +3,7 @@ const initialState = {
 	token: localStorage.getItem("token"), //holds the user token.
 	id: -1,
 	nickname: '', //holds the name of user.
+	pic_url: '',
 	isAuthenticated: false, //check if signed-in or not.
 	signinStatus: 'NONE',
 	signupStatus: 'NONE', //check if signup has successed or not.
@@ -75,6 +76,7 @@ export default function user(state=initialState, action) {
 			return Object.assign({}, state, {
 				token: action.token,
 				id: action.id,
+				pic_url: action.pic_url,
 				nickname: action.nickname,
 				isAuthenticated: true
 			})
@@ -84,6 +86,7 @@ export default function user(state=initialState, action) {
 			return Object.assign({}, state, {
 				token: null,
 				id: -1,
+				pic_url: '',
 				nickname: null,
 				isAuthenticated: false
 			})

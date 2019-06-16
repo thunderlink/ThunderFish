@@ -51,7 +51,6 @@ export default class KakaoViewMap extends Component {
 		staticInfowindow.setContent(`<div style="padding:5px;font-size:12px;font-weight:600;">선택되었습니다.</div>`)
 
 		daum.maps.event.addListener(map, 'click', (e) => {
-			console.log(e)
 			if(this.state.clickedMarker !== null) {
 				this.state.clickedMarker.setMap(null)
 			}
@@ -70,7 +69,6 @@ export default class KakaoViewMap extends Component {
 				e.latLng.getLat(),
 				(result, status) => {
 					if(status === daum.maps.services.Status.OK) {
-						console.log(result)
 						this.setState({
 							address: result[0].address.address_name,
 						})
@@ -97,9 +95,6 @@ export default class KakaoViewMap extends Component {
 	}
 
 	placeSearchCB = (data, status, pagination) => {
-		console.log(data)
-		console.log(status)
-		console.log(pagination)
 		this.removeMarker()
 		this.setState({pagination: pagination})
 		if(status === daum.maps.services.Status.OK) {
@@ -107,6 +102,7 @@ export default class KakaoViewMap extends Component {
 			data.map((item) => {
         this.displayMarker(item);    
 				bounds.extend(new daum.maps.LatLng(item.y, item.x));
+				return null;
 			})
 
 			this.state.map.setBounds(bounds);
@@ -159,6 +155,7 @@ export default class KakaoViewMap extends Component {
 	removeMarker = () => {
 		this.state.markers.map(marker => {
 			marker.setMap(null)
+			return null
 		})
 		this.setState({markers: []})
 	}

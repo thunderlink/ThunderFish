@@ -7,7 +7,7 @@ import menu_button from 'icons/menu-button.png'
 import search_button from 'icons/search-button.png'
 import notification_button from 'icons/notification-button.png'
 
-import NotificationList from 'components/molecules/Notification/NotificationList'
+import NotificationList from 'components/molecules/NotificationList'
 
 import './Header.css'
 
@@ -37,6 +37,11 @@ class Header extends Component {
 
 		document.querySelector('.major-sidebar')
 			.classList.toggle('major-sidebar--open')
+	}
+
+	onClickProfile = (e) => {
+		e.preventDefault();
+		this.props.history.push(`/user/${this.props.id}/`)
 	}
 
 	handleClick = (e) => {
@@ -110,13 +115,19 @@ class Header extends Component {
 						null
 					)
 				}
-				<div className="image-cutter">
-					<img
-						src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/36048268_2127048274176189_8193503050380345344_n.jpg?_nc_cat=107&_nc_ht=scontent-icn1-1.xx&oh=d6b94c008180ddcea752af00d31ceab7&oe=5D9842C9"
-						alt="profile image"
-						className="profile-photo"
-					/>
-				</div>
+				{
+					(this.props.isAuthenticated) ? (
+						<div className="image-cutter" onClick={this.onClickProfile}>
+							<img
+								src={this.props.pic_url}
+								alt="profile"
+								className="profile-photo"
+							/>
+						</div>
+					) : (
+						null
+					)
+				}
 			</nav>
 		)
 	}
@@ -125,7 +136,8 @@ class Header extends Component {
 const mapStateToProps = state => {
 	return {
 		isAuthenticated: state.user.isAuthenticated,
-		id: state.user.id
+		id: state.user.id,
+		pic_url: state.user.pic_url
 	}
 }
 

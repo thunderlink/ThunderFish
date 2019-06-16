@@ -89,7 +89,6 @@ export const getMeetingListRequest = (query) => {
 }
 
 export const getRecentMeetingRequest = (index) => {
-	console.log("getting " + index);
 	return {
 		type: "GET_RECENT_MEETING_REQUEST",
 		index

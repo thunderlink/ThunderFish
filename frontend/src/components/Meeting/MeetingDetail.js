@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
 import ImageBox from 'components/molecules/ImageBox'
@@ -13,6 +13,46 @@ import default_meeting from 'icons/default-meeting.png'
 import './MeetingDetail.css'
 
 class MeetingDetail extends Component {
+
+	state = {
+		onParticipant: false,
+		currentId: -1,
+	}
+
+	static defaultProps = {
+		type: "normal"
+	}
+
+	static getDerivedStateFromProps(props, state) {
+		if(props.type === "normal") {
+			if(props.id !== state.currentId) {
+				let ret = false;
+				if(props.meeting.participant_approved === undefined ||
+					props.meeting.participant_waiting === undefined)
+					return null;
+
+				Object.keys(props.meeting.participant_approved).map(key => {
+					if (props.meeting.participant_approved[key].id === props.id)
+						ret = true;
+					return null;
+				})
+				Object.keys(props.meeting.participant_waiting).map(key => {
+					if (props.meeting.participant_waiting[key].id === props.id)
+					ret = true;
+					return null;
+				})
+
+				return {
+					currentId: props.id,
+					onParticipant: ret
+				}
+			}
+			else
+				return null
+		}
+		else
+			return null
+	}
 
 	onDeleteHandler = (e) => {
 		e.preventDefault()
@@ -35,7 +75,6 @@ class MeetingDetail extends Component {
 			<div/>
 		) : (
 			<div className="meeting-detail">
-				{console.log(this.props.meeting)}
 				<div className="description">
 					<div className="image-wrapper">
 						<ImageBox
@@ -77,7 +116,11 @@ class MeetingDetail extends Component {
 								</div>
 							) : (
 								<div className="guest-buttons">
-									<button onClick={this.onJoinHandler}> 참가하기 </button>
+									{
+										(this.state.onParticipant)
+											? (<button> 참가 취소 </button>)
+											:	(<button onClick={this.onJoinHandler}> 참가하기 </button>)
+									}
 								</div>
 							)}
 						</div>

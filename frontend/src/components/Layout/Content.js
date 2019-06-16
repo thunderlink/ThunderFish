@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { createStore, applyMiddleware } from "redux"
-
-import Main from "components/Main/Main"
+import Main from "components/Main"
 import NotFound from "components/NotFound"
-import Signin from "components/Register/Signin"
-import Signup from "components/Register/Signup"
 import UserPage from "components/UserPage/UserPage"
 import UserEditPage from "components/UserPage/UserEditPage"
 import MeetingPage from "components/Meeting/MeetingPage"
@@ -27,7 +23,6 @@ class Content extends Component {
 				<main className="main-content">
 					<Switch>
 						<Route exact path="/" component={Main} />
-						<Route exact path="/signup" component={Signup} />
 						<Route exact path="/user/:id" component={UserPage} />
 						<Route exact path="/user/:id/edit" component={UserEditPage} />
 						<Route exact path="/meeting/add" component={MeetingAddPage}/>

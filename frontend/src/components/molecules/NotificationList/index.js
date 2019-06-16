@@ -34,12 +34,18 @@ class NotificationList extends Component {
 							this.props.notification_list === null ||
 							this.props.notification_list.length === 0) ? (
 								<div className="notification-content__list">
-									<p className="no-notification"> 알림이 없어요.... </p>
-									<img src={dead_fish} alt="dead fish" />
+									<div className="notification-notfound">
+										<p className="notification-notfound__text"> 
+											알림이 없어요... 
+										</p>
+										<img 
+											className="notification-notfound__img" 
+											src={dead_fish} alt="not found" 
+										/>
+									</div>
 								</div>
 							) : (
 								<div className="notification-content__list">
-									{console.log(this.props.notification_list)}
 									{
 										Object.keys(this.props.notification_list).map(item => (
 											<div 

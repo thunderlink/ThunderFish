@@ -19,7 +19,6 @@ export function* kakaologinRequest(object) {
 	const { status, data } = yield call(api.kakaologin, object)
 
 	if(status === 200) {
-		console.log(data)
 		yield put({
 			type: actions.user.SIGNIN_SUCCESSFUL,
 			token: data.token,
@@ -100,7 +99,7 @@ export function* userSetRequest() {
 		yield put({type: actions.user.USER_SET_NONE})
 	}
 	else {
-		const { status, id, nickname } = yield call(api.userSet, token)
+		const { status, id, nickname, pic_url } = yield call(api.userSet, token)
 		if(status >= 400) {
 			yield put({type: actions.user.USER_SET_FAILED})
 		}
@@ -108,7 +107,8 @@ export function* userSetRequest() {
 			yield put({
 				type: actions.user.USER_SET_SUCCESSFUL,
 				id: id,
-				nickname: nickname
+				nickname: nickname,
+				pic_url: pic_url
 			})
 			yield call(getNotificationRequest, id)
 		}
@@ -146,7 +146,6 @@ export function* joinMeetingRequest(index, user) {
 
 	const token = yield localStorage.getItem("token")
 	const { status } = yield call(api.post, `${backendUrl}/meetings/${index}/join/`, user, token)
-	console.log("end post")
 
 	if(status < 300) {
 		yield call(getMeetingRequest, index)
@@ -228,17 +227,6 @@ export function* watchGetMeetingRequest() {
 	}
 }
 
-/*
-	const fd = new FormData();
-	Object.keys(meeting).map((key) => {
-		fd.append(key, meeting.key)
-	})
-	fd.append('header', {Authorization: `Token ${token}`})
-	console.log(fd);
-
-	console.log(axios.post(`${backendUrl}/meetings/`, fd))
-*/
-
 /* Meeting post functions */
 export function* postMeetingRequest(meeting) {
 
@@ -255,9 +243,7 @@ export function* postMeetingRequest(meeting) {
 				else
 					return {status: res.status}
 			})
-		console.log("uploaded photo")
 	}
-	console.log(res)
 
 	if(res.status >= 300){
 		return
@@ -265,7 +251,6 @@ export function* postMeetingRequest(meeting) {
 	
 	const photoId = res.data.id
 	res = yield call(api.post, `${backendUrl}/meetings/`, {...meeting, photo: photoId}, token)
-	console.log(res)
 
 	if(res.status < 300){
 		yield put({type: actions.meeting.POST_MEETING, meeting: res.data})
@@ -289,7 +274,6 @@ export function* putMeetingRequest(index, meeting) {
 	delete meeting.photo
 
 	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/`, meeting, token)
-	console.log(data)
 
 	if(status < 300) {
 		yield put({type: actions.meeting.PUT_MEETING, meeting: data})
@@ -342,7 +326,6 @@ export function* watchGetMeetingListRequest() {
 
 /* Recent Meeting get functions */
 export function* getRecentMeetingRequest(index) {
-	console.log(index);
 	const { status, data } = yield call(api.get, `${backendUrl}/meetings/new/${index}/`)
 
 	if(status < 300) {

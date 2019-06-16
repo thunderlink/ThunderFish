@@ -3,15 +3,12 @@ import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Loading from 'components/Loading'
-import ImageBox from 'components/molecules/ImageBox'
 import CommentList from 'components/molecules/CommentList'
 import UserList from 'components/molecules/UserList'
 import MeetingDetail from './MeetingDetail'
 import NotFound from 'components/NotFound'
 
 import * as actions from 'store/actions'
-
-import default_meeting from 'icons/default-meeting.png'
 
 import './MeetingPage.css'
 
@@ -56,7 +53,6 @@ class MeetingPage extends Component {
 			<NotFound /> 
 		) : (
 			<div className="meeting-page">
-				{ console.log(this.props.meetingElement) }
 				<div className="meeting-title">
 					<h1> {this.props.meetingElement.name} </h1>
 					<hr/>

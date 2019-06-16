@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './NotificationElement.css'
-import { Link } from 'react-router-dom'
 
 class NotificationElement extends Component {
 
@@ -25,6 +24,8 @@ class NotificationElement extends Component {
 				return " 참여가 거절되었습니다."
 			case 3 :
 				return " 참여가 승인되었습니다."
+			default:
+				return ""
 		}
 	}
 

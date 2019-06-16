@@ -18,7 +18,6 @@ class MeetingList extends Component {
 						key={`key_${item.name}_${item.id}`}
 						className="meeting-link"
 					>
-						{console.log(item)}
 						<MeetingElement
 							name={item.name}
 							date={item.date}

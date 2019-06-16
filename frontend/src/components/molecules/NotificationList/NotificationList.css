@@ -68,6 +68,22 @@
 	margin: 0;
 }
 
+.notification-absolute .notification-content .notification-content__list
+.notification-notfound {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.notification-absolute .notification-content .notification-content__list
+.notification-notfound .notification-notfound__text {
+	font-size: 16px;
+}
+
+.notification-absolute .notification-content .notification-content__list
+.notification-notfound .notification-notfound__img {
+	height: 24px;
+}
 .notification-absolute .notification-content .notification-content__list {
 	height: calc(100% - 48px);
 	background: white;

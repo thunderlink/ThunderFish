@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import moment from 'moment'
 
 import DateSelector from 'components/molecules/DateSelector'
@@ -35,6 +34,7 @@ class MeetingForm extends Component {
 			let tags = ''
 			Object.keys(this.props.meeting.tag_set).map(key => {
 				tags = tags + this.props.meeting.tag_set[key] + " "
+				return ""
 			})
 			this.state = {
 				file: null,
@@ -218,7 +218,7 @@ class MeetingForm extends Component {
 				<div className="meeting-preview">
 					<h1> {`${this.state.name} 미리보기`} </h1>
 					<hr />
-					<MeetingDetail meeting={this.meetingPreview()}/>
+					<MeetingDetail meeting={this.meetingPreview()} type="preview"/>
 				</div>
 			</div>
 		)

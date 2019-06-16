@@ -13,7 +13,6 @@ class UserDetail extends Component {
 	render() {
 		return(
 			<div className="user-detail">
-				{console.log(this.props.user)}
 				<div className="profile-body">
 					<div className="body-left">
 						<div className="image-wrapper">
@@ -25,7 +24,7 @@ class UserDetail extends Component {
 						</div>
 						<div className="button-set">
 							{
-								(this.props.id==this.props.user.id) ? (
+								(this.props.id === this.props.user.id) ? (
 									<Link 
 										className="edit-button"
 										to={`/user/${this.props.id}/edit/`}
@@ -54,24 +53,8 @@ class UserDetail extends Component {
 						<div className="userdtail">
 							<p className="username"> {this.props.user.nickname}#{this.props.user.id} </p>
 							<p className="description"> {this.props.user.introduce} </p>
-						</div>				
+						</div>
 					</div>
-				</div>
-				<div className="profile-info">
-					<ul className="info-list">
-						<li>
-							<p>
-								<strong> 이름 </strong>
-								{this.props.user.name}
-							</p>
-						</li>
-						<li>
-							<p>
-								<strong> 지역 </strong>
-								{this.props.user.region}
-							</p>
-						</li>
-					</ul>
 				</div>
 			</div>		
 		)

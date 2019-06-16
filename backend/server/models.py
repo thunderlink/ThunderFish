@@ -80,17 +80,22 @@ class Meeting(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
     def distance_search(dist, lat, long):
         ## Returns queryset of meetings that is
         ## less than dist kilometers far from (latitude, longitude)
         recuriting = Meeting.objects.filter(status=0)
-        ret_queryset = Meeting.objects.none()
+        ret = []
         for meet in recuriting:
             delta_phi = abs(float(meet.latitude) - lat) ** 2
             delta_theta = abs(float(meet.longitude) - long) ** 2
-            if float(6371 * sqrt(delta_phi + delta_theta)) <= dist:
-                ret_queryset |= Meeting.objects.filter(pk=meet.id)
-
+            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta))
+            if calculated_distance <= dist:
+                ret.append((Meeting.objects.filter(pk=meet.id), calculated_distance))
+        ret_queryset = Meeting.objects.none()
+        ret.sort(key = lambda item : item[1])
+        for item in ret:
+            ret_queryset |= item
         return ret_queryset
 
 

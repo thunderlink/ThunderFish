@@ -27,10 +27,11 @@ class SearchLocation(generics.ListCreateAPIView):
     # Latitude and longitude must be included in the request
     def get(self, request, *args, **kwargs):
         data = request.data
-        lat, long, dist = float(data['latitude']), float(data['longitude']), int(kwargs['dist'])
+        lat, long, dist = float(data['latitude']), float(data['longitude']), int(data['dist'])
         self.queryset = Meeting.distance_search(dist, lat, long)
         return self.list(request, *args, **kwargs)
 
 class SearchTag(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
+
         return self.list(request, *args, **kwargs)

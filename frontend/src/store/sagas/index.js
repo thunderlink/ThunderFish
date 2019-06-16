@@ -422,9 +422,6 @@ export function* watchDeleteCommentRequest() {
  * User Functions.
  *  GET user
  *	PUT user
- *
- * Improvements
- *  Should get more detail of meetings
  **************************************/
 /* User get functions */
 export function* getUserRequest(index) {
@@ -498,12 +495,11 @@ export function* watchPutUserRequest() {
 	}
 }
 
-/*************
-* NOTIFICATION
- * GET
- * PUT
-***********/
-
+/**************************************
+ * Notification Functions
+ *  Get Notification
+ *	Read Notification
+ **************************************/
 export function* getNotificationRequest(id) {
 	const token = yield localStorage.getItem("token")
 	const { status, data } = yield call(api.get, `${backendUrl}/user/${id}/notification/`, token)

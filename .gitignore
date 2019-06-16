@@ -108,3 +108,6 @@ frontend/node_modules
 
 # database - not shared
 backend/db.sqlite3
+
+#pycharm
+**/.idea

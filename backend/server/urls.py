@@ -19,12 +19,9 @@ urlpatterns = [
     path('meetings/<int:meeting>/join/<int:pk>/', JoinMeetingDetail.as_view()),
     path('meetings/<int:meeting>/accept/<int:pk>/', AcceptMeeting.as_view()),
     path('meetings/<int:meeting>/reject/<int:pk>/', RejectMeeting.as_view()),
-    path('search/<str:keyword>/', SearchResult.as_view()), #GET
-    path('searchdist/', SearchLocation.as_view()), # GET, search by location, distance
-    path('searchtag/', SearchTag.as_view()), # Search by Tag
+    path('search/', SearchResult.as_view()), #GET
     path('comment/', CommentList.as_view()), # POST, should be here
     path('comment/<int:pk>/', CommentDetail.as_view()), # PUT, DELETE
-    # path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
     path('image/', ImageUploadView.as_view()), # post images here
     path('image/<int:pk>/', ImageViewSet.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

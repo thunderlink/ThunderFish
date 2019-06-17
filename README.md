@@ -1,6 +1,9 @@
 # ThunderFish
 Project Repository for 2019 Spring SWPP Class
 
+- [Requirements and Specification](https://docs.google.com/document/d/14vd6CipOiSJgbAMM-p-9KLF6VMvrxRINKlk1PJjiKDg)
+- [Design and Planning](https://docs.google.com/document/d/1HxrOJHEUP093XyEPE6yju1Xt5U-AeVPL0ipPUKN76Mg)
+
 # Dependencies
 
 ## Frontend - with react, react-redux and redux-saga.

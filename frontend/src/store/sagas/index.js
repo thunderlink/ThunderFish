@@ -254,7 +254,7 @@ export function* watchGetMeetingRequest() {
 export function* postMeetingRequest(meeting) {
 
 	const token = yield localStorage.getItem("token")
-	let res = {data: {id: 1}, status: 201}
+	let res = {data: {id: 2}, status: 201}
 
 	if(meeting.photo !== null) {
 		const fd = new FormData();

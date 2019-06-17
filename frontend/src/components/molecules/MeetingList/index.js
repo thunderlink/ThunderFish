@@ -11,11 +11,10 @@ class MeetingList extends Component {
 	render() {
 		return(
 			<div className="meeting-list">
-				{console.log(this.props.meetings)}
 				{
 					(this.props.meetings !== null &&
 						this.props.meetings !== undefined) ? (
-							Object.keys(this.props.meetings).map(key => {console.log(key); return(
+							Object.keys(this.props.meetings).map(key => (
 								<Link 
 									to={`/meeting/${this.props.meetings[key].id}`}
 									key={`key_${this.props.meetings[key].name}_${this.props.meetings[key].id}`}
@@ -29,7 +28,7 @@ class MeetingList extends Component {
 										photo={this.props.meetings[key].pic_url}
 									/>
 								</Link>
-							)})) : (null)
+							))) : (null)
 				}
 				{
 					(this.props.meetings.length === 0) ? (

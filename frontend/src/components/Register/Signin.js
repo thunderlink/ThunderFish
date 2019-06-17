@@ -24,7 +24,6 @@ class Signin extends Component {
 	}
 
 	kakaoHandler = (object) => {
-		console.log(object)
 		this.props.kakaoLoginRequest(object);
 	}
 

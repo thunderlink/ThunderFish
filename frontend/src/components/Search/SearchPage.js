@@ -80,7 +80,6 @@ class SearchPage extends Component {
 				return null
 			})
 		}
-		console.log(parsedOption)
 		return parsedOption
 	}
 

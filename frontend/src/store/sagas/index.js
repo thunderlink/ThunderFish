@@ -212,7 +212,6 @@ export function* watchRejectMeetingRequest() {
 
 /* exit delete function */
 export function* exitMeetingRequest(memid, pid) {
-	console.log(`${pid}_${memid}`)
 	const token = yield localStorage.getItem('token')
 	const { status } = yield call(api.delete, `${backendUrl}/meetings/${pid}/join/${memid}/`, token)
 
@@ -360,8 +359,6 @@ export function* watchDeleteMeetingRequest() {
 
 /* Meeting list get functions */
 export function* getMeetingListRequest(query) {
-	console.log(query)
-
 	const { status, data } = yield call(api.post, `${backendUrl}/search/`, query)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})

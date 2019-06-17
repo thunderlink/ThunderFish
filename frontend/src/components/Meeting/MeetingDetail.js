@@ -87,7 +87,6 @@ class MeetingDetail extends Component {
 			<div/>
 		) : (
 			<div className="meeting-detail">
-				{console.log(this.props.meeting)}
 				<div className="description">
 					<div className="image-wrapper">
 						<ImageBox

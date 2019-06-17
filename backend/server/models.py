@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import re
-from math import sqrt
+from math import sqrt, pi
 
 # Path to default image
 DEFAULT_IMAGE = '../media/app_logo.png'
@@ -89,7 +89,7 @@ class Meeting(models.Model):
         for meet in result:
             delta_phi = abs(float(meet.latitude) - lat) ** 2
             delta_theta = abs(float(meet.longitude) - long) ** 2
-            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta))
+            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta) * 2 * pi / 360)
             if calculated_distance <= dist:
                 ret.append((result.get(pk=meet.id), calculated_distance))
         ret.sort(key = lambda item : item[1])

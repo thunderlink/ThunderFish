@@ -40,7 +40,7 @@ class MeetingForm extends Component {
 				file: null,
 				preview: this.props.meeting.photo,
 				name: this.props.meeting.name,
-				date: moment(),
+				date: this.props.meeting.date,
 				max_participant: this.props.meeting.max_participant,
 				deadline: this.props.meeting.deadline,
 				region: this.props.meeting.region,
@@ -150,7 +150,6 @@ class MeetingForm extends Component {
 						<p className="input-item__title"> 신청 마감일 </p>
 						<div className="input-item__date">
 							<DateSelector
-								className="input-item__date"
 								selected={this.state.deadline}
 								onChange={this.onChangeDeadline}
 							/>					

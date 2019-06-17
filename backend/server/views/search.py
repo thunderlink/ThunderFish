@@ -13,21 +13,22 @@ class SearchResult(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
+        print(data)
         dist_search_flag = data['dist_flag']
         title_search_flag = data['title_flag']
         tag_search_flag = data['tag_flag']
         result_serialized = {}
 
         result = Meeting.objects.filter(status=0)
-        if title_search_flag == "true":
+        if title_search_flag == True:
             result = result.filter(name__contains=data['keyword'])
 
-        if tag_search_flag == "true":
+        if tag_search_flag == True:
             tag_list = data['tagword'].split()
             for tag in tag_list:
                 result = result.filter(tag_set__name__contains=tag)
 
-        if dist_search_flag == "true":
+        if dist_search_flag == True:
             lat, long, dist = float(data['latitude']), float(data['longitude']), int(data['dist'])
             ret = Meeting.distance_search(result, dist, lat, long)
             for idx, item in enumerate(ret):

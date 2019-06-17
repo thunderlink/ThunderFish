@@ -17,3 +17,10 @@ export const readNotificationRequest = (id, uid) => {
 		uid
 	}
 }
+
+export const getNotification = (notification_list) => {
+	return {
+		type: 'GET_NOTIFICATION',
+		notification_list
+	}
+}

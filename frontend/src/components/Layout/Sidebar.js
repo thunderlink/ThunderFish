@@ -108,7 +108,7 @@ class Sidebar extends Component {
 												<Link
 													key={`${index}_${name}_${item}`}
 													className="sidebar-item-black-small"
-													to={`/search/${item.replace("/", " ")}/`}
+													to={`/search//tag&${item}`}
 												>
 												<h1 className="list-text"> {item} </h1>
 											</Link>

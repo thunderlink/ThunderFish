@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'store/actions'
 
-import Loading from 'components/Loading'
 import MeetingList from 'components/molecules/MeetingList'
 import { KakaoSelectMap } from 'components/molecules/KakaoMap'
 
@@ -14,23 +13,24 @@ class SearchPage extends Component {
 		tag_flag: false,
 		dist_flag: false,
 
-		query: '',
 		latitude: 0.0,
 		longitude: 0.0,
 		dist: '',
 		tagword: '',
 		region: '',
+
+		keyword: '',
+		options: '',
 	}
 
 	constructor(props) {
 		super(props)
 		this.props.waitRequest()
-		this.state.query = this.props.match.params.query
-		this.props.getMeetingListRequest({
-			keyword: this.state.query,
-			tag_flag: false,
-			dist_flag: false,
-		})
+		this.state.keyword = this.props.match.params.query
+		this.state.option = this.props.match.params.option
+
+		this.props.getMeetingListRequest(SearchPage.parseOption(this.props.match.params.query, this.props.match.params.options))
+		this.state = SearchPage.parseOption(this.props.match.params.query, this.props.match.params.options)
 	}
 
 	componentWillUnmount() {
@@ -38,21 +38,50 @@ class SearchPage extends Component {
 	}
 
 	static getDerivedStateFromProps(props, state) {
-		if(props.match.params.query !== state.query) {
-			props.waitRequest()
-			props.getMeetingListRequest({
-				keyword: props.match.params.query,
-				tag_flag: false,
-				dist_flag: false,
-			})
+		if(props.match.params.query !== state.keyword ||
+			props.match.params.options !== state.options) {
+			props.getMeetingListRequest(SearchPage.parseOption(props.match.params.query, props.match.params.options))
 			return {
-				tag_flag: false,
-				dist_flag: false,
-				query: props.match.params.query
+				keyword: props.match.params.query,
+				options: props.match.params.options
 			}
 		}
 		else
 			return null
+	}
+
+	static parseOption = (query, option) => {
+		let parsedOption = {
+			title_flag: true,
+			tag_flag: false,
+			dist_flag: false,
+			tagword: '',
+			dist: ''
+		}
+
+		if(query === undefined || query === '')
+			parsedOption.title_flag = false
+		else
+			parsedOption.keyword = query
+
+		if(option !== undefined && option !== '') {
+			option.split('+').map(flag => {
+				if(flag.startsWith('tag&')) {
+					parsedOption.tag_flag = true
+					parsedOption.tagword = flag.split('&')[1]
+				}
+				else if(flag.startsWith('dist&')) {
+					let subOption = flag.split('&')[1]
+					parsedOption.dist_flag = true
+					parsedOption.latitude = subOption.split('_')[0]
+					parsedOption.longitude = subOption.split('_')[1]
+					parsedOption.dist = subOption.split('_')[2]
+				}
+				return null
+			})
+		}
+		console.log(parsedOption)
+		return parsedOption
 	}
 
 	onChangePlace = (newState) => {
@@ -66,23 +95,25 @@ class SearchPage extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault();
-		this.props.getMeetingListRequest({
-			keyword: this.state.query,
-			tagword: this.state.tagword,
-			latitude: this.state.latitude,
-			longitude: this.state.longitude,
-			dist: this.state.dist,
+		let uri = `/search/`
 
-			tag_flag: this.state.tag_flag,
-			dist_flag: this.state.dist_flag
-		})
+		if(this.state.query !== undefined)
+			uri = uri.concat(this.state.keyword, '/')
+		else 
+			uri = uri.concat('/')
+
+		if(this.state.tag_flag) {
+			uri = uri.concat('tag&', this.state.tagword, '+')
+		}
+		if(this.state.dist_flag) {
+			uri = uri.concat('dist&', this.state.latitude, '_', this.state.longitude, '_', this.state.dist)
+		}
+
+		this.props.history.push(uri)
 	}
 
 	render() {
-		return (!true /*this.props.loadDone*/) ?
-			(
-				<Loading/>
-			) :	(
+		return (
 				<div className="search-page">
 					<div className="search-title">
 						<h1> {this.props.match.params.query} 검색 결과 </h1>
@@ -115,7 +146,8 @@ class SearchPage extends Component {
 													<input 
 														type="text" value={this.state.tagword}
 														onChange={(e) => this.setState({tagword: e.target.value})}
-														placeholder="검색할 태그를 쉼표로 구분하여 입력해주세요."
+														onSubmit={this.onSubmitHandler}
+														placeholder="태그는 공백으로 구분합니다."
 													/>
 													<p> 포함 </p>
 												</div>
@@ -149,7 +181,8 @@ class SearchPage extends Component {
 												<div className="search-option-item__input">
 													<input type="number" value={this.state.dist}
 														onChange={(e) => this.setState({dist: e.target.value})}
-														placeholder="해당 위치부터 최대 거리를 입력해주세요."
+														onSubmit={this.onSubmitHandler}
+														placeholder="거리를 입력해주세요."
 													/>
 													<p> Km 이내 </p>
 												</div>										
@@ -169,7 +202,6 @@ class SearchPage extends Component {
 const mapStateToProps = state => {
 	return {
 		meetingList: state.meeting.meetingList,
-		loadDone: state.meeting.loadDone
 	}
 }
 

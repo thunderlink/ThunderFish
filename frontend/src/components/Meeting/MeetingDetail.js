@@ -114,7 +114,7 @@ class MeetingDetail extends Component {
 									Object.keys(this.props.meeting.tag_set).map(key => (
 										<li key={`tag_${key}`}>
 											<Link
-												to={`/search/${this.props.meeting.tag_set[key]}`}
+												to={`/search//tag&${this.props.meeting.tag_set[key]}`}
 											>
 												{`#${this.props.meeting.tag_set[key]} `}
 											</Link>

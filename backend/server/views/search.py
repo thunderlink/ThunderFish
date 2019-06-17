@@ -11,7 +11,7 @@ class SearchResult(generics.ListCreateAPIView):
     queryset = None
     serializer_class = MeetingSerializer
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         data = request.data
         dist_search_flag = data['dist_flag']
         title_search_flag = data['title_flag']

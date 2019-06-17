@@ -285,6 +285,7 @@ export function* postMeetingRequest(meeting) {
 export function* watchPostMeetingRequest() {
 	while(true) {
 		const { meeting } = yield take(actions.meeting.POST_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
 		yield call(postMeetingRequest, meeting)
 	}
 }

@@ -15,8 +15,8 @@ const backendUrl = 'http://18.216.47.154:8000'
 
 /* Sign Up functions */
 
-export function* kakaologinRequest(object) {
-	const { status, data } = yield call(api.kakaologin, object)
+export function* kakaoLoginRequest(object) {
+	const { status, data } = yield call(api.kakaoLogin, object)
 
 	if(status === 200) {
 		yield put({
@@ -34,10 +34,10 @@ export function* kakaologinRequest(object) {
 	}
 }
 
-export function* watchkakaologinRequest() {
+export function* watchkakaoLoginRequest() {
 	while(true){
 		const { object } = yield take(actions.user.KAKAO_LOGIN_REQUEST)
-		yield call(kakaologinRequest, object)
+		yield call(kakaoLoginRequest, object)
 	}
 }
 
@@ -310,15 +310,14 @@ export function* watchDeleteMeetingRequest() {
 /* Meeting list get functions */
 export function* getMeetingListRequest(query) {
 	console.log(query)
-	/*
-	const { status, data } = yield call(api.get, `${backendUrl}/search/`)
+
+	const { status, data } = yield call(api.post, `${backendUrl}/search/`, query)
 	if(status < 300) {
 		yield put({type: actions.meeting.GET_MEETING_LIST, meetings : data})
 	}
 	else{
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"GET_MEETING_LIST"})
 	}
-	*/
 }
 
 export function* watchGetMeetingListRequest() {
@@ -366,8 +365,8 @@ export function* postCommentRequest(pid, text) {
 	else{
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"POST_COMMENT"})
 	}
-
 }
+
 export function* watchPostCommentRequest() {
 	while(true) {
 		const { pid, text } = yield take(actions.comment.POST_COMMENT_REQUEST)
@@ -389,6 +388,7 @@ export function* putCommentRequest(pid, id, text) {
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"PUT_COMMENT"})
 	}
 }
+
 export function* watchPutCommentRequest() {
 	while(true) {
 		const { pid, id, text } = yield take(actions.comment.PUT_COMMENT_REQUEST)
@@ -474,13 +474,11 @@ export function* putUserRequest(index, profile) {
 		delete profile.originalPhoto
 	}
 
-	console.log(profile)
-
 	const { status } = yield call(api.put, `${backendUrl}/user/${index}/`, profile, token)
 
 	if(status === 200) {
 		yield call(getUserRequest, index)
-		yield put({type: actions.user.PUT_USER, profile: profile})
+		yield put({type: actions.user.PUT_USER})
 	}
 	else{
 		yield put({type: actions.user.USER_REQUEST_FAILURE, code: "PUT_USER"})
@@ -528,14 +526,14 @@ export function* readNotificationRequest(uid, id) {
 }
 export function* watchReadNotificationRequest() {
 	while(true) {
-		const {uid, id} = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
+		const { uid, id } = yield take(actions.notification.READ_NOTIFICATION_REQUEST)
 		yield call(readNotificationRequest, uid, id)
 	}
 }
 
 export default function* rootSaga() {
 
-	yield fork(watchkakaologinRequest)
+	yield fork(watchkakaoLoginRequest)
 
 	yield fork(watchSignupRequest)
 	yield fork(watchSigninRequest)

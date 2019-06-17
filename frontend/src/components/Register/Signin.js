@@ -16,7 +16,7 @@ class Signin extends Component {
 
 	componentDidMount() {
 		window.Kakao.Auth.createLoginButton({
-			container : '#kakaologin',
+			container : '#kakaoLogin',
 			success : this.kakaoHandler,
 			//fail : ,
 		})
@@ -24,7 +24,7 @@ class Signin extends Component {
 
 	kakaoHandler = (object) => {
 		console.log(object)
-		this.props.kakaologinRequest(object);
+		this.props.kakaoLoginRequest(object);
 	}
 
 	onSubmitHandler = (e) => {
@@ -89,7 +89,7 @@ class Signin extends Component {
 							<br/>
 							혹은
 							<br/>
-							<div id="kakaologin">
+							<div id="kakaoLogin">
 							</div>
 						</div>
 						<div className="description">
@@ -117,8 +117,8 @@ const mapDispatchToProps = dispatch => {
 		signinRequest: (username, password) => {
 			dispatch(actions.user.signinRequest(username, password))
 		},
-		kakaologinRequest: (object) => {
-			dispatch(actions.user.kakaologinRequest(object))
+		kakaoLoginRequest: (object) => {
+			dispatch(actions.user.kakaoLoginRequest(object))
 		},
 	}
 }

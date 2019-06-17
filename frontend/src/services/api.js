@@ -6,7 +6,7 @@ const signinUrl = `${backend}signin/`
 const userUrl = `${backend}user/`
 const kakaoUrl = `${backend}kakao/`
 
-api.kakaologin = (object) => {
+api.kakaoLogin = (object) => {
 
 	let headers = {
 		Accept: 'application/json',
@@ -182,6 +182,7 @@ api.post = (url, data, token) => {
 		'Authorization': `Token ${token}`,
 		'Content-Type': 'application/json'
 	}
+	if(token === undefined) delete headers['Authorization']
 	let body = JSON.stringify(data)
 
 	return request(url, {headers, method: "POST", body})

@@ -20,7 +20,7 @@ class SearchResult(generics.ListCreateAPIView):
             result = result.filter(name__contains=data['keyword'])
 
         if tag_search_flag == "true":
-            result = result.filter(tag_set__name__contains=data['keyword'])
+            result = result.filter(tag_set__name__contains=data['tagword'])
             ## Multiple Tag should be implemented
 
         if dist_search_flag == "true":

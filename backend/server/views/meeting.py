@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import permissions, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
-from ..permissions import MembershipAccess
+from ..permissions import MembershipAccess, HostAccess
 from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
 
 
@@ -152,7 +152,7 @@ class JoinMeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AcceptMeeting(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, HostAccess)
     queryset = Membership.objects.all()
     serializer_class = MembershipSerializer
 
@@ -165,7 +165,7 @@ class AcceptMeeting(generics.RetrieveUpdateDestroyAPIView):
 
 
 class RejectMeeting(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, MembershipAccess)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, HostAccess)
     queryset = Membership.objects.all()
     serializer_class = MembershipSerializer
 

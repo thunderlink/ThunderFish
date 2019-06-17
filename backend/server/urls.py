@@ -24,7 +24,7 @@ urlpatterns = [
     path('searchtag/<str:keyword>', SearchTag.as_view()), # Search by Tag
     path('comment/', CommentList.as_view()), # POST, should be here
     path('comment/<int:pk>/', CommentDetail.as_view()), # PUT, DELETE
-    # path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
+    #path('notification/<int:pk>/', NotificationDetail.as_view()), #GET, DELETE
     path('image/', ImageUploadView.as_view()), # post images here
     path('image/<int:pk>/', ImageViewSet.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -131,7 +131,7 @@ class MeetingDetail extends Component {
 									{
 										(this.state.onParticipant)
 											? (<button onClick={this.onExitHandler}> 참가 취소 </button>)
-											:	(this.props.meeting.status === 0) 
+											:	(this.props.meeting.status === 0 && this.props.isAuthenticated) 
 												? (<button onClick={this.onJoinHandler}> 참가하기 </button>)
 												: (null)
 									}
@@ -196,7 +196,8 @@ class MeetingDetail extends Component {
 
 const mapStateToProps = state => {
 	return {
-		id: state.user.id
+		id: state.user.id,
+		isAuthenticated: state.user.isAuthenticated
 	}
 }
 

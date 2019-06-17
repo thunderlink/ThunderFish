@@ -8,8 +8,8 @@ matrix:
       install:
         - pip install -r requirements.txt
       script:
-        - python manage.py makemigrations
-        - python manage.py migrate
+        - python manage.py makemigrations server
+        - python manage.py migrate --run-syncdb
         - python manage.py test server.tests
 
     - language: node_js

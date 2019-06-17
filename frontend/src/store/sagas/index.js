@@ -37,6 +37,7 @@ export function* kakaoLoginRequest(object) {
 export function* watchkakaoLoginRequest() {
 	while(true){
 		const { object } = yield take(actions.user.KAKAO_LOGIN_REQUEST)
+		yield put({type: actions.user.SIGNIN_TRY})
 		yield call(kakaoLoginRequest, object)
 	}
 }
@@ -87,6 +88,7 @@ export function* signinRequest(username, password) {
 export function* watchSigninRequest() {
 	while(true) {
 		const { username, password } = yield take(actions.user.SIGNIN_REQUEST)
+		yield put({type: actions.user.SIGNIN_TRY})
 		yield call(signinRequest, username, password)
 	}
 }

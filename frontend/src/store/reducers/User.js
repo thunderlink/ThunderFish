@@ -45,6 +45,12 @@ export default function user(state=initialState, action) {
 				nickname: null
 			})
 
+		case 'SIGNIN_TRY': 
+			return {
+				...state,
+				signinStatus: 'WAIT'
+			}
+
 		case 'SIGNIN_SUCCESSFUL':
 			localStorage.setItem("token", action.token);
 			return Object.assign({}, state, {

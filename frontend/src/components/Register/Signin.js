@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import Loading from 'components/Loading'
 import * as actions from 'store/actions'
 
 import small_logo from 'logos/small_logo.png'
@@ -37,8 +38,10 @@ class Signin extends Component {
 
 	render() {
 		return (
-			(this.props.isAuthenticated) ? (
+			(this.props.isAuthenticated || this.props.signinStatus === 'SUCCESS') ? (
 				<Redirect to="/"/>
+			) : (this.props.signinStatus === 'WAIT') ? (
+				<Loading />
 			) : (
 				<form className="register"
 					onSubmit={this.onSubmitHandler}

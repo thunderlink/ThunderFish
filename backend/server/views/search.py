@@ -34,8 +34,8 @@ class SearchResult(generics.ListCreateAPIView):
             for idx, item in enumerate(ret):
                 result_serialized[idx] = MeetingSerializer(item[0]).data
         else:
-            result_serialized['length'] = len(queryset)
-            for idx, item in enumerate(queryset):
+            result_serialized['length'] = len(result)
+            for idx, item in enumerate(result):
                 result_serialized[idx] = MeetingSerializer(item).data
 
         return Response(result_serialized, status=HTTP_200_OK)

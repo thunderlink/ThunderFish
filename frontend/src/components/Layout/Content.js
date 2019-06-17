@@ -26,8 +26,11 @@ class Content extends Component {
 						<Route exact path="/meeting/add" component={MeetingAddPage}/>
 						<Route exact path="/meeting/:id" component={MeetingPage} />
 						<Route exact path="/meeting/:id/edit" component={MeetingEditPage} />
-						<Route exact path="/search/:query" component={SearchPage} />
 						<Route exact path="/search/:query/:options" component={SearchPage} />
+						<Route exact path="/search//:options" component={SearchPage} />
+						<Route exact path="/search/:query" component={SearchPage} />
+						<Route exact path="/search" component={SearchPage} />
+						<Route exact path="/search//" component={SearchPage} />
 						<Route component={NotFound} />
 					</Switch>
 				</main>

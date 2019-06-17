@@ -1,3 +1,5 @@
+export const KAKAO_LOGIN_REQUEST = "KAKAO_LOGIN_REQUEST"
+
 export const SIGNUP_REQUEST = "SIGNUP_REQUEST"
 export const SIGNUP_SUCCESSFUL = "SIGNUP_SUCCESSFUL"
 export const SIGNUP_DUPLICATED = "SIGNUP_DUPLICATED"
@@ -16,9 +18,7 @@ export const USER_SET_SUCCESSFUL = "USER_SET_SUCCESSFUL"
 export const USER_SET_NONE = "USER_SET_NONE"
 export const USER_SET_FAILED = "USER_SET_FAILED"
 
-export const KAKAO_LOGIN_REQUEST = "KAKAO_LOGIN_REQUEST"
-
-export const kakaologinRequest = (object) => {
+export const kakaoLoginRequest = (object) => {
 	return {
 		type: 'KAKAO_LOGIN_REQUEST',
 		object: object
@@ -29,6 +29,25 @@ export const signupRequest = (user) => {
 	return {
 		type: 'SIGNUP_REQUEST',
 		user: user
+	}
+}
+
+export const signupSuccessful = (user) => {
+	return {
+		type: 'SIGNUP_SUCCESSFUL',
+		user: user
+	}
+}
+
+export const signupDuplicated = () => {
+	return {
+		type: 'SIGNUP_DUPLICATED'
+	}
+}
+
+export const signupFailed = () => {
+	return {
+		type: 'SIGNUP_FAILED'
 	}
 }
 
@@ -54,6 +73,18 @@ export const signinSuccessful = (username, token) => {
 	}
 }
 
+export const signinAuthError = () => {
+	return {
+		type: 'SIGNIN_AUTH_ERROR'
+	}
+}
+
+export const signinFailed = () => {
+	return {
+		type: 'SIGNIN_FAILED'
+	}
+}
+
 export const signout = () => {
 	return {
 		type: 'SIGNOUT',
@@ -63,6 +94,27 @@ export const signout = () => {
 export const userSetRequest = () => {
 	return {
 		type: 'USER_SET_REQUEST'
+	}
+}
+
+export const userSetSuccessful = (id, nickname, pick_url) => {
+	return {
+		type: 'USER_SET_SUCCESSFUL',
+		id,
+		nickname,
+		pick_url
+	}
+}
+
+export const userSetNone = () => {
+	return {
+		type: 'USER_SET_NONE'
+	}
+}
+
+export const userSetFailed = () => {
+	return {
+		type: 'USER_SET_FAILED'
 	}
 }
 
@@ -92,5 +144,25 @@ export const putUserRequest = (index, profile) => {
 		type: 'PUT_USER_REQUEST',
 		index: index,
 		profile: profile,
+	}
+}
+
+export const getUser = (data) => {
+	return {
+		type: 'GET_USER',
+		data
+	}
+}
+
+export const putUser = () => {
+	return {
+		type: 'PUT_USER'
+	}
+}
+
+export const userRequestFailure = (code) => {
+	return {
+		type: 'USER_REQUEST_ERROR',
+		code
 	}
 }

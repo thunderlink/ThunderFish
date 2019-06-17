@@ -20,14 +20,14 @@ class Signup extends Component {
 
 	componentDidMount() {
 		window.Kakao.Auth.createLoginButton({
-			container : '#kakaologin',
+			container : '#kakaoLogin',
 			success : this.kakaoHandler,
 			//fail : ,
 		})
 	}
 
 	kakaoHandler = (object) => {
-		this.props.kakaologinRequest(object);
+		this.props.kakaoLoginRequest(object);
 	}
 
 
@@ -124,7 +124,7 @@ class Signup extends Component {
 							<br/>
 							혹은
 							<br/>
-              <div id="kakaologin"></div>
+              <div id="kakaoLogin"></div>
 						</div>
 					</fieldset>
 				</form>
@@ -145,10 +145,9 @@ const mapDispatchToProps = dispatch => {
 		signupRequest: (user) => {
 			dispatch(actions.user.signupRequest(user))
 		},
-        kakaologinRequest: (object) => {
-		    dispatch(actions.user.kakaologinRequest(object))
-        }
-        ,
+		kakaoLoginRequest: (object) => {
+			dispatch(actions.user.kakaoLoginRequest(object))
+		},		
 	}
 }
 

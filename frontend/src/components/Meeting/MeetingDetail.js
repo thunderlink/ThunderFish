@@ -17,6 +17,7 @@ class MeetingDetail extends Component {
 	state = {
 		onParticipant: false,
 		currentId: -1,
+		memId: -1,
 	}
 
 	static defaultProps = {
@@ -27,24 +28,30 @@ class MeetingDetail extends Component {
 		if(props.type === "normal") {
 			if(props.id !== state.currentId) {
 				let ret = false;
+				let mem = -1;
 				if(props.meeting.participant_approved === undefined ||
 					props.meeting.participant_waiting === undefined)
 					return null;
 
 				Object.keys(props.meeting.participant_approved).map(key => {
-					if (props.meeting.participant_approved[key].id === props.id)
+					if (props.meeting.participant_approved[key].id === props.id) {
 						ret = true;
-					return null;
-				})
-				Object.keys(props.meeting.participant_waiting).map(key => {
-					if (props.meeting.participant_waiting[key].id === props.id)
-					ret = true;
+						mem = key;
+					}
 					return null;
 				})
 
+				Object.keys(props.meeting.participant_waiting).map(key => {
+					if (props.meeting.participant_waiting[key].id === props.id) {
+						ret = true;
+						mem = key;
+					}
+					return null;
+				})
 				return {
 					currentId: props.id,
-					onParticipant: ret
+					onParticipant: ret,
+					memId: mem,
 				}
 			}
 			else
@@ -70,11 +77,17 @@ class MeetingDetail extends Component {
 		this.props.joinMeetingRequest(this.props.meeting.id)
 	}
 
+	onExitHandler = (e) => {
+		e.preventDefault()
+		this.props.exitMeetingRequest(this.state.memId, this.props.meeting.id)
+	}
+
 	render() {
 		return (this.props.meeting === undefined || this.props.meeting === null) ? (
 			<div/>
 		) : (
 			<div className="meeting-detail">
+				{console.log(this.props.meeting)}
 				<div className="description">
 					<div className="image-wrapper">
 						<ImageBox
@@ -118,7 +131,7 @@ class MeetingDetail extends Component {
 								<div className="guest-buttons">
 									{
 										(this.state.onParticipant)
-											? (<button> 참가 취소 </button>)
+											? (<button onClick={this.onExitHandler}> 참가 취소 </button>)
 											:	(<button onClick={this.onJoinHandler}> 참가하기 </button>)
 									}
 								</div>
@@ -191,9 +204,11 @@ const mapDispatchToProps = dispatch => {
 		deleteMeetingRequest: (index) => {
 			dispatch(actions.meeting.deleteMeetingRequest(index))
 		},
-
 		joinMeetingRequest: (index, user) => {
 			dispatch(actions.meeting.joinMeetingRequest(index))
+		},
+		exitMeetingRequest: (memid, pid) => {
+			dispatch(actions.meeting.exitMeetingRequest(memid, pid))
 		}
 	}
 }

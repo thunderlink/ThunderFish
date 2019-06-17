@@ -208,6 +208,28 @@ export function* watchRejectMeetingRequest() {
 	}
 }
 
+/* exit delete function */
+export function* exitMeetingRequest(memid, pid) {
+	console.log(`${pid}_${memid}`)
+	const token = yield localStorage.getItem('token')
+	const { status } = yield call(api.delete, `${backendUrl}/meetings/${pid}/join/${memid}/`, token)
+
+	if(status < 300) {
+		yield call(getMeetingRequest, pid)
+	}
+	else {
+		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"EXIT_MEETING"})
+	}
+}
+
+export function* watchExitMeetingRequest() {
+	while(true) {
+		const { memid, pid } = yield take(actions.meeting.EXIT_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
+		yield call(exitMeetingRequest, memid, pid)
+	}
+}
+
 /* Meeting get functions */
 export function* getMeetingRequest(index) {
 	const { status, data } = yield call(api.get, `${backendUrl}/meetings/${index}/`)
@@ -558,6 +580,7 @@ export default function* rootSaga() {
 	yield fork(watchJoinMeetingRequest)
 	yield fork(watchAccpetMeetingRequest)
 	yield fork(watchRejectMeetingRequest)
+	yield fork(watchExitMeetingRequest)
 
 	yield fork(watchReadNotificationRequest)
 	yield fork(watchGetNotificationRequest)

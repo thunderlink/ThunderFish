@@ -38,8 +38,10 @@ export const JOIN_MEETING = 'JOIN_MEETING'
  */
 export const ACCEPT_MEETING_REQUEST = 'ACCEPT_MEETING_REQUEST'
 export const REJECT_MEETING_REQUEST = 'REJECT_MEETING_REQUEST'
+export const EXIT_MEETING_REQUEST = 'EXIT_MEETING_REQUEST'
 export const ACCEPT_MEETING = 'ACCEPT_MEETING'
 export const REJECT_MEETING = 'REJECT_MEETING'
+export const EXIT_MEETING = 'EXIT_MEETING'
 
 export const MEETING_REQUEST_FAILURE = 'MEETING_REQUEST_FAILURE'
 
@@ -166,6 +168,15 @@ export const rejectMeetingRequest = (index, user) => {
 	}
 }
 
+export const exitMeetingRequest = (memid, pid) => {
+	return {
+		type: 'EXIT_MEETING_REQUEST',
+		memid,
+		pid
+	}
+}
+
+
 export const acceptMeeting = () => {
 	return {
 		type: 'ACCEPT_MEETING'
@@ -175,6 +186,12 @@ export const acceptMeeting = () => {
 export const rejectMeeting = () => {
 	return {
 		type: 'REJECT_MEETING'
+	}
+}
+
+export const exitMeeting = () => {
+	return {
+		type: 'EXIT_MEETING'
 	}
 }
 

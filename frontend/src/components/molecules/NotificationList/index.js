@@ -58,9 +58,7 @@ class NotificationList extends Component {
 												key={`${item}_${this.props.uid}`}
 											>
 												<NotificationElement
-													meeting={this.props.notification_list[item].meeting}
-													id={this.props.notification_list[item].id}
-													uid={this.props.uid}
+													meeting={this.props.notification_list[item].meetingname}
 													notification={this.props.notification_list[item].notification}
 													read={this.props.notification_list[item].checked}
 												/>

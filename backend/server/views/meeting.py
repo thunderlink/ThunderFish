@@ -59,6 +59,9 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         if meeting.deadline <= timezone.now():
             meeting.status = 1
             meeting.save()
+        else:
+            meeting.status = 0
+            meeting.save()
 
         ret = MeetingSerializer(meeting).data
         comment_set = meeting.comment_set.all()

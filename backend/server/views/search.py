@@ -30,11 +30,9 @@ class SearchResult(generics.ListCreateAPIView):
         if dist_search_flag == "true":
             lat, long, dist = float(data['latitude']), float(data['longitude']), int(data['dist'])
             ret = Meeting.distance_search(result, dist, lat, long)
-            result_serialized['length'] = len(ret)
             for idx, item in enumerate(ret):
                 result_serialized[idx] = MeetingSerializer(item[0]).data
         else:
-            result_serialized['length'] = len(result)
             for idx, item in enumerate(result):
                 result_serialized[idx] = MeetingSerializer(item).data
 

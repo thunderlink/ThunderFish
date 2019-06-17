@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from ..permissions import MembershipAccess, MeetingHostAccess
 from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
-
+from django.utils import timezone
 
 class MeetingList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -56,6 +56,10 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
             meeting = Meeting.objects.get(pk=kwargs['pk'])
         except:
             return Response({"Meeting does not exist"}, status=HTTP_404_NOT_FOUND)
+        if meeting.deadline <= timezone.now():
+            meeting.status = 1
+            meeting.save()
+
         ret = MeetingSerializer(meeting).data
         comment_set = meeting.comment_set.all()
         print(comment_set)
@@ -93,6 +97,10 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
         ret['participant_waiting'] = waiting
         ret['participant_approved'] = approved
+        if len(approved) == meeting.max_participant:
+            meeting.status = 1
+            meeting.save()
+            ret['status'] = 1
 
         return Response(ret, status=HTTP_200_OK)
 

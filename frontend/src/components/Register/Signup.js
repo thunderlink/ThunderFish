@@ -27,7 +27,6 @@ class Signup extends Component {
 	}
 
 	kakaoHandler = (object) => {
-		console.log(object)
 		this.props.kakaologinRequest(object);
 	}
 

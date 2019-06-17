@@ -13,7 +13,6 @@ api.kakaologin = (object) => {
 		'Content-Type': 'application/json',
 	}
 	let body = JSON.stringify(object)
-	//console.log(object)
 	return fetch(kakaoUrl, {headers, method: "POST", body})
 		.then(res => {
 			if(res.status === 200) {
@@ -41,7 +40,6 @@ api.signup = (user) => {
 
 	return fetch(signupUrl, {headers, method: "POST", body})
 		.then(res => {
-			console.log(res)
 			return {
 				status: res.status
 			}
@@ -54,7 +52,6 @@ api.signin = (user) => {
 		'Content-Type': 'application/json',
 	}
 	let body = JSON.stringify(user)
-	console.log(body)
 	return fetch(signinUrl, {headers, method: "POST", body})
 		.then(res => {
 			if(res.status === 200) {
@@ -91,7 +88,8 @@ api.userSet = (token) => {
 					return {
 						status: res.status,
 						id: data.id,
-						nickname: data.nickname
+						nickname: data.nickname,
+						pic_url: data.pic_url,
 					}
 				})
 			}
@@ -126,13 +124,11 @@ function request(url, options) {
 	return fetch(url, options)
 		.then(res => {
 			if(res.status >= 500) {
-				console.log("Internal error: " + res.status)
 				return {
 					status: res.status
 				}
 			}
 			else if(res.status >= 400) {
-				console.log("Request error: " + res.status)
 				return {
 					status: res.status
 				}

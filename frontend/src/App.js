@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime'
+
 import React from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 
@@ -14,7 +16,6 @@ import Signout from "components/Register/Signout"
 
 import MajorView from "components/Layout/MajorView"
 import './App.css'
-import NotificationList from "./components/molecules/Notification/NotificationList";
 
 const sagaMiddleware = createSagaMiddleware()
 let store = createStore(rootReducer,
@@ -24,14 +25,13 @@ sagaMiddleware.run(rootSaga)
 
 function App() {
   return (
-		<div className="app-wrapper">
+		<div className="app-wrapper" id="root_app">
 			<Provider store={store}>
 				<BrowserRouter>
 					<Switch>
 						<Route exact path="/signin/" component={Signin} />
 						<Route exact path="/signup/" component={Signup} />
 						<Route exact path="/signout/" component={Signout} />
-						<Route exact path="/notification/" component={NotificationList} />
 						<Route component={MajorView} />
 					</Switch>
 				</BrowserRouter>

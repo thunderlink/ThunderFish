@@ -7,6 +7,7 @@ export const SIGNUP_FAILED = "SIGNUP_FAILED"
 export const SIGNUP_DONE = "SIGNUP_DONE"
 
 export const SIGNIN_REQUEST = "SIGNIN_REQUEST"
+export const SIGNIN_TRY = "SIGNIN_TRY"
 export const SIGNIN_SUCCESSFUL = "SIGNIN_SUCCESSFUL"
 export const SIGNIN_AUTH_ERR = "SIGNIN_AUTH_ERR"
 export const SIGNIN_FAILED = "SIGNIN_FAILED"
@@ -62,6 +63,12 @@ export const signinRequest = (username, password) => {
 		type: 'SIGNIN_REQUEST',
 		username: username,
 		password: password
+	}
+}
+
+export const signinTry = () => {
+	return {
+		type: 'SIGNIN_TRY'
 	}
 }
 

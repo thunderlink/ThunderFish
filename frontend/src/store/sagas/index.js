@@ -37,6 +37,7 @@ export function* kakaoLoginRequest(object) {
 export function* watchkakaoLoginRequest() {
 	while(true){
 		const { object } = yield take(actions.user.KAKAO_LOGIN_REQUEST)
+		yield put({type: actions.user.SIGNIN_TRY})
 		yield call(kakaoLoginRequest, object)
 	}
 }
@@ -87,6 +88,7 @@ export function* signinRequest(username, password) {
 export function* watchSigninRequest() {
 	while(true) {
 		const { username, password } = yield take(actions.user.SIGNIN_REQUEST)
+		yield put({type: actions.user.SIGNIN_TRY})
 		yield call(signinRequest, username, password)
 	}
 }
@@ -285,6 +287,7 @@ export function* postMeetingRequest(meeting) {
 export function* watchPostMeetingRequest() {
 	while(true) {
 		const { meeting } = yield take(actions.meeting.POST_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
 		yield call(postMeetingRequest, meeting)
 	}
 }
@@ -293,7 +296,31 @@ export function* watchPostMeetingRequest() {
 export function* putMeetingRequest(index, meeting) {
 
 	const token = yield localStorage.getItem("token")
-	delete meeting.photo
+	let res = {data: {id: 1}, status: 201}
+
+	if(meeting.photo !== null) {
+		const fd = new FormData();
+		fd.append('profile', meeting.photo)
+		res = yield axios.post(`${backendUrl}/image/`, fd)
+			.then((res) => {
+				if(res.status < 300)
+					return {status: res.status, data: res.data}
+				else
+					return {status: res.status}
+			})
+		if(res.status >= 300) {
+			yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"PUT_MEETING"})
+			return
+		}
+		meeting = {...meeting, photo: res.data.id}
+		delete meeting.file
+		delete meeting.originalPhoto
+	}
+	else {
+		meeting = {...meeting, photo: meeting.originalPhoto}
+		delete meeting.file
+		delete meeting.originalPhoto
+	}
 
 	const { status, data } = yield call(api.put, `${backendUrl}/meetings/${index}/`, meeting, token)
 
@@ -304,9 +331,11 @@ export function* putMeetingRequest(index, meeting) {
 		yield put({type: actions.meeting.MEETING_REQUEST_FAILURE, code:"PUT_MEETING"})
 	}
 }
+
 export function* watchPutMeetingRequest() {
 	while(true) {
 		const { index, meeting } = yield take(actions.meeting.PUT_MEETING_REQUEST)
+		yield put({type: actions.meeting.WAIT_REQUEST})
 		yield call(putMeetingRequest, index, meeting)
 	}
 }
@@ -468,8 +497,6 @@ export function* watchGetUserRequest() {
 export function* putUserRequest(index, profile) {
 	const token = yield localStorage.getItem("token")
 	let res = {data: {id: 1}, status: 201}
-
-	console.log(profile.photo)
 
 	if(profile.photo !== null) {
 		const fd = new FormData();

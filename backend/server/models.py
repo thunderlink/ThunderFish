@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import re
-from math import sqrt
+from math import sqrt, pi
 
 # Path to default image
 DEFAULT_IMAGE = '../media/app_logo.png'
@@ -82,22 +82,19 @@ class Meeting(models.Model):
 
     @staticmethod
     def distance_search(result, dist, lat, long):
-        ## Returns queryset of meetings that is
+        ## Returns list of meetings that is
         ## less than dist kilometers far from (latitude, longitude)
+        ## Ordered by increasing distance
         ret = []
         for meet in result:
             delta_phi = abs(float(meet.latitude) - lat) ** 2
             delta_theta = abs(float(meet.longitude) - long) ** 2
-            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta))
+            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta) * 2 * pi / 360)
             if calculated_distance <= dist:
-                ret.append((result.filter(pk=meet.id), calculated_distance))
-        print(ret)
-        ret_queryset = Meeting.objects.none()
+                ret.append((result.get(pk=meet.id), calculated_distance))
         ret.sort(key = lambda item : item[1])
-        for item in ret:
-            ret_queryset |= item[0]
-        return ret_queryset
-
+        print(ret)
+        return ret
 
     class Meta:
         ordering = ['-id']

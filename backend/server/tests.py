@@ -233,6 +233,7 @@ class test_junwon(APITestCase):
         # User
 
 
+
     def test_signup(self):
         response = self.post('/signup/')
         self.assertEqual(response, [])
@@ -247,6 +248,3 @@ class test_junwon(APITestCase):
     def test_search(self):
         response = self.get('/search/')
         self.assertEqual(response, [])
-
-
-

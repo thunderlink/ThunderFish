@@ -1,15 +1,15 @@
 matrix:
   include:
     - language: python
+      dist: xenial
       python : 3.6
       before_script:
         - cd backend
       install:
         - pip install -r requirements.txt
       script:
-        - cat server/tests.py
-        - python manage.py makemigrations
-        - python manage.py migrate
+        - python manage.py makemigrations server
+        - python manage.py migrate --run-syncdb
         - python manage.py test server.tests
 
     - language: node_js

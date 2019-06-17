@@ -60,6 +60,7 @@ export default function meeting(state=initialState, action) {
 		case "PUT_MEETING":
 			return{
 				...state,
+				loadDone: true,
 				postDone: true,
 				postFailed: false,
 				meetingElement: action.meeting

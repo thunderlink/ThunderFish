@@ -38,7 +38,7 @@ class MeetingForm extends Component {
 			})
 			this.state = {
 				file: null,
-				preview: this.props.meeting.photo,
+				preview: this.props.meeting.pic_url,
 				name: this.props.meeting.name,
 				date: this.props.meeting.date,
 				max_participant: this.props.meeting.max_participant,
@@ -47,6 +47,8 @@ class MeetingForm extends Component {
 				content: this.props.meeting.content,
 				tag: tags,
 				open_chat: this.props.meeting.open_chat,
+				latitude: this.props.meeting.latitude,
+				longitude: this.props.meeting.longitude,
 			}
 			this.state.preview = this.props.meeting.pic_url
 		}
@@ -55,6 +57,7 @@ class MeetingForm extends Component {
 	meetingSerializer = () => {
 		return {
 			photo: this.state.file,
+			originalPhoto: this.props.meeting.photo,
 			name: this.state.name,
 			date: this.state.date,
 			max_participant: this.state.max_participant,

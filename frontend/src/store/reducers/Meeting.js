@@ -65,11 +65,6 @@ export default function meeting(state=initialState, action) {
 				meetingElement: action.meeting
 			}
 
-		case "DELETE_MEETING":
-			return{
-				...state,
-			}
-
 		case "GET_MEETING_LIST":
 			return{
 				...state,
@@ -79,24 +74,15 @@ export default function meeting(state=initialState, action) {
 			}
 
 		case "GET_RECENT_MEETING":
-			if(action.index === 1) {
-				return {
-					...state,
-					meetingList: action.meetings,
-					loadDone: true,
-					loadFailed: false,
-				}
-			}
-			else {
-				return {
-					...state,
-					meetingList: state.meetingList.concat(action.meetings),
-					loadDone: true,
-					loadFailed: false,
-				}
+			return {
+				...state,
+				meetingList: action.meetings,
+				loadDone: true,
+				loadFailed: false,
 			}
 
 		case "MEETING_REQUEST_FAILURE":
+			alert(`에러가 발생했습니다. 관리자에게 문의해주세요. (ERR=${action.code})`);
 			return {
 				...state,
 				loadDone: true,
@@ -105,11 +91,6 @@ export default function meeting(state=initialState, action) {
 				postFailed: true,
 				requestError: action.code,
 			}
-
-		case "JOIN_MEETING":
-			return state;
-		case "ACCEPT_MEETING":
-			return state;
 
 		default:
 			return state;

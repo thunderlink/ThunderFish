@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 import small_logo from 'logos/small_logo.png'
 import add_meeting from 'icons/add-meeting.png'
-import my_meeting from 'icons/my-meeting.png'
 import my_page from 'icons/my-page.png'
 import sign_out from 'icons/sign-out.png'
 import sign_in from 'icons/sign-in.png'
@@ -54,7 +53,7 @@ class Sidebar extends Component {
 					).map(({name, icon, link}, index) => (
 						<Link className="sidebar-item-grey"
 							key={`${index}${name}`}
-							to={(name=="마이페이지") ? `${link}${this.props.id}` : link}
+							to={(name==="마이페이지") ? `${link}${this.props.id}` : link}
 						>
 							<img
 								src={icon}
@@ -91,6 +90,7 @@ class Sidebar extends Component {
 												transitionDuration: '0.3s',
 												transitionProperty: 'transform',
 											}}
+											alt="list-button"
 										/>
 										<h1 className="list-text">
 											{name.big}	

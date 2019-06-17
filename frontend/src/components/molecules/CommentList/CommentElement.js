@@ -39,14 +39,13 @@ class CommentElement extends Component {
 	render() {
 		return (
 			<div className="comment-element">
-				{console.log(this.props.commentDetail)}
 				<div className="writer">
 					<p> {this.props.commentDetail.nickname} </p>
 					<Link to={`/user/${this.props.commentDetail.writer}/`}> 정보 </Link>
 				</div>
 				<form onSubmit={this.onSubmitHandler}>
 					{
-						(this.props.id === this.props.id) ? (
+						(this.props.id === this.props.commentDetail.writer) ? (
 							(this.state.editTry) ? (
 								<div className="content">
 									<textarea 
@@ -59,7 +58,7 @@ class CommentElement extends Component {
 											확인
 										</button>
 										<button onClick={this.onEditHandler}>
-												취소
+											취소
 										</button>
 									</div>	
 								</div>

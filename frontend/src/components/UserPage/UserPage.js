@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import UserDetail from './UserDetail'
-import MeetingList from 'components/molecules/Meeting/MeetingList'
+import MeetingList from 'components/molecules/MeetingList'
 import Loading from 'components/Loading'
 import NotFound from 'components/NotFound'
 
@@ -41,12 +41,12 @@ class UserPage extends Component {
 					</div>
 					<div className="meeting-component">
 						<div className="meeting-lists">
-							{
-								console.log(this.props.user)
-							}
+							<h1> 승인 대기중인 번개 </h1>
+							<hr />
+							<MeetingList meetings={this.props.user.meeting_waiting_set} />
 							<h1> 참가중인 번개 </h1>
 							<hr />
-							<MeetingList meetings={this.props.user.meeting_set} />
+							<MeetingList meetings={this.props.user.meeting_approved_set} />
 						</div>
 					</div>
 				</div>

@@ -1,53 +1,55 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-
 import ImageBox from 'components/molecules/ImageBox'
 
-import report from 'icons/report-button.png'
 import edit from 'icons/edit-button.png'
 import default_profile from 'icons/default-profile.png'
 
+import UserEdit from './UserEdit'
+
+import * as actions from 'store/actions'
 import './UserDetail.css'
 
 class UserDetail extends Component {
+	state = {
+		editTry: false
+	}
+
+	onClickEdit = (e) => {
+		e.preventDefault();
+		this.setState(prevState => {
+			return({...prevState, editTry: !prevState.editTry})
+		})
+	}
+
 	render() {
 		return(
 			<div className="user-detail">
-				{console.log(this.props.user)}
 				<div className="profile-body">
 					<div className="body-left">
 						<div className="image-wrapper">
 							<ImageBox
 								default={default_profile}
-								src={this.props.user.photo}
+								src={this.props.user.pic_url}
 								alt="profile image" 
 							/>	
 						</div>
 						<div className="button-set">
 							{
-								(this.props.id==this.props.user.id) ? (
-									<Link 
+								(this.props.id === this.props.user.id) ? (
+									<button
 										className="edit-button"
-										to={`/user/${this.props.id}/edit/`}
+										onClick={this.onClickEdit}
+										style={(this.state.editTry) ? {background: '#ff0000'} : {background: '#fed008'}} 
 									>
 										<img
 											src={edit}
 											alt="edit button"
 										/>
-										<p> Edit </p>
-									</Link>											
+										<p> {(this.state.editTry) ? '취소' : '수정'} </p>
+									</button>											
 								) : (
-									<Link 
-										className="report-button"
-										to={`/user/${this.props.id}/edit/`}
-									>
-										<img 
-											src={report}
-											alt="report button"
-										/>
-										<p> Report </p>
-								</Link>
+									null
 							)}
 						</div>
 					</div>
@@ -55,25 +57,20 @@ class UserDetail extends Component {
 						<div className="userdtail">
 							<p className="username"> {this.props.user.nickname}#{this.props.user.id} </p>
 							<p className="description"> {this.props.user.introduce} </p>
-						</div>				
+						</div>
 					</div>
 				</div>
-				<div className="profile-info">
-					<ul className="info-list">
-						<li>
-							<p>
-								<strong> 이름 </strong>
-								{this.props.user.name}
-							</p>
-						</li>
-						<li>
-							<p>
-								<strong> 지역 </strong>
-								{this.props.user.region}
-							</p>
-						</li>
-					</ul>
-				</div>
+				{
+					(this.state.editTry) ? (
+						<UserEdit
+							pic_url={this.props.user.pic_url}
+							originalPhoto={this.props.user.photo}
+							introduce={this.props.user.introduce}
+							nickname={this.props.user.nickname}
+							id={this.props.user.id}
+						/>
+					) : (null)
+				}
 			</div>		
 		)
 	}
@@ -87,6 +84,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		putUser: (index, profile) => {
+			dispatch(actions.user.putUserRequest(index, profile));
+		}
 	}
 }
 

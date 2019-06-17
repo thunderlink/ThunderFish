@@ -1,5 +1,7 @@
 .major-sidebar {
 	position: fixed;
+	height: 100vh;
+
 	top: 0;
 	bottom: 0;
 	width: 224px;
@@ -20,6 +22,7 @@
 	flex-direction: column;
 	align-items: center;
 
+	overflow: auto;
 	transition: left .1s ease-in;
 }
 

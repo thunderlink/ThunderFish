@@ -1,0 +1,88 @@
+.user-edit {
+	width: 100%;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+
+	overflow: hidden;
+}
+
+.user-edit .user-edit__form .input-title {
+	padding: 8px 16px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.user-edit .user-edit__form .input-title h2 {
+	margin: 0;
+}
+
+.user-edit .user-edit__form .input-item {
+	margin: 8px 16px;
+
+	background: #ffffff;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+
+	font-family: Poppins, Roboto, "Helvetica Neue", Arial, sans-serif;
+	display: flex;
+	overflow: hidden;
+}
+
+.user-edit .user-edit__form .input-item .input-item__title {
+	flex-basis: 96px;
+	flex-shrink: 0;
+	margin: 0;
+	padding: 4px 4px;
+
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+	color: #495057;
+
+	background: #e9ecef;
+}
+
+.user-edit .user-edit__form .input-item .input-item__input {
+	margin: 0 0 0 8px;
+	width: 100%;
+	border: none;
+}
+
+.user-edit .user-edit__form .input-item .input-item__image {
+	margin: 0 0 0 8px;
+	width: 100%;
+	border: none;
+	display: flex;
+	justify-content: center;
+}
+
+.user-edit .user-edit__form .input-item .input-item__image .image-wrapper {
+	height: 168px;
+	width: 168px;
+}
+
+.user-edit .user-edit__form .input-item .input-item__textarea {
+	margin: 0 0 0 8px;
+	width: 100%;
+	height: 48px;
+
+	border: none;
+
+	resize: vertical;
+}
+
+.user-edit .user-edit__form .submit-button {
+	width: 100%;
+	height: 48px;
+
+	margin: 0px;
+	margin-top: 16px;
+
+	border: none;
+	background: #fed008;
+
+	font-size: 24px;
+	font-weight: 800;
+	box-sizing: border-box;
+}

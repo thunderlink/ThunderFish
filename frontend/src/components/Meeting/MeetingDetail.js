@@ -131,7 +131,9 @@ class MeetingDetail extends Component {
 									{
 										(this.state.onParticipant)
 											? (<button onClick={this.onExitHandler}> 참가 취소 </button>)
-											:	(<button onClick={this.onJoinHandler}> 참가하기 </button>)
+											:	(this.props.meeting.status === 0) 
+												? (<button onClick={this.onJoinHandler}> 참가하기 </button>)
+												: (null)
 									}
 								</div>
 							)}

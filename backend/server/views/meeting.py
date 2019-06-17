@@ -59,6 +59,9 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
         if meeting.deadline <= timezone.now():
             meeting.status = 1
             meeting.save()
+        else:
+            meeting.status = 0
+            meeting.save()
 
         ret = MeetingSerializer(meeting).data
         comment_set = meeting.comment_set.all()
@@ -97,10 +100,14 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
         ret['participant_waiting'] = waiting
         ret['participant_approved'] = approved
-        if len(approved) == meeting.max_participant:
+        if len(approved) >= meeting.max_participant:
             meeting.status = 1
             meeting.save()
             ret['status'] = 1
+        else:
+            meeting.status = 0
+            meeting.save()
+            ret['status'] = 0
 
         return Response(ret, status=HTTP_200_OK)
 

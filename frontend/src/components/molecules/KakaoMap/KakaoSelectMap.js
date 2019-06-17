@@ -51,7 +51,6 @@ export default class KakaoViewMap extends Component {
 		staticInfowindow.setContent(`<div style="padding:5px;font-size:12px;font-weight:600;">선택되었습니다.</div>`)
 
 		daum.maps.event.addListener(map, 'click', (e) => {
-			console.log(e)
 			if(this.state.clickedMarker !== null) {
 				this.state.clickedMarker.setMap(null)
 			}
@@ -70,7 +69,6 @@ export default class KakaoViewMap extends Component {
 				e.latLng.getLat(),
 				(result, status) => {
 					if(status === daum.maps.services.Status.OK) {
-						console.log(result)
 						this.setState({
 							address: result[0].address.address_name,
 						})
@@ -97,9 +95,6 @@ export default class KakaoViewMap extends Component {
 	}
 
 	placeSearchCB = (data, status, pagination) => {
-		console.log(data)
-		console.log(status)
-		console.log(pagination)
 		this.removeMarker()
 		this.setState({pagination: pagination})
 		if(status === daum.maps.services.Status.OK) {
@@ -107,6 +102,7 @@ export default class KakaoViewMap extends Component {
 			data.map((item) => {
         this.displayMarker(item);    
 				bounds.extend(new daum.maps.LatLng(item.y, item.x));
+				return null;
 			})
 
 			this.state.map.setBounds(bounds);
@@ -159,6 +155,7 @@ export default class KakaoViewMap extends Component {
 	removeMarker = () => {
 		this.state.markers.map(marker => {
 			marker.setMap(null)
+			return null
 		})
 		this.setState({markers: []})
 	}
@@ -192,7 +189,7 @@ export default class KakaoViewMap extends Component {
 				<div id={`kakao-map-select`}
 					className="kakao-content"
 				/>
-				<div className="search-field">
+				<div className="kakao-search-field">
 					<form className="keyword-form" onSubmit={this.onSubmitHandler}>
 						<input 
 							className="keyword-input" type="text" 
@@ -201,10 +198,10 @@ export default class KakaoViewMap extends Component {
 						/>
 						<button className="keyword-submit" type="submit"> 장소 검색 </button>
 					</form>
-					<ul className="search-list">
+					<ul className="kakao-search-list">
 						{
 							this.state.searchResult.map(item => (
-								<li className="search-item"
+								<li className="kakao-search-item"
 									key={`${item.id}_${item.place_name}`}
 								>
 									<div className="place-detail">
@@ -251,14 +248,18 @@ export default class KakaoViewMap extends Component {
 						<strong> 주소 </strong> 
 						{(this.state.address==='') ? "지도를 클릭해주세요." : this.state.address} 
 					</p>
-					<p className="results-place">
-						<strong> 장소 </strong>
-						<input 
-							value={this.props.region} 
-							onChange={(e) => this.props.onChangePlace({region: e.target.value})}
-							placeholder="지도에서 위치를 선택하거나, 직접 입력하세요."
-						/>
-					</p>
+					{
+						(this.props.enableRegion) ? (
+							<p className="results-place">
+								<strong> 장소 </strong>
+								<input 
+									value={this.props.region} 
+									onChange={(e) => this.props.onChangePlace({region: e.target.value})}
+									placeholder="지도에서 위치를 선택하거나, 직접 입력하세요."
+								/>
+							</p>
+						) : (null)
+					}
 				</div>
 			</div>
 		)

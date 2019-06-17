@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import moment from 'moment'
 
+import DateSelector from 'components/molecules/DateSelector'
 import MeetingDetail from './MeetingDetail'
 import { KakaoSelectMap } from 'components/molecules/KakaoMap'
 
 import * as actions from 'store/actions/'
 
+import 'react-datepicker/dist/react-datepicker.css'
 import './MeetingForm.css'
 
 class MeetingForm extends Component {
 
 	state = {
-		file: '',
+		file: null,
 		preview: '',
 		name: '',
 		date: '',
@@ -32,12 +34,13 @@ class MeetingForm extends Component {
 			let tags = ''
 			Object.keys(this.props.meeting.tag_set).map(key => {
 				tags = tags + this.props.meeting.tag_set[key] + " "
+				return ""
 			})
 			this.state = {
-				file: '',
+				file: null,
 				preview: this.props.meeting.photo,
 				name: this.props.meeting.name,
-				date: this.props.meeting.date,
+				date: moment(),
 				max_participant: this.props.meeting.max_participant,
 				deadline: this.props.meeting.deadline,
 				region: this.props.meeting.region,
@@ -45,7 +48,7 @@ class MeetingForm extends Component {
 				tag: tags,
 				open_chat: this.props.meeting.open_chat,
 			}
-			this.state.preview = ''
+			this.state.preview = this.props.meeting.pic_url
 		}
 	}
 
@@ -70,7 +73,7 @@ class MeetingForm extends Component {
 		return Object.assign(this.meetingSerializer(), {
 			nickname: this.props.nickname,
 			tag_set: parsedTag,
-			photo: this.state.preview,
+			pic_url: this.state.preview,
 		})
 	}
 
@@ -98,17 +101,14 @@ class MeetingForm extends Component {
 	}
 
 	onChangePlace = (newState) => {
-		console.log(newState)
 		this.setState(newState)
 	}
 
 	onChangeDate = (date) => {
-		console.log(date)
 		this.setState({date: date})
 	}	
 	
 	onChangeDeadline = (date) => {
-		console.log(date)
 		this.setState({deadline: date})
 	}
 
@@ -139,21 +139,22 @@ class MeetingForm extends Component {
 					</form>
 					<div className="input-item">
 						<p className="input-item__title"> 날짜 </p>
-						<input
-							className="input-item__input"
-							type="datetime-local" id="date" 
-							value={this.state.date}
-							onChange={(e)=>this.setState({date: e.target.value})}
-						/>
+						<div className="input-item__date">
+							<DateSelector
+								selected={this.state.date}
+								onChange={this.onChangeDate}
+							/>
+						</div>
 					</div>
 					<div className="input-item">
 						<p className="input-item__title"> 신청 마감일 </p>
-						<input
-							className="input-item__input"
-							type="datetime-local" id="deadline" 
-							value={this.state.deadline}
-							onChange={(e)=>this.setState({deadline: e.target.value})}
-						/>					
+						<div className="input-item__date">
+							<DateSelector
+								className="input-item__date"
+								selected={this.state.deadline}
+								onChange={this.onChangeDeadline}
+							/>					
+						</div>
 					</div>
 					<form>
 						<div className="input-item">
@@ -174,6 +175,7 @@ class MeetingForm extends Component {
 									latitude={this.state.latitude}
 									longitude={this.state.longitude}
 									region={this.state.region}
+									enableRegion={true}
 								/>
 							</div>
 						</div>
@@ -184,6 +186,7 @@ class MeetingForm extends Component {
 								className="input-item__textarea" 
 								type="text" id="detail" value={this.state.content}
 								onChange={(e)=>this.setState({content : e.target.value})}
+								placeholder="번개에 대한 설명을 자세히 적어주세요."
 							/>
 						</div>
 						<div className="input-item">
@@ -195,15 +198,17 @@ class MeetingForm extends Component {
 								onChange={(e)=>this.setState({tag : e.target.value})}
 							/>
 						</div>
+						{/*
 						<div className="input-item">
 							<p className="input-item__title"> 채팅방 링크 </p>
 							<input
 								className="input-item__input"
 								type="text" id="open_chat" value={this.state.open_chat}
 								onChange={(e)=>this.setState({open_chat : e.target.value})}
-								placeholder="To be added..."
+								placeholder="카카오 오픈채팅 생성 후, 주소를 입력해주세요."
 							/>
 						</div>
+						*/}
 						<button className="submit-button" type="submit"> 
 							{(this.props.functionType==="PUT") ? 
 									"번개 수정하기" : "번개 만들기"
@@ -214,7 +219,7 @@ class MeetingForm extends Component {
 				<div className="meeting-preview">
 					<h1> {`${this.state.name} 미리보기`} </h1>
 					<hr />
-					<MeetingDetail meeting={this.meetingPreview()}/>
+					<MeetingDetail meeting={this.meetingPreview()} type="preview"/>
 				</div>
 			</div>
 		)

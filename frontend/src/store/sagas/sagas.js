@@ -5,14 +5,12 @@ import * as actions from '../actions/index'
 const signupUrl = 'http://127.0.0.1:8000/signup'
 
 export function* signupRequest(user) {
-	console.log("abc")
 	yield call(api.post, signupUrl, user, '')
 }
 
 export function* watchSignupRequest() {
 	while(true){
 		const { user } = yield take(actions.user.SIGNUP_REQUEST)
-		console.log("cde");
 		yield call(signupRequest, user)
 	}
 }

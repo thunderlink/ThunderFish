@@ -35,20 +35,21 @@ export default class KakaoViewMap extends Component {
 				props.longitude !== state.currentLongitude) {
 				state.map.setCenter(new daum.maps.LatLng(props.latitude, props.longitude))
 				state.marker.setPosition(new daum.maps.LatLng(props.latitude, props.longitude))
-	
+
 				return {
 					currentLatitude: props.latitude,
 					currentLongitude: props.longitude
 				}
 			}
 			if(props.region !== state.currentRegion) {
-				state.infowindow.setContent(`<div>${props.region}</div>`)
+				state.infowindow.setContent(`<div style="padding:5px;font-size:12px;font-weight:600;">${props.region}</div>`)
 				state.infowindow.open(state.map, state.marker)
 
 				return {
 					currentRegion: props.region
 				}
 			}
+			return null
 		}
 		else {
 			return null
@@ -58,8 +59,6 @@ export default class KakaoViewMap extends Component {
 	createViewMap = () => {
 		if(this.state.mapLoaded)
 			return;
-
-		console.log("making view map")
 
 		var coord = new daum.maps.LatLng(this.props.latitude, this.props.longitude)
 		var container = document.getElementById(`kakao-map-view`);

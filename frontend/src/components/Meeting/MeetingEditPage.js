@@ -32,7 +32,6 @@ class MeetingEditPage extends Component {
 					<hr />
 				</div>
 				<div className="meeting-edit-content">
-					{ console.log(this.props.meetingElement) }
 					<MeetingForm functionType="PUT" meeting={this.props.meetingElement} />
 				</div>
 			</div>

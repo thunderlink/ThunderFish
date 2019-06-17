@@ -24,9 +24,6 @@ class CommentList extends Component {
 			<div className="comment-list">
 				<div className="current-comments">
 					{
-						console.log(this.props.comments)
-					}
-					{
 						(this.props.comments !== undefined && this.props.comments !== null) ?
 							Object.keys(this.props.comments).map(key => (
 								<CommentElement

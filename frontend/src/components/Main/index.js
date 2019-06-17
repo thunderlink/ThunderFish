@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Loading from 'components/Loading'
-import MeetingList from 'components/molecules/Meeting/MeetingList'
+import MeetingList from 'components/molecules/MeetingList'
 import Welcome from'./Welcome'
 
 import * as actions from 'store/actions'

@@ -23,7 +23,7 @@
 }
 
 .welcome .welcome-content h1 {
-	padding-left: 16px;
+	padding: 0 16px;
 	box-sizing: border-box;
 
 	font-size: 24px;
@@ -31,6 +31,8 @@
 
 .welcome .welcome-content p {
 	padding-left: 24px;
+	padding-right: 16px;
+	box-sizing: border-box;
 }
 
 .welcome .welcome-content .welcome-button-set {

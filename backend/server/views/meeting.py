@@ -94,7 +94,7 @@ class MeetingDetail(generics.RetrieveUpdateDestroyAPIView):
 
         ret['participant_waiting'] = waiting
         ret['participant_approved'] = approved
-        if len(approved) >= meeting.max_participant || meeting.deadline <= timezone.now():
+        if len(approved) >= meeting.max_participant or meeting.deadline <= timezone.now():
             meeting.status = 1
             meeting.save()
             ret['status'] = 1

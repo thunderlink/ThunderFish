@@ -1,6 +1,6 @@
 matrix:
   include:
-  dist: xenial
+    - dist: xenial
     - language: python
       python : 3.6
       before_script:

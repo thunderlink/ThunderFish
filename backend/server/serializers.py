@@ -45,10 +45,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class NotificationSerializer(serializers.ModelSerializer):
     prof = ProfileSerializer(required=False)
+    meetingname = serializers.ReadOnlyField(source='meeting.name')
 
     class Meta:
         model = Notification
-        fields = ('prof', 'id', 'checked', 'meeting', 'notification')
+        fields = ('prof', 'id', 'checked', 'meeting', 'notification', 'meetingname')
 
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:

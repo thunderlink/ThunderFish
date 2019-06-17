@@ -4,3 +4,4 @@ from .meeting import *
 from .notification import *
 from .profile import *
 from .search import *
+from .image import *

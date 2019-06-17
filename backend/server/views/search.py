@@ -10,23 +10,22 @@ class SearchResult(generics.ListCreateAPIView):
     serializer_class = MeetingSerializer
 
     def get(self, request, *args, **kwargs):
-        name_result = Meeting.objects.filter(name__contains=kwargs['keyword'])
-        print(kwargs['keyword'])
-        tag_result = Meeting.objects.filter(tag_set__name__contains=kwargs['keyword'])
-        result = name_result | tag_result
-        self.queryset = result.distinct()
-        print(self.queryset)
-        return self.list(request, *args, **kwargs)
-
-
-class SearchLocation(generics.ListCreateAPIView):
-    permission_classes = (AllowAny, )
-    queryset = None
-    serializer_class = MeetingSerializer
-
-    # Latitude and longitude must be included in the request
-    def get(self, request, *args, **kwargs):
         data = request.data
-        lat, long, dist = float(data['latitude']), float(data['longitude']), int(kwargs['dist'])
-        self.queryset = Meeting.distance_search(dist, lat, long)
+        dist_search_flag = data['dist_flag']
+        title_search_flag = data['title_flag']
+        tag_search_flag = data['tag_flag']
+
+        result = Meeting.objects.filter(status=0)
+        if title_search_flag == "true":
+            result = result.filter(name__contains=data['keyword'])
+
+        if tag_search_flag == "true":
+            result = result.filter(tag_set__name__contains=data['tagword'])
+            ## Multiple Tag should be implemented
+
+        if dist_search_flag == "true":
+            lat, long, dist = float(data['latitude']), float(data['longitude']), int(data['dist'])
+            result = Meeting.distance_search(result, dist, lat, long)
+
+        self.queryset = result
         return self.list(request, *args, **kwargs)

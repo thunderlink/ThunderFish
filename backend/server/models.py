@@ -4,11 +4,20 @@ import re
 from math import sqrt
 
 # Path to default image
-# DEFAULT_IMAGE = '../../images/app_logo.png'
-pic_folder = './migrations/pic_folder'
-
+DEFAULT_IMAGE = '../media/app_logo.png'
+DEFAULT_PROFILE_IMG = 1
+DEFAULT_MEETING_IMG = 2
+MEDIA_URL = '/media/'
 # Unique email for each user
 User._meta.local_fields[7].__dict__['_unique'] = True
+
+class Image(models.Model):
+    profile = models.ImageField(blank=True, null=False, default=DEFAULT_IMAGE)
+    title = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.id)
 
 class Profile(models.Model):
     GENDER_MALE = 0
@@ -16,9 +25,9 @@ class Profile(models.Model):
     GENDER_PRIVATE = 2
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_PRIVATE, 'Private')]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
     nickname = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
+    photo = models.ForeignKey(Image, related_name="profile_photo", on_delete=models.CASCADE, default=DEFAULT_PROFILE_IMG)
     # email = models.EmailField(max_length=30)
     name = models.CharField(max_length=50)
     gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_PRIVATE)
@@ -38,7 +47,7 @@ class Meeting(models.Model):
     STATUS_CHOICES = [(STATUS_RECRUITING, 'Recruiting'), (STATUS_COMPLETE, 'Complete'), (STATUS_CANCELED, 'Canceled')]
 
     name = models.CharField(max_length=50)
-    host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.CASCADE)
+    host = models.ForeignKey(Profile, related_name="meeting_hosted", on_delete=models.DO_NOTHING)
     date = models.DateTimeField('meeting date')
     posted_date = models.DateTimeField('posted date', auto_now_add=True)
 
@@ -47,7 +56,7 @@ class Meeting(models.Model):
     max_participant = models.IntegerField()
     deadline = models.DateTimeField('meeting deadline')
     region = models.CharField(max_length=100, blank=True)
-    photo = models.ImageField(upload_to=pic_folder, blank=True, null=True)
+    photo = models.ForeignKey(Image, related_name="meeting_photo", on_delete=models.CASCADE, default=DEFAULT_MEETING_IMG)
     content = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES) # 1 as pending, 0 as complete ?
@@ -71,17 +80,22 @@ class Meeting(models.Model):
     def __str__(self):
         return self.name
 
-    def distance_search(dist, lat, long):
+    @staticmethod
+    def distance_search(result, dist, lat, long):
         ## Returns queryset of meetings that is
         ## less than dist kilometers far from (latitude, longitude)
-        recuriting = Meeting.objects.filter(status=0)
-        ret_queryset = Meeting.objects.none()
-        for meet in recuriting:
+        ret = []
+        for meet in result:
             delta_phi = abs(float(meet.latitude) - lat) ** 2
             delta_theta = abs(float(meet.longitude) - long) ** 2
-            if float(6371 * sqrt(delta_phi + delta_theta)) <= dist:
-                ret_queryset |= Meeting.objects.filter(pk=meet.id)
-
+            calculated_distance = float(6371 * sqrt(delta_phi + delta_theta))
+            if calculated_distance <= dist:
+                ret.append((result.filter(pk=meet.id), calculated_distance))
+        print(ret)
+        ret_queryset = Meeting.objects.none()
+        ret.sort(key = lambda item : item[1])
+        for item in ret:
+            ret_queryset |= item[0]
         return ret_queryset
 
 
@@ -127,6 +141,9 @@ class Notification(models.Model):
 
     def __str__(self):
         return str(self.profile)
+
+    class Meta:
+        ordering = ['checked', '-id']
 
 class Membership(models.Model):
     STATUS_WAITING = 0

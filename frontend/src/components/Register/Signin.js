@@ -12,7 +12,8 @@ import './Register.css'
 class Signin extends Component {
 	state = {
 		username: '',
-		password: ''
+		password: '',
+		submitError: false,
 	}
 
 	componentDidMount() {
@@ -29,10 +30,22 @@ class Signin extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault()
+		if(this.checkSubmit()) {
 		this.props.signinRequest(
 			this.state.username,
 			this.state.password
 		)
+		}
+		else {
+			this.setState({submitError: true})
+		}
+	}
+	
+	checkSubmit = () => {
+		if(this.state.username.length === 0 || this.state.password.length === 0 || !this.state.username.includes('@'))
+			return false;
+		else
+			return true; 
 	}
 
 	render() {
@@ -61,9 +74,17 @@ class Signin extends Component {
 							(this.props.signinStatus==='FAILED') ? (
 								<p> 잘못된 이메일 또는 패스워드입니다. </p>
 							) : (
-								<div/>
+								null
 							)
 						}
+						{
+							(this.state.submitError) ? (
+								<p> 올바른 이메일과 패스워드를 입력해주세요. </p>
+							) : (
+								null
+							)
+						}
+
 						<div className="reg_form">
 							<div>
 								<h2> Email </h2>

@@ -26,6 +26,12 @@ class MeetingForm extends Component {
 		content: '',
 		tag: '',
 		open_chat: '',
+
+		dateError: false,
+		wrongDateError: false,
+		locationError: false,
+		nameError: false,
+		maxError: false,
 	}
 
 	constructor(props){
@@ -114,10 +120,47 @@ class MeetingForm extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault()
-		if(this.props.functionType==="POST")
-			this.props.postMeetingRequest(this.meetingSerializer())
-		else
-			this.props.putMeetingRequest(this.props.meeting.id, this.meetingSerializer())
+		if(this.checkSubmit()) {
+			if(this.props.functionType==="POST")
+				this.props.postMeetingRequest(this.meetingSerializer())
+			else
+				this.props.putMeetingRequest(this.props.meeting.id, this.meetingSerializer())
+		}
+	}
+
+	checkSubmit = () => {
+		let flag = true;
+		if(this.state.name.length === 0) {
+			this.setState({nameError: true});
+			flag = false;
+		}
+		else this.setState({nameError: false});
+
+		if(!moment(this.state.deadline).isValid() || !moment(this.state.date).isValid()) {
+			this.setState({wrongDateError: true});
+			flag = false;
+		}	
+		else this.setState({wrongDateError: false});
+
+		if(moment(this.state.deadline).isAfter(this.state.date)) {
+			this.setState({dateError: true})
+			flag = false;
+		}
+		else this.setState({dateError: false});
+
+		if(this.state.max_participant <= 0) {
+			this.setState({maxError: true});
+			flag = false;
+		}
+		else this.setState({maxError: false});
+		
+		if(this.state.region.length === 0) {
+			this.setState({locationError: true})
+			flag = false;
+		}
+		else this.setState({locationError: false});
+		
+		return flag;	
 	}
 
 	onChangePlace = (newState) => {
@@ -156,6 +199,13 @@ class MeetingForm extends Component {
 								onChange={(e)=>this.setState({name : e.target.value})}
 							/>
 						</div>
+						{(this.state.nameError) ? (
+							<p className='meeting-warning-message'> 
+								번개 이름을 입력해주세요. 
+							</p>
+						) : (
+							null
+						)}
 					</form>
 					<div className="input-item">
 						<p className="input-item__title"> 날짜 </p>
@@ -175,6 +225,17 @@ class MeetingForm extends Component {
 							/>					
 						</div>
 					</div>
+					{(this.state.wrongDateError) ? (
+						<p className='meeting-warning-message'>
+							올바른 날짜 형식이 아닙니다.
+						</p>
+					) : (this.state.dateError) ? (
+						<p className='meeting-warning-message'> 
+							신청 마감일이 번개 날짜보다 늦습니다.
+						</p>
+					) : (
+						null
+					)}
 					<form>
 						<div className="input-item">
 							<p className="input-item__title"> 최대 인원 </p>
@@ -185,19 +246,33 @@ class MeetingForm extends Component {
 								onChange={(e)=>this.setState({max_participant: e.target.value})}
 							/>
 						</div>
+						{(this.state.maxError) ? (
+							<p className='meeting-warning-message'> 
+								최대 인원수는 1명 이상이어야 합니다.
+							</p>
+						) : (
+							null
+						)}	
 					</form>
-						<div className="input-item">
-							<p className="input-item__title"> 위치 </p>
-							<div className="map-wrapper">
-								<KakaoSelectMap
-									onChangePlace={this.onChangePlace}
-									latitude={this.state.latitude}
-									longitude={this.state.longitude}
-									region={this.state.region}
-									enableRegion={true}
-								/>
-							</div>
+					<div className="input-item">
+						<p className="input-item__title"> 위치 </p>
+						<div className="map-wrapper">
+							<KakaoSelectMap
+								onChangePlace={this.onChangePlace}
+								latitude={this.state.latitude}
+							longitude={this.state.longitude}
+								region={this.state.region}
+								enableRegion={true}
+							/>
 						</div>
+					</div>
+					{(this.state.locationError) ? (
+						<p className='meeting-warning-message'> 
+							상세 위치를 적어주세요.
+						</p>
+					) : (
+						null
+					)}					
 					<form onSubmit={this.onSubmitHandler}>
 						<div className="input-item">
 							<p className="input-item__title"> 내용 </p>

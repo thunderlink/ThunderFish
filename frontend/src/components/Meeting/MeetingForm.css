@@ -122,3 +122,10 @@
 	width: 100%;
 	margin: 0 8px;
 }
+
+.meeting-warning-message {
+	font-size: 12px;
+	color: #ff0000;
+	font-weight: 400;
+	margin: 4px 32px;
+}

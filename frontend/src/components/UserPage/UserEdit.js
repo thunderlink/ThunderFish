@@ -41,12 +41,22 @@ class UserEdit extends Component {
 
 	onSubmitHandler = (e) => {
 		e.preventDefault();
-		this.props.userPut(this.props.id, {
-			photo: this.state.file,
-			originalPhoto: this.props.originalPhoto,
-			nickname: this.state.nickname,
-			introduce: this.state.introduce
-		})
+		if(this.checkSubmit()) {
+			this.props.userPut(this.props.id, {
+				photo: this.state.file,
+				originalPhoto: this.props.originalPhoto,
+				nickname: this.state.nickname,
+				introduce: this.state.introduce
+			})
+		}
+	}
+
+	checkSubmit = () => {
+		if(this.state.nickname.length === 0) {
+			this.setState({nameError: true});
+			return false;
+		}
+		else return true;
 	}
 
 	render() {
@@ -91,6 +101,13 @@ class UserEdit extends Component {
 							onChange={(e)=>this.setState({nickname: e.target.value})}
 						/>
 					</div>
+					{(this.state.nameError) ? (
+						<p className='user-warning-message'>
+							새 닉네임을 입력해주세요.
+						</p>
+					) : (
+						null
+					)}
 					<div className="input-item">
 						<p className="input-item__title"> 자기소개 </p>
 						<textarea 

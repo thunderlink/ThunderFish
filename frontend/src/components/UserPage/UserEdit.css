@@ -86,3 +86,10 @@
 	font-weight: 800;
 	box-sizing: border-box;
 }
+
+.user-warning-message {
+	margin: 4px 32px;
+	font-size: 12px;
+	color: #ff0000;
+	font-weight: 400;
+}
